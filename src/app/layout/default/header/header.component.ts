@@ -5,6 +5,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
+  styleUrls: ['./header.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {

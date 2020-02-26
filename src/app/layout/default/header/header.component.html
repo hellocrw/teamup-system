@@ -25,7 +25,15 @@
   <header-search class="alain-default__search" [toggleChange]="searchToggleStatus"></header-search>
   <ul class="alain-default__nav">
     <li>
-      <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+      <a nz-dropdown [nzDropdownMenu]="menu" class="alain-default__nav-item">
+        新增
+      </a>
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu nzSelectable>
+          <li nz-menu-item>团队</li>
+          <li nz-menu-item>项目</li>
+        </ul>
+      </nz-dropdown-menu>
     </li>
     <!-- Notify -->
     <li>

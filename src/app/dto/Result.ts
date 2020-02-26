@@ -1,9 +1,9 @@
 export interface Result {
 
-    status: string;
+    status?: string;
 
-    desc: string;
+    desc?: string;
 
-    data: any;
+    data?: any;
 
 }

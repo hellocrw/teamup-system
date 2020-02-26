@@ -7,6 +7,8 @@ import { filter } from 'rxjs/operators';
 import { TestService } from 'src/app/services/test.service';
 import { LoginInfo } from 'src/app/dto/LoginInfo';
 import { Result } from 'src/app/dto/Result';
+import { TeamService } from 'src/app/services/team/team.service';
+import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
 
 @Component({
   selector: 'app-team',
@@ -19,6 +21,8 @@ export class TeamComponent implements OnInit {
     private http: _HttpClient,
     public msg: NzMessageService,
     private cdr: ChangeDetectorRef,
+    private teamService: TeamService,
+    private dictionaryService: DictionaryService,
     private testService: TestService) { }
   q: any = {
     ps: 8,
@@ -66,6 +70,11 @@ export class TeamComponent implements OnInit {
 
   loading = true;
 
+  /**
+   * 项目类型
+   */
+  teamType = [];
+
   // region: cateogry
   categories = [
     { id: 0, text: '全部', value: false },
@@ -81,13 +90,15 @@ export class TeamComponent implements OnInit {
 
   result: Result;
 
+  teams: Result;
+
   changeCategory(status: boolean, idx: number) {
     if (idx === 0) {
       this.categories.map(i => (i.value = status));
     } else {
       this.categories[idx].value = status;
     }
-    this.getData();
+    this.getDatas();
   }
 
   private setActive() {
@@ -98,14 +109,15 @@ export class TeamComponent implements OnInit {
     }
   }
 
+  /**
+   * 初始化
+   */
   ngOnInit(): void {
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
-    this.setActive();
+    // this.setActive();
     // this.getData();
-    this.testService.myTest().subscribe(datas => {
-      this.result = datas;
-      console.log('result:', this.result);
-    });
+    this.getDatas();
+
   }
 
   to(item: any) {
@@ -117,15 +129,23 @@ export class TeamComponent implements OnInit {
     this.router$.unsubscribe();
   }
 
-  getData() {
-    this.loading = true;
-    this.http.get('/api/list', { count: this.q.ps }).subscribe((res: any) => {
-      this.proList = this.proList.concat(res);
-      this.loading = false;
-      this.cdr.detectChanges();
+  getDatas(): void {
+    // 获取团队类型teamType
+    this.dictionaryService.getTeamType().subscribe(datas => {
+      this.teamType = datas.data;
+      console.log('teamtype:', this.teamType);
+    });
+    // 获取所有团队信息
+    this.teamService.getTeams().subscribe(datas => {
+      this.teams = datas.data;
+      console.log('teams:', this.teams);
+    })
+    // 测试接口
+    this.testService.myTest().subscribe(datas => {
+      this.result = datas;
+      console.log('result:', this.result);
     });
   }
-  toTeamDetail() {
 
-  }
+  toTeamDetail() { }
 }

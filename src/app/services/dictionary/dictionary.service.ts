@@ -6,13 +6,13 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TeamService {
+export class DictionaryService {
 
-  private static API = "api/team"
+  private static api = 'api/dictionaries';
 
   constructor(private http: _HttpClient) { }
 
-  getTeams(): Observable<Result> {
-    return this.http.get<Result>(`${TeamService.API}/getTeams`);
+  getTeamType(): Observable<Result> {
+    return this.http.get<Result>(`${DictionaryService.api}/getTeamType`);
   }
 }
