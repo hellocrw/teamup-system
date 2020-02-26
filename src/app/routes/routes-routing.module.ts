@@ -21,6 +21,7 @@ import { UserLockComponent } from './passport/lock/lock.component';
 import { TeamComponent } from './crw/team/team.component';
 import { TeamDetailComponent } from './crw/team/team-detail/team-detail.component';
 import { TeamManagementComponent } from './crw/team/team-management/team-management.component';
+import { ProjectDetailComponent } from './crw/team/project/project-detail/project-detail.component';
 
 const routes: Routes = [
   {
@@ -36,8 +37,9 @@ const routes: Routes = [
         path: 'team',
         component: TeamComponent,
       },
-      { path: 'team/team-detail/:id', component: TeamDetailComponent },
+      { path: 'team/team-detail/:teamId', component: TeamDetailComponent },
       { path: 'team/team-management', component: TeamManagementComponent },
+      { path: 'team/project/project-detail/:proId', component: ProjectDetailComponent },
       { path: 'dashboard/v1', component: DashboardV1Component },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },

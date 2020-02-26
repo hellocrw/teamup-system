@@ -18,6 +18,7 @@ import { TeamComponent } from './crw/team/team.component';
 import { TeamDetailComponent } from './crw/team/team-detail/team-detail.component';
 import { TeamManagementComponent } from './crw/team/team-management/team-management.component';
 import { TeamManagementListComponent } from './crw/team/team-management/team-management-list.component';
+import { ProjectDetailComponent } from './crw/team/project/project-detail/project-detail.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -36,7 +37,7 @@ const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, TeamComponent, TeamDetailComponent, TeamManagementComponent, TeamManagementListComponent],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, TeamComponent, TeamDetailComponent, TeamManagementComponent, TeamManagementListComponent, ProjectDetailComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }
