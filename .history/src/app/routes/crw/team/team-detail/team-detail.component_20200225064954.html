@@ -1,0 +1,34 @@
+<nz-card [nzBordered]="false">
+    <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
+        <se label="项目类型" line>
+            <tag-select>
+                <nz-tag *ngFor="let i of categories; let idx = index" nzMode="checkable" [nzChecked]="i.value"
+                    (nzCheckedChange)="changeCategory($event, idx)">
+                    {{ i.text }}
+                </nz-tag>
+            </tag-select>
+        </se>
+        <se label="按类型查找">
+            <div class="ant-form ant-form-inline">
+                <nz-form-item>
+                    <nz-form-label nzFor="rate">作者</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="q.user" name="user" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
+                            style="width: 100px;">
+                            <nz-option [nzLabel]="'李三'" [nzValue]="'lisa'"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzFor="rate">好评度</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
+                            style="width: 100px;">
+                            <nz-option [nzLabel]="'优秀'" [nzValue]="'good'"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+            </div>
+        </se>
+    </form>
+</nz-card>

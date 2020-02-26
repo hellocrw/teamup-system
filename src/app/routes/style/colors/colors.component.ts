@@ -12,7 +12,7 @@ export class ColorsComponent {
   nums = Array(10)
     .fill(1)
     .map((v, i) => v + i);
-  constructor(public c: ColorService, private msg: NzMessageService) {}
+  constructor(public c: ColorService, private msg: NzMessageService) { }
 
   onCopy(str: string) {
     copy(str).then(() => this.msg.success(`Copied Success!`));

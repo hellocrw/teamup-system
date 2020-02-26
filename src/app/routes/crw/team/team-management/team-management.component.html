@@ -1,0 +1,49 @@
+<page-header></page-header>
+<nz-layout>
+    <nz-content class="outer-content">
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>我的团队</nz-breadcrumb-item>
+            <nz-breadcrumb-item>废铁团队</nz-breadcrumb-item>
+        </nz-breadcrumb>
+        <nz-layout class="inner-layout">
+            <nz-sider nzWidth="200px" nzTheme="light">
+                <ul nz-menu nzMode="inline" class="sider-menu">
+                    <li nz-submenu nzOpen nzTitle="我的团队" nzIcon="user">
+                        <ul>
+                            <li nz-menu-item nzSelected>废铁团队</li>
+                            <li nz-menu-item>HOWE团队</li>
+                            <li nz-menu-item>option3</li>
+                            <li nz-menu-item>option4</li>
+                        </ul>
+                    </li>
+                    <li nz-submenu nzTitle="我参与的团队" nzIcon="laptop">
+                        <ul>
+                            <li nz-menu-item>option5</li>
+                            <li nz-menu-item>option6</li>
+                            <li nz-menu-item>option7</li>
+                            <li nz-menu-item>option8</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nz-sider>
+            <nz-content class="inner-content">
+                <div class="inner-content-top">
+                    <nz-tabset>
+                        <nz-tab nzTitle="所有项目">
+                            <app-team-management-list></app-team-management-list>
+                        </nz-tab>
+                        <nz-tab nzTitle="正在进行的项目">
+                            <span>正在进行的项目</span>
+                        </nz-tab>
+                        <nz-tab nzTitle="已完成的项目">
+                            <span>已完成的项目</span>
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+                <div></div>
+
+            </nz-content>
+        </nz-layout>
+        <nz-footer>Ant Design ©2019 Implement By Angular</nz-footer>
+    </nz-content>
+</nz-layout>

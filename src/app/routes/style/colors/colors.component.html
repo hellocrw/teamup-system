@@ -7,7 +7,7 @@
 <div nz-row [nzGutter]="16" class="list">
   <div nz-col [nzMd]="24">
     <nz-card nzTitle="Classic colors">
-      <div nz-row *ngFor="let c of c.brands">
+      <div nz-row *ngFor="let c of c">
         <div nz-col [nzSpan]="8">
           <div class="bg-{{ c }}-light p-lg">
             <p (click)="onCopy('bg-' + c + '-light')">.bg-{{ c }}-light</p>
@@ -33,7 +33,7 @@
 <div nz-row [nzGutter]="16" class="list">
   <div nz-col [nzMd]="24">
     <nz-card nzTitle="Name colors">
-      <div nz-row *ngFor="let c of c.names">
+      <div nz-row *ngFor="let c of c">
         <div nz-col [nzSpan]="8">
           <div class="bg-{{ c }}-light p-lg">
             <p (click)="onCopy('bg-' + c + '-light')">.bg-{{ c }}-light</p>

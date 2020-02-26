@@ -1,0 +1,45 @@
+<div class="alain-default__header-logo">
+  <strong class="alain-default__nav-item">
+    <a class="alain-default__nav-item" href="/index">找团队 | 找项目</a>
+  </strong>
+</div>
+<div class="alain-default__nav-wrap">
+  <ul class="alain-default__nav">
+    <li>
+      <a class="alain-default__nav-item" (click)="temp()">
+        <span>校内</span>
+      </a>
+    </li>
+    <li>
+      <a class="alain-default__nav-item" (click)="temp()">
+        <span>校外</span>
+      </a>
+    </li>
+    <!-- Search Button -->
+    <li class="hidden-pc" (click)="searchToggleChange()">
+      <div class="alain-default__nav-item">
+        <i nz-icon nzType="search"></i>
+      </div>
+    </li>
+  </ul>
+  <header-search class="alain-default__search" [toggleChange]="searchToggleStatus"></header-search>
+  <ul class="alain-default__nav">
+    <!-- Notify -->
+    <li>
+      <header-notify></header-notify>
+    </li>
+    <!-- Task -->
+    <li class="hidden-mobile">
+      <header-task></header-task>
+    </li>
+    <!-- 团队管理 -->
+    <li>
+      <a class="alain-default__nav-item" (click)="temp()">
+        <span>团队管理</span>
+      </a>
+    </li>
+    <li class="hidden-mobile">
+      <header-user></header-user>
+    </li>
+  </ul>
+</div>

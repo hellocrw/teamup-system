@@ -16,19 +16,19 @@
       "hideInBreadcrumb": true,
       "children": [
         {
-          "text": "仪表盘",
-          "i18n": "menu.dashboard",
-          "icon": "anticon-dashboard",
+          "text": "用户管理",
+          "i18n": "menu.user",
+          "icon": "anticon-user",
           "children": [
             {
-              "text": "仪表盘V1",
+              "text": "普通用户",
               "link": "/dashboard/v1",
               "i18n": "menu.dashboard.v1"
             },
             {
-              "text": "分析页",
+              "text": "管理员",
               "link": "/dashboard/analysis",
-              "i18n": "menu.dashboard.analysis"
+              "i18n": "menu.dashboard.admin"
             },
             {
               "text": "监控页",
@@ -41,6 +41,12 @@
               "i18n": "menu.dashboard.workplace"
             }
           ]
+        },
+        {
+          "text":"首页",
+          "i18n":"menu.index",
+          "icon":"anticon-info",
+          "link":"/index"
         },
         {
           "text": "快捷菜单",

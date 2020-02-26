@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
-import { STColumn } from '@delon/abc';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, ViewChild, TemplateRef } from '@angular/core';
+import { NzMessageService, NzModalService } from 'ng-zorro-antd';
+import { STColumn, STComponent, STData, STChange } from '@delon/abc';
 import { getTimeDistance, deepCopy } from '@delon/util';
 import { _HttpClient } from '@delon/theme';
 import { I18NService } from '@core';
 import { yuan } from '@shared';
+import { UserInfoService } from 'src/app/services/user-info/user-info.service';
 
 @Component({
   selector: 'app-dashboard-analysis',
@@ -13,102 +14,155 @@ import { yuan } from '@shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardAnalysisComponent implements OnInit {
-  constructor(
-    private http: _HttpClient,
-    public msg: NzMessageService,
-    private i18n: I18NService,
-    private cdr: ChangeDetectorRef,
-  ) {}
-  data: any = {};
-  loading = true;
-  date_range: Date[] = [];
-  rankingListData: any[] = Array(7)
-    .fill({})
-    .map((item, i) => {
-      return {
-        title: this.i18n.fanyi('app.analysis.test', { no: i }),
-        total: 323234,
-      };
-    });
-  titleMap = {
-    y1: this.i18n.fanyi('app.analysis.traffic'),
-    y2: this.i18n.fanyi('app.analysis.payments'),
+  q: any = {
+    pi: 1,
+    ps: 10,
+    sorter: '',
+    status: null,
+    statusList: [],
   };
-  searchColumn: STColumn[] = [
-    { title: '排名', i18n: 'app.analysis.table.rank', index: 'index' },
+  data: any[] = [
     {
-      title: '搜索关键词',
-      i18n: 'app.analysis.table.search-keyword',
-      index: 'keyword',
-      click: (item: any) => this.msg.success(item.keyword),
+      id: '1',
+      userName: 'crw',
+      gender: '男',
+      university: '广东金融学院',
+      college: '互联网学院',
+      profession: '计算机科学与技术',
+      grade: '16',
+      userClass: '1',
+      userNo: '161543108',
+      userTel: '18814231208',
+      email: '2388092655@qq.com',
+      ability: 'java,springboot',
+    }
+  ];
+  loading = false;
+  status = [
+    { index: 0, text: '关闭', value: false, type: 'default', checked: false },
+    {
+      index: 1,
+      text: '运行中',
+      value: false,
+      type: 'processing',
+      checked: false,
     },
+    { index: 2, text: '已上线', value: false, type: 'success', checked: false },
+    { index: 3, text: '异常', value: false, type: 'error', checked: false },
+  ];
+  @ViewChild('st', { static: true })
+  st: STComponent;
+  columns: STColumn[] = [
+    { title: '', index: 'key', type: 'checkbox' },
+    { title: '用户ID', index: 'id' },
+    { title: '用户名称', index: 'userName' },
+    { title: '性别', index: 'gender' },
+    { title: '学校', index: 'university' },
+    { title: '学院', index: 'college' },
+    { title: '专业', index: 'profession' },
+    { title: '年级', index: 'grade' },
+    { title: '班级', index: 'userClass' },
     {
+      title: '学号',
+      index: 'userNo',
       type: 'number',
-      title: '用户数',
-      i18n: 'app.analysis.table.users',
-      index: 'count',
-      sorter: (a, b) => a.count - b.count,
+      sorter: (a: any, b: any) => a.userNo - b.userNo,
     },
+    { title: '联系方式', index: 'userTel' },
+    { title: '邮箱', index: 'email' },
+    { title: '掌握技能', index: 'ability' },
     {
-      type: 'number',
-      title: '周涨幅',
-      i18n: 'app.analysis.table.weekly-range',
-      index: 'range',
-      render: 'range',
-      sorter: (a, b) => a.range - b.range,
+      title: '操作',
+      buttons: [
+        {
+          text: '修改',
+          click: (item: any) => this.msg.success(`配置${item.no}`),
+        },
+        {
+          text: '删除',
+          click: (item: any) => this.msg.success(`订阅警报${item.no}`),
+        },
+      ],
     },
   ];
+  selectedRows: STData[] = [];
+  description = '';
+  totalCallNo = 0;
+  expandForm = false;
 
-  salesType = 'all';
-  salesPieData: any;
-  salesTotal = 0;
-
-  saleTabs: any[] = [{ key: 'sales', show: true }, { key: 'visits' }];
-
-  offlineIdx = 0;
+  constructor(
+    private userInfo: UserInfoService,
+    private http: _HttpClient,
+    public msg: NzMessageService,
+    private modalSrv: NzModalService,
+    private cdr: ChangeDetectorRef,
+  ) { }
 
   ngOnInit() {
-    this.http.get('/chart').subscribe((res: any) => {
-      res.offlineData.forEach((item: any, idx: number) => {
-        item.show = idx === 0;
-        item.chart = deepCopy(res.offlineChartData);
-      });
-      this.data = res;
-      this.loading = false;
-      this.changeSaleType();
+    this.getData();
+  }
+
+  getData() {
+    this.loading = true;
+    this.q.statusList = this.status.filter(w => w.checked).map(item => item.index);
+    if (this.q.status !== null && this.q.status > -1) {
+      this.q.statusList.push(this.q.status);
+    }
+    // this.http.get('/rule', this.q)
+    //   .pipe(
+    //     map((list: any[]) =>
+    //       list.map(i => {
+    //         const statusItem = this.status[i.status];
+    //         i.statusText = statusItem.text;
+    //         i.statusType = statusItem.type;
+    //         return i;
+    //       }),
+    //     ),
+    //     tap(() => (this.loading = false)),
+    //   ).subscribe(res => {
+    //     this.data = res;
+    //     console.log(this.data);
+    //     this.cdr.detectChanges();
+    //   });
+  }
+
+  stChange(e: STChange) {
+    switch (e.type) {
+      case 'checkbox':
+        this.selectedRows = e.checkbox!;
+        this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
+        this.cdr.detectChanges();
+        break;
+      case 'filter':
+        this.getData();
+        break;
+    }
+  }
+
+  remove() {
+    this.http.delete('/rule', { nos: this.selectedRows.map(i => i.no).join(',') }).subscribe(() => {
+      this.getData();
+      this.st.clearCheck();
     });
   }
 
-  setDate(type: any) {
-    this.date_range = getTimeDistance(type);
-    setTimeout(() => this.cdr.detectChanges());
-  }
-  changeSaleType() {
-    this.salesPieData =
-      this.salesType === 'all'
-        ? this.data.salesTypeData
-        : this.salesType === 'online'
-        ? this.data.salesTypeDataOnline
-        : this.data.salesTypeDataOffline;
-    if (this.salesPieData) {
-      this.salesTotal = this.salesPieData.reduce((pre, now) => now.y + pre, 0);
-    }
-    this.cdr.detectChanges();
+  approval() {
+    this.msg.success(`审批了 ${this.selectedRows.length} 笔`);
   }
 
-  handlePieValueFormat(value: any) {
-    return yuan(value);
+  add(tpl: TemplateRef<{}>) {
+    this.modalSrv.create({
+      nzTitle: '新建规则',
+      nzContent: tpl,
+      nzOnOk: () => {
+        this.loading = true;
+        this.http.post('/rule', { description: this.description }).subscribe(() => this.getData());
+      },
+    });
   }
-  salesChange(idx: number) {
-    if (this.saleTabs[idx].show !== true) {
-      this.saleTabs[idx].show = true;
-      this.cdr.detectChanges();
-    }
-  }
-  offlineChange(idx: number) {
-    if (this.data.offlineData[idx].show !== true) {
-      this.data.offlineData[idx].show = true;
-      this.cdr.detectChanges();
-    }
+
+  reset() {
+    // wait form reset updated finished
+    setTimeout(() => this.getData());
   }
 }

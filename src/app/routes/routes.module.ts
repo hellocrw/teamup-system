@@ -14,6 +14,10 @@ import { UserRegisterResultComponent } from './passport/register-result/register
 // single pages
 import { UserLockComponent } from './passport/lock/lock.component';
 import { CallbackComponent } from './callback/callback.component';
+import { TeamComponent } from './crw/team/team.component';
+import { TeamDetailComponent } from './crw/team/team-detail/team-detail.component';
+import { TeamManagementComponent } from './crw/team/team-management/team-management.component';
+import { TeamManagementListComponent } from './crw/team/team-management/team-management-list.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -32,7 +36,7 @@ const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, TeamComponent, TeamDetailComponent, TeamManagementComponent, TeamManagementListComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule {}
+export class RoutesModule { }

@@ -1,0 +1,68 @@
+<page-header></page-header>
+<div class="team_view">
+    <nz-card [nzBordered]="false">
+        <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
+            <se label="项目类型" line>
+                <tag-select>
+                    <nz-tag *ngFor="let i of categories; let idx = index" nzMode="checkable" [nzChecked]="i.value"
+                        (nzCheckedChange)="changeCategory($event, idx)">
+                        {{ i.text }}
+                    </nz-tag>
+                </tag-select>
+            </se>
+            <se label="">
+                <div class="ant-form ant-form-inline">
+                    <nz-form-item>
+                        <nz-form-label nzFor="rate">项目类型</nz-form-label>
+                        <nz-form-control>
+                            <nz-select [(ngModel)]="q.user" name="user" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
+                                style="width: 200px;">
+                                <nz-option [nzLabel]="'技术类'" [nzValue]="'lisa'"></nz-option>
+                                <nz-option [nzLabel]="'业余类'" [nzValue]="'lisa'"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <nz-form-label nzFor="rate">学院|系</nz-form-label>
+                        <nz-form-control>
+                            <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
+                                style="width: 200px;">
+                                <nz-option [nzLabel]="'互联网金融与信息工程学院'" [nzValue]="'gduf'"></nz-option>
+                                <nz-option [nzLabel]="'金融学院'" [nzValue]="'good'"></nz-option>
+                                <nz-option [nzLabel]="'会计学院'" [nzValue]="'good'"></nz-option>
+                            </nz-select>
+                        </nz-form-control>
+                    </nz-form-item>
+                    <nz-form-item>
+                        <button nz-button nzType="primary">查找</button>
+                    </nz-form-item>
+                </div>
+            </se>
+        </form>
+    </nz-card>
+    <nz-list [nzRenderItem]="item" [nzDataSource]="proList" [nzGrid]="{ gutter: 24, lg: 5, md: 7, sm: 12, xs: 24 }">
+        <ng-template #item let-item>
+            <nz-list-item>
+                <a [routerLink]="['/team/team-detail',item.id]">
+                    <nz-card style="width:300px;" [nzCover]="coverTemplate"
+                        [nzActions]="[actionSetting, actionEdit, actionEllipsis]">
+                        <nz-card-meta nzTitle="Card title" nzDescription="This is the description"
+                            [nzAvatar]="avatarTemplate"></nz-card-meta>
+                    </nz-card>
+                    <ng-template #avatarTemplate>
+                        <nz-avatar nzSrc="{{item.img}}"></nz-avatar>
+                    </ng-template>
+                    <ng-template #actionSetting>
+                        <i nz-icon nzType="setting"></i>
+                    </ng-template>
+                    <ng-template #actionEdit>
+                        <i nz-icon nzType="edit"></i>
+                    </ng-template>
+                    <ng-template #actionEllipsis>
+                        <i nz-icon nzType="ellipsis"></i>
+                    </ng-template>
+                </a>
+            </nz-list-item>
+        </ng-template>
+    </nz-list>
+</div>
