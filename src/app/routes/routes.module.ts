@@ -19,6 +19,12 @@ import { TeamDetailComponent } from './crw/team/team-detail/team-detail.componen
 import { TeamManagementComponent } from './crw/team/team-management/team-management.component';
 import { TeamManagementListComponent } from './crw/team/team-management/team-management-list.component';
 import { ProjectDetailComponent } from './crw/team/project/project-detail/project-detail.component';
+import { ProjectListComponent } from './crw/team/project/project-list/project-list.component';
+import { TaskComponent } from './crw/team/project/project-detail/task/task.component';
+import { FilesComponent } from './crw/team/project/project-detail/files/files.component';
+import { NotificeComponent } from './crw/team/project/project-detail/notifice/notifice.component';
+import { TaskModalComponent } from './crw/team/project/project-detail/task/task-modal/task-modal.component';
+import { TeamModalComponent } from './crw/team/team-modal/team-modal.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -37,7 +43,19 @@ const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, TeamComponent, TeamDetailComponent, TeamManagementComponent, TeamManagementListComponent, ProjectDetailComponent],
+  declarations: [...COMPONENTS,
+  ...COMPONENTS_NOROUNT,
+    TeamComponent,
+    TeamDetailComponent,
+    TeamManagementComponent,
+    TeamManagementListComponent,
+    ProjectDetailComponent,
+    ProjectListComponent,
+    TaskComponent,
+    FilesComponent,
+    NotificeComponent,
+    TaskModalComponent,
+    TeamModalComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }

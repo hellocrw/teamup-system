@@ -30,8 +30,8 @@
       </a>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item>团队</li>
-          <li nz-menu-item>项目</li>
+          <li nz-menu-item><a (click)="create()">团队</a></li>
+          <li nz-menu-item><a (click)="create()">项目</a></li>
         </ul>
       </nz-dropdown-menu>
     </li>
@@ -45,7 +45,7 @@
     </li>
     <!-- 团队管理 -->
     <li>
-      <a class="alain-default__nav-item" (click)="toTeamManagement()">
+      <a class="alain-default__nav-item" (click)="toTeamManagement('1')">
         <span>团队管理</span>
       </a>
     </li>
@@ -54,3 +54,4 @@
     </li>
   </ul>
 </div>
+<!-- <app-team-modal #teamModalComponent></app-team-modal> -->

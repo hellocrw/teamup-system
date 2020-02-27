@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { SettingsService } from '@delon/theme';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { TeamModalComponent } from 'src/app/routes/crw/team/team-modal/team-modal.component';
 
 @Component({
   selector: 'layout-header',
@@ -10,6 +11,9 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 })
 export class HeaderComponent {
   searchToggleStatus: boolean;
+
+  // @ViewChild('teamModalComponent', { static: true })
+  // teamModalComponent: TeamModalComponent;
 
   constructor(public settings: SettingsService, private router: Router) { }
 
@@ -26,7 +30,12 @@ export class HeaderComponent {
     this.searchToggleStatus = !this.searchToggleStatus;
   }
 
-  toTeamManagement(): void {
-    this.router.navigate(["/team/team-management"]);
+  toTeamManagement(userId: string): void {
+    this.router.navigate(["/team/team-management", userId]);
   }
+
+  // create(): void {
+  //   console.log('create');
+  //   this.teamModalComponent.isVisible = true;
+  // }
 }

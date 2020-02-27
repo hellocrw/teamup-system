@@ -13,11 +13,11 @@ export class TokenService {
 
   constructor(private http: _HttpClient) { }
 
-  getToken(type: number, userName: string, password: string): Observable<Result> {
-    const params = {};
-    Object.assign(params, type ? { type } : {});
-    Object.assign(params, userName ? { userName } : {});
-    Object.assign(params, password ? { password } : {});
-    return this.http.post(`${TokenService.API}/getToken?_allow_anonymous=true'`, params);
+  getToken(type: number, username: string, password: string): Observable<Result> {
+    // const params = {};
+    // Object.assign(params, type ? { type } : {});
+    // Object.assign(params, username ? { username } : {});
+    // Object.assign(params, password ? { password } : {});
+    return this.http.post(`${TokenService.API}/getToken?_allow_anonymous=true'`, { username, password });
   }
 }

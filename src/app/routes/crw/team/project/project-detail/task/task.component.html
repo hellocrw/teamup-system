@@ -1,0 +1,26 @@
+<nz-card style="width: 100%;" nzTitle="任务黑板" [nzExtra]="extraTemplate">
+    <nz-card-tab>
+        <nz-tabset nzSize="large" [(nzSelectedIndex)]="index">
+            <nz-tab nzTitle="任务池"></nz-tab>
+            <nz-tab nzTitle="待完成"></nz-tab>
+            <nz-tab nzTitle="工作中"></nz-tab>
+            <nz-tab nzTitle="已完成"></nz-tab>
+        </nz-tabset>
+    </nz-card-tab>
+    <div *ngIf="index==0">
+        index0
+    </div>
+    <div *ngIf="index==1">
+        index1
+    </div>
+    <div *ngIf="index==2">
+        index2
+    </div>
+    <div *ngIf="index==3">
+        index3
+    </div>
+</nz-card>
+<ng-template #extraTemplate>
+    <a (click)="create()">新增任务</a>
+</ng-template>
+<app-task-modal #taskModalComponent></app-task-modal>

@@ -22,6 +22,10 @@ import { TeamComponent } from './crw/team/team.component';
 import { TeamDetailComponent } from './crw/team/team-detail/team-detail.component';
 import { TeamManagementComponent } from './crw/team/team-management/team-management.component';
 import { ProjectDetailComponent } from './crw/team/project/project-detail/project-detail.component';
+import { ProjectListComponent } from './crw/team/project/project-list/project-list.component';
+import { TaskComponent } from './crw/team/project/project-detail/task/task.component';
+import { FilesComponent } from './crw/team/project/project-detail/files/files.component';
+import { NotificeComponent } from './crw/team/project/project-detail/notifice/notifice.component';
 
 const routes: Routes = [
   {
@@ -38,12 +42,20 @@ const routes: Routes = [
         component: TeamComponent,
       },
       { path: 'team/team-detail/:teamId', component: TeamDetailComponent },
-      { path: 'team/team-management', component: TeamManagementComponent },
-      { path: 'team/project/project-detail/:proId', component: ProjectDetailComponent },
+      { path: 'team/team-management/:userId', component: TeamManagementComponent },
+      {
+        path: 'team/project/project-detail/:proId', component: ProjectDetailComponent,
+        children: [
+          { path: 'task', component: TaskComponent },
+          { path: 'files', component: FilesComponent },
+          { path: 'notifice', component: NotificeComponent },
+        ]
+      },
       { path: 'dashboard/v1', component: DashboardV1Component },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
+      { path: 'team/project/project-list', component: ProjectListComponent },
       {
         path: 'widgets',
         loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),

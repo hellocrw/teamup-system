@@ -1,1 +1,53 @@
-<p>project-detail works!</p>
+<page-header [breadcrumb]="breadcrumb" [content]="content" [extra]="extra" [tab]="tab">
+    <ng-template #breadcrumb>
+        <nz-breadcrumb>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/']">首页</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>
+                <a [routerLink]="['/team/team-management/3']">团队管理</a>
+            </nz-breadcrumb-item>
+            <nz-breadcrumb-item>{{project.proName}}</nz-breadcrumb-item>
+        </nz-breadcrumb>
+    </ng-template>
+    <ng-template #content>
+        <div class="content">
+            <div class="avatar">
+                <nz-avatar nzSrc="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"></nz-avatar>
+            </div>
+            <div class="desc">
+                <div class="desc-title">{{project.proName}}</div>
+                <div>项目详情：{{project.proDescribe}}</div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #extra>
+        <div class="page-extra">
+            <div>
+                <p>项目状态</p>
+                <p>未完成</p>
+            </div>
+            <div>
+                <p>项目人数</p>
+                <p>{{project.proCurrentNum}}</p>
+            </div>
+            <div>
+                <p>未完成任务数</p>
+                <p>
+                    8
+                    <span> / 24</span>
+                </p>
+            </div>
+            <div>
+                <p>项目访问</p>
+                <p>2,223</p>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template #tab>
+        <nz-tabset [nzSelectedIndex]="pos">
+            <nz-tab *ngFor="let i of tabs" [nzTitle]="i.tab" (nzClick)="to(i.key)"></nz-tab>
+        </nz-tabset>
+    </ng-template>
+</page-header>
+<router-outlet></router-outlet>

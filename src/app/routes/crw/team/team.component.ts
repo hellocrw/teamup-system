@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs';
@@ -9,6 +9,7 @@ import { LoginInfo } from 'src/app/dto/LoginInfo';
 import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
 import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
+import { TeamModalComponent } from './team-modal/team-modal.component';
 
 @Component({
   selector: 'app-team',
@@ -91,6 +92,7 @@ export class TeamComponent implements OnInit {
   result: Result;
 
   teams: Result;
+
 
   changeCategory(status: boolean, idx: number) {
     if (idx === 0) {
