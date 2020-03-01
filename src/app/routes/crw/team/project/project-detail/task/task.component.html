@@ -8,7 +8,22 @@
         </nz-tabset>
     </nz-card-tab>
     <div *ngIf="index==0">
-        index0
+        <div nz-row nzGutter="24">
+            <div nz-col nzSpan="4">
+                <a (click)="toTaskDetail('1')">
+                    <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+                        nzTitle="数据库设计">
+                        <p>Card content</p>
+                    </nz-card>
+                </a>
+            </div>
+            <div nz-col nzSpan="4">
+                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+                    nzTitle="数据库设计">
+                    <p>Card content</p>
+                </nz-card>
+            </div>
+        </div>
     </div>
     <div *ngIf="index==1">
         index1
@@ -24,3 +39,4 @@
     <a (click)="create()">新增任务</a>
 </ng-template>
 <app-task-modal #taskModalComponent></app-task-modal>
+<app-task-detail #taskDetailComponent></app-task-detail>

@@ -1,6 +1,6 @@
 <div class="alain-default__header-logo">
   <strong class="alain-default__nav-item">
-    <a class="alain-default__nav-item" href="/index">找团队 | 找项目</a>
+    <a class="alain-default__nav-item" [routerLink]="['/team']" routerLinkActive="router-link-active">找团队 | 找项目</a>
   </strong>
 </div>
 <div class="alain-default__nav-wrap">
@@ -30,8 +30,8 @@
       </a>
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item><a (click)="create()">团队</a></li>
-          <li nz-menu-item><a (click)="create()">项目</a></li>
+          <li nz-menu-item><a (click)="createTeam('1')">团队</a></li>
+          <li nz-menu-item><a (click)="createProject()">项目</a></li>
         </ul>
       </nz-dropdown-menu>
     </li>
@@ -54,4 +54,5 @@
     </li>
   </ul>
 </div>
-<!-- <app-team-modal #teamModalComponent></app-team-modal> -->
+<app-new-team-modal #newTeamModalComponent></app-new-team-modal>
+<app-new-project-modal #newProjectModalComponent></app-new-project-modal>

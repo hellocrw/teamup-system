@@ -25,6 +25,10 @@ import { FilesComponent } from './crw/team/project/project-detail/files/files.co
 import { NotificeComponent } from './crw/team/project/project-detail/notifice/notifice.component';
 import { TaskModalComponent } from './crw/team/project/project-detail/task/task-modal/task-modal.component';
 import { TeamModalComponent } from './crw/team/team-modal/team-modal.component';
+import { TeamApplyViewComponent } from './crw/team/team-apply-view/team-apply-view.component';
+import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view/project-apply-view.component';
+import { ApplyModalComponent } from './crw/team/team-apply-view/apply-modal/apply-modal.component';
+import { TaskDetailComponent } from './crw/team/project/project-detail/task/task-detail/task-detail.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -55,7 +59,11 @@ const COMPONENTS_NOROUNT = [];
     FilesComponent,
     NotificeComponent,
     TaskModalComponent,
-    TeamModalComponent],
+    TeamModalComponent,
+    TeamApplyViewComponent,
+    ProjectApplyViewComponent,
+    ApplyModalComponent,
+    TaskDetailComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }

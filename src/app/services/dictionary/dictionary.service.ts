@@ -8,11 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class DictionaryService {
 
-  private static api = 'api/dictionaries';
+  private static API = 'api/dictionaries';
 
   constructor(private http: _HttpClient) { }
 
   getTeamType(): Observable<Result> {
-    return this.http.get<Result>(`${DictionaryService.api}/getTeamType`);
+    return this.http.get<Result>(`${DictionaryService.API}/getTeamType`);
   }
 }

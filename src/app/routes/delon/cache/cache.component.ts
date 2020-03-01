@@ -10,11 +10,12 @@ import { CacheService } from '@delon/cache';
 export class CacheComponent implements OnInit {
   KEY = 'user';
 
-  constructor(public cache: CacheService, public msg: NzMessageService) {}
+  constructor(public cache: CacheService, public msg: NzMessageService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   set() {
+    console.log("设置缓存信息");
     this.cache.set(this.KEY, +new Date());
   }
 

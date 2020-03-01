@@ -39,12 +39,14 @@ const HEADERCOMPONENTS = [
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
+import { NewTeamModalComponent } from './default/header/components/new-team-modal.component';
+import { NewProjectModalComponent } from './default/header/components/new-project-modal.component';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
   imports: [SharedModule],
   entryComponents: SETTINGDRAWER,
-  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
+  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT, NewTeamModalComponent, NewProjectModalComponent],
   exports: [...COMPONENTS, ...PASSPORT],
 })
-export class LayoutModule {}
+export class LayoutModule { }

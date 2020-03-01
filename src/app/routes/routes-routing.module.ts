@@ -26,6 +26,8 @@ import { ProjectListComponent } from './crw/team/project/project-list/project-li
 import { TaskComponent } from './crw/team/project/project-detail/task/task.component';
 import { FilesComponent } from './crw/team/project/project-detail/files/files.component';
 import { NotificeComponent } from './crw/team/project/project-detail/notifice/notifice.component';
+import { TeamApplyViewComponent } from './crw/team/team-apply-view/team-apply-view.component';
+import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view/project-apply-view.component';
 
 const routes: Routes = [
   {
@@ -42,6 +44,8 @@ const routes: Routes = [
         component: TeamComponent,
       },
       { path: 'team/team-detail/:teamId', component: TeamDetailComponent },
+      { path: 'team/team-apply-view/:teamId', component: TeamApplyViewComponent },
+      { path: 'project/project-apply-view/:proId', component: ProjectApplyViewComponent },
       { path: 'team/team-management/:userId', component: TeamManagementComponent },
       {
         path: 'team/project/project-detail/:proId', component: ProjectDetailComponent,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
 import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
 import { TeamModalComponent } from './team-modal/team-modal.component';
+import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
 
 @Component({
   selector: 'app-team',
@@ -24,7 +25,8 @@ export class TeamComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private teamService: TeamService,
     private dictionaryService: DictionaryService,
-    private testService: TestService) { }
+    private testService: TestService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) { }
   q: any = {
     ps: 8,
     categories: [],
@@ -93,6 +95,8 @@ export class TeamComponent implements OnInit {
 
   teams: Result;
 
+  user: any;
+
 
   changeCategory(status: boolean, idx: number) {
     if (idx === 0) {
@@ -100,7 +104,7 @@ export class TeamComponent implements OnInit {
     } else {
       this.categories[idx].value = status;
     }
-    this.getDatas();
+    // this.getDatas();
   }
 
   private setActive() {
@@ -115,6 +119,9 @@ export class TeamComponent implements OnInit {
    * 初始化
    */
   ngOnInit(): void {
+    // 获取Token信息的相关信息
+    console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
+    console.log('获取其他：', this.tokenService.get(JWTTokenModel).userInfo);
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
     // this.setActive();
     // this.getData();
@@ -132,6 +139,8 @@ export class TeamComponent implements OnInit {
   }
 
   getDatas(): void {
+    // 获取用户基本信息
+    this.user = this.tokenService.get(JWTTokenModel).userInfo;
     // 获取团队类型teamType
     this.dictionaryService.getTeamType().subscribe(datas => {
       this.teamType = datas.data;
@@ -147,6 +156,8 @@ export class TeamComponent implements OnInit {
       this.result = datas;
       console.log('result:', this.result);
     });
+    // 获取字典的数据
+
   }
 
   toTeamDetail() { }

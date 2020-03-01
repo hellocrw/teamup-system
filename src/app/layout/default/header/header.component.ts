@@ -2,6 +2,8 @@ import { Component, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { SettingsService } from '@delon/theme';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TeamModalComponent } from 'src/app/routes/crw/team/team-modal/team-modal.component';
+import { NewTeamModalComponent } from './components/new-team-modal.component';
+import { NewProjectModalComponent } from './components/new-project-modal.component';
 
 @Component({
   selector: 'layout-header',
@@ -12,8 +14,11 @@ import { TeamModalComponent } from 'src/app/routes/crw/team/team-modal/team-moda
 export class HeaderComponent {
   searchToggleStatus: boolean;
 
-  // @ViewChild('teamModalComponent', { static: true })
-  // teamModalComponent: TeamModalComponent;
+  @ViewChild('newTeamModalComponent', { static: true })
+  newTeamModalComponent: NewTeamModalComponent;
+
+  @ViewChild('newProjectModalComponent', { static: true })
+  newProjectModalComponent: NewProjectModalComponent;
 
   constructor(public settings: SettingsService, private router: Router) { }
 
@@ -34,8 +39,11 @@ export class HeaderComponent {
     this.router.navigate(["/team/team-management", userId]);
   }
 
-  // create(): void {
-  //   console.log('create');
-  //   this.teamModalComponent.isVisible = true;
-  // }
+  createTeam(userId: string): void {
+    this.newTeamModalComponent.isVisible = true;
+  }
+
+  createProject(userId: string): void {
+    this.newProjectModalComponent.isVisible = true;
+  }
 }

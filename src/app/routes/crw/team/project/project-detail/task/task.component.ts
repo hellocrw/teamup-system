@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskModalComponent } from './task-modal/task-modal.component';
+import { TaskDetailComponent } from './task-detail/task-detail.component';
 
 @Component({
   selector: 'app-task',
@@ -13,6 +14,9 @@ export class TaskComponent implements OnInit {
   @ViewChild('taskModalComponent', { static: true })
   taskModalComponent: TaskModalComponent;
 
+  @ViewChild('taskDetailComponent', { static: true })
+  taskDetailComponent: TaskDetailComponent;
+
   constructor() { }
 
   ngOnInit() {
@@ -21,6 +25,14 @@ export class TaskComponent implements OnInit {
   create(): void {
     console.log('create');
     this.taskModalComponent.isVisible = true;
+  }
+
+  /**
+   * 跳转到任务详情页面
+   * @param taskId 任务ID
+   */
+  toTaskDetail(taskId: string) {
+    this.taskDetailComponent.isVisible = true;
   }
 
 }

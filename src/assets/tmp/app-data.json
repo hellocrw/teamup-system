@@ -1,4 +1,7 @@
 {
+  "my": {
+    "name": "crw"
+  },
   "app": {
     "name": "Alain",
     "description": "Ng-zorro admin panel front-end framework"
