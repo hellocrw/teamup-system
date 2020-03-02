@@ -20,6 +20,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { SettingDrawerComponent } from './setting-drawer/setting-drawer.component';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'layout-default',
@@ -31,6 +32,8 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
   @ViewChild('settingHost', { read: ViewContainerRef, static: true })
   private settingHost: ViewContainerRef;
   isFetching = false;
+  // auth = 'USER';
+  sty: boolean;
 
   constructor(
     router: Router,
@@ -39,6 +42,7 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
     private settings: SettingsService,
     private el: ElementRef,
     private renderer: Renderer2,
+    private cacheService: CacheService,
     @Inject(DOCUMENT) private doc: any,
   ) {
     // scroll to top in change page
@@ -87,6 +91,14 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit() {
+    this.cacheService.get('auth').subscribe(auth => {
+      console.log('auth:', auth);
+      if (auth === "ADMIN") {
+        this.sty = true;
+      }
+    });
+
+    // console.log('auth', this.cacheService.get('auth'));
     const { settings, unsubscribe$ } = this;
     settings.notify.pipe(takeUntil(unsubscribe$)).subscribe(() => this.setClass());
     this.setClass();

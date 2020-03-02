@@ -21,22 +21,7 @@ export class DashboardAnalysisComponent implements OnInit {
     status: null,
     statusList: [],
   };
-  data: any[] = [
-    {
-      id: '1',
-      userName: 'crw',
-      gender: '男',
-      university: '广东金融学院',
-      college: '互联网学院',
-      profession: '计算机科学与技术',
-      grade: '16',
-      userClass: '1',
-      userNo: '161543108',
-      userTel: '18814231208',
-      email: '2388092655@qq.com',
-      ability: 'java,springboot',
-    }
-  ];
+  data: any[] = [];
   loading = false;
   status = [
     { index: 0, text: '关闭', value: false, type: 'default', checked: false },
@@ -53,8 +38,8 @@ export class DashboardAnalysisComponent implements OnInit {
   @ViewChild('st', { static: true })
   st: STComponent;
   columns: STColumn[] = [
-    { title: '', index: 'key', type: 'checkbox' },
-    { title: '用户ID', index: 'id' },
+    { title: '', index: 'userId', type: 'checkbox' },
+    // { title: '用户ID', index: 'id' },
     { title: '用户名称', index: 'userName' },
     { title: '性别', index: 'gender' },
     { title: '学校', index: 'university' },
@@ -65,8 +50,8 @@ export class DashboardAnalysisComponent implements OnInit {
     {
       title: '学号',
       index: 'userNo',
-      type: 'number',
-      sorter: (a: any, b: any) => a.userNo - b.userNo,
+      // type: 'number',
+      // sorter: (a: any, b: any) => a.userNo - b.userNo,
     },
     { title: '联系方式', index: 'userTel' },
     { title: '邮箱', index: 'email' },
@@ -91,7 +76,7 @@ export class DashboardAnalysisComponent implements OnInit {
   expandForm = false;
 
   constructor(
-    private userInfo: UserInfoService,
+    private userService: UserInfoService,
     private http: _HttpClient,
     public msg: NzMessageService,
     private modalSrv: NzModalService,
@@ -104,6 +89,10 @@ export class DashboardAnalysisComponent implements OnInit {
 
   getData() {
     this.loading = true;
+    this.userService.getAdminInfo().subscribe(datas => {
+      this.data = datas.data;
+      console.log('admin:', this.data);
+    });
     this.q.statusList = this.status.filter(w => w.checked).map(item => item.index);
     if (this.q.status !== null && this.q.status > -1) {
       this.q.statusList.push(this.q.status);

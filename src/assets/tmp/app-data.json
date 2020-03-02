@@ -46,12 +46,6 @@
           ]
         },
         {
-          "text":"首页",
-          "i18n":"menu.index",
-          "icon":"anticon-info",
-          "link":"/index"
-        },
-        {
           "text": "快捷菜单",
           "i18n": "menu.shortcut",
           "icon": "anticon-rocket",

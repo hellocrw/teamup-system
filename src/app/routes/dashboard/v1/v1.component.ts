@@ -19,23 +19,37 @@ export class DashboardV1Component implements OnInit {
     status: null,
     statusList: [],
   };
-  data: UserInfoDto[] = [];
-  // data: any[] = [
-  //   {
-  //     userId: '1',
-  //     userName: 'crw',
-  //     gender: '男',
-  //     university: '广东金融学院',
-  //     college: '互联网学院',
-  //     profession: '计算机科学与技术',
-  //     grade: '16',
-  //     userClass: '1',
-  //     userNo: '161543108',
-  //     userTel: '18814231208',
-  //     email: '2388092655@qq.com',
-  //     ability: 'java,springboot',
-  //   }
-  // ];
+  // user: any[] = [];
+  user: any[] = [
+    // {
+    //   userId: '1',
+    //   userName: 'crw',
+    //   gender: '男',
+    //   university: '广东金融学院',
+    //   college: '互联网学院',
+    //   profession: '计算机科学与技术',
+    //   grade: '16',
+    //   userClass: '1',
+    //   userNo: '161543108',
+    //   userTel: '18814231208',
+    //   email: '2388092655@qq.com',
+    //   ability: 'java,springboot',
+    // },
+    // {
+    //   userId: '2',
+    //   userName: 'crw',
+    //   gender: '男',
+    //   university: '广东金融学院',
+    //   college: '互联网学院',
+    //   profession: '计算机科学与技术',
+    //   grade: '16',
+    //   userClass: '1',
+    //   userNo: '161543108',
+    //   userTel: '18814231208',
+    //   email: '2388092655@qq.com',
+    //   ability: 'java,springboot',
+    // }
+  ];
   loading = false;
   status = [
     { index: 0, text: '关闭', value: false, type: 'default', checked: false },
@@ -52,8 +66,8 @@ export class DashboardV1Component implements OnInit {
   @ViewChild('st', { static: true })
   st: STComponent;
   columns: STColumn[] = [
-    { title: '', index: 'key', type: 'checkbox' },
-    { title: '用户ID', index: 'userId' },
+    { title: '', index: 'userId', type: 'checkbox' },
+    // { title: '用户ID', index: 'userId' },
     { title: '用户名称', index: 'userName' },
     { title: '性别', index: 'gender' },
     { title: '学校', index: 'university' },
@@ -64,8 +78,8 @@ export class DashboardV1Component implements OnInit {
     {
       title: '学号',
       index: 'userNo',
-      type: 'number',
-      sorter: (a: any, b: any) => a.userNo - b.userNo,
+      // type: 'number',
+      // sorter: (a: any, b: any) => a.userNo - b.userNo,
     },
     { title: '联系方式', index: 'userTel' },
     { title: '邮箱', index: 'email' },
@@ -90,7 +104,7 @@ export class DashboardV1Component implements OnInit {
   expandForm = false;
 
   constructor(
-    private userInfo: UserInfoService,
+    private userService: UserInfoService,
     private http: _HttpClient,
     public msg: NzMessageService,
     private modalSrv: NzModalService,
@@ -99,10 +113,9 @@ export class DashboardV1Component implements OnInit {
 
   ngOnInit() {
     this.getData();
-    this.userInfo.findAll().subscribe(datas => {
-      console.log(datas.data);
-      this.data = datas.data;
-      console.log('this.data:', this.data);
+    this.userService.getUserInfo().subscribe(datas => {
+      console.log('user:', datas.data);
+      this.user = datas.data;
     });
   }
 

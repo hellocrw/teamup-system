@@ -1,7 +1,8 @@
-import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SettingsService } from '@delon/theme';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'header-user',
@@ -13,7 +14,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
       [nzDropdownMenu]="userMenu"
     >
       <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-      {{ settings.user.name }}
+      {{ userInfo.value.userName }}
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
@@ -39,12 +40,19 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderUserComponent {
+export class HeaderUserComponent implements OnInit {
+
+  userInfo: any;
+  ngOnInit(): void {
+    this.userInfo = this.cacheService.get("userInfo");
+    console.log('userInfo:', this.userInfo);
+  }
   constructor(
     public settings: SettingsService,
+    private cacheService: CacheService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) { }
 
   logout() {
     this.tokenService.clear();

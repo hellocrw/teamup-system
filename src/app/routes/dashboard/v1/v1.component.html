@@ -18,7 +18,7 @@
       </ul>
     </nz-dropdown-menu>
   </ng-container>
-  <st #st [columns]="columns" [data]="data" (change)="stChange($event)">
+  <st #st [columns]="columns" [data]="user" (change)="stChange($event)">
     <ng-template st-row="status" let-i>
       <nz-badge [nzStatus]="i.statusType" [nzText]="i.statusText"></nz-badge>
     </ng-template>

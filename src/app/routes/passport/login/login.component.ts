@@ -8,6 +8,7 @@ import { ReuseTabService } from '@delon/abc';
 import { environment } from '@env/environment';
 import { StartupService } from '@core';
 import { TokenService } from 'src/app/services/token/token.service';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'passport-login',
@@ -31,6 +32,7 @@ export class UserLoginComponent implements OnDestroy {
     private startupSrv: StartupService,
     public http: _HttpClient,
     public msg: NzMessageService,
+    public cacheService: CacheService,
   ) {
     this.form = fb.group({
       username: [null, [Validators.required, Validators.minLength(4)]],
@@ -131,14 +133,23 @@ export class UserLoginComponent implements OnDestroy {
         this.reuseTabService.clear();
         // 设置用户Token信息
         this.tokenService.set(res.data);
+        this.cacheService.set("userInfo", res.data.userInfo);
+        this.cacheService.set("auth", res.data.auth);
+
+        if (res.data.auth === 'ADMIN') {
+          this.router.navigateByUrl(`/dashboard/v1`);
+        } else {
+          this.router.navigateByUrl(`/`);
+        }
         // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
-        this.startupSrv.load().then(() => {
-          let url = this.tokenService.referrer!.url || '/';
-          if (url.includes('/passport')) {
-            url = '/';
-          }
-          this.router.navigateByUrl(url);
-        });
+        // this.startupSrv.load().then(() => {
+        //   let url = this.tokenService.referrer!.url || '/';
+        //   console.log('url:', url);
+        //   if (url.includes('/passport')) {
+        //     url = '/';
+        //   }
+        //   this.router.navigateByUrl(url);
+        // });
       });
   }
 
@@ -177,7 +188,7 @@ export class UserLoginComponent implements OnDestroy {
         })
         .subscribe(res => {
           if (res) {
-            this.settingsService.setUser(res);
+            // this.settingsService.setUser(res);
             this.router.navigateByUrl('/');
           }
         });

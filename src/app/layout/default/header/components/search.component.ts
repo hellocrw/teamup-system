@@ -6,10 +6,12 @@ import { Component, HostBinding, Input, ElementRef, AfterViewInit, ChangeDetecti
     <nz-input-group [nzAddOnBeforeIcon]="focus ? 'arrow-down' : 'search'">
       <input
         nz-input
+        #search
         [(ngModel)]="q"
         (focus)="qFocus()"
         (blur)="qBlur()"
         [placeholder]="'搜索：团队、项目' | translate"
+        (keyup)="($event.which === 13) ? getProductList(search.value) : 0"
       />
     </nz-input-group>
   `,
@@ -47,5 +49,9 @@ export class HeaderSearchComponent implements AfterViewInit {
   qBlur() {
     this.focus = false;
     this.searchToggled = false;
+  }
+
+  getProductList(value: string): void {
+    console.log(value);
   }
 }

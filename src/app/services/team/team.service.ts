@@ -50,4 +50,11 @@ export class TeamService {
   getJoinTeamProByUserId(userId: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/getJoinTeamProByUserId/${userId}`);
   }
+
+  /**
+   * 获取所有团队信息
+   */
+  getTeamAll(): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/all`);
+  }
 }
