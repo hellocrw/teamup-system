@@ -151,13 +151,6 @@ export class TeamComponent implements OnInit {
       this.teams = datas.data;
       console.log('teams:', this.teams);
     })
-    // 测试接口
-    this.testService.myTest().subscribe(datas => {
-      this.result = datas;
-      console.log('result:', this.result);
-    });
-    // 获取字典的数据
-
   }
 
   toTeamDetail() { }

@@ -26,7 +26,7 @@ export class UserInfoService {
    * 查找所有用户的信息
    */
   findAll(): Observable<any> {
-    return this.http.get<any>('api/user/All');
+    return this.http.get<any>('api/user/all');
   }
 
   /**

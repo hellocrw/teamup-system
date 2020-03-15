@@ -28,6 +28,8 @@ import { FilesComponent } from './crw/team/project/project-detail/files/files.co
 import { NotificeComponent } from './crw/team/project/project-detail/notifice/notifice.component';
 import { TeamApplyViewComponent } from './crw/team/team-apply-view/team-apply-view.component';
 import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view/project-apply-view.component';
+import { TeamListComponent } from './team-management/team-list/team-list.component';
+import { ProListComponent } from './project-management/project-list/project-list.component';
 
 const routes: Routes = [
   {
@@ -59,6 +61,8 @@ const routes: Routes = [
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
+      { path: 'team-management/team-list', component: TeamListComponent },
+      { path: 'project-management/pro-list', component: ProListComponent },
       { path: 'team/project/project-list', component: ProjectListComponent },
       {
         path: 'widgets',

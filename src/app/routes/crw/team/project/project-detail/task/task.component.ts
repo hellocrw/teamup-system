@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { TaskModalComponent } from './task-modal/task-modal.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { ActivatedRoute } from '@angular/router';
+import { ProjectDetailComponent } from '../project-detail.component';
 
 @Component({
   selector: 'app-task',
@@ -9,7 +12,16 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
 })
 export class TaskComponent implements OnInit {
 
+  @ViewChild('projectDetail', { static: true })
+  projectDetail: ProjectDetailComponent
+
   index = 0;
+
+  proId: string;
+
+  // project: any;
+
+  task: any[];
 
   @ViewChild('taskModalComponent', { static: true })
   taskModalComponent: TaskModalComponent;
@@ -17,10 +29,19 @@ export class TaskComponent implements OnInit {
   @ViewChild('taskDetailComponent', { static: true })
   taskDetailComponent: TaskDetailComponent;
 
-  constructor() { }
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit() {
+    // console.log('pro', this.projectDetail.project);  
+    // this.getData();  
   }
+
+  // getData(): void {
+  //   this.projectService.getProjectByProId(this.proId).subscribe(datas => {
+  //     this.task = datas.data;
+  //     console.log("task", this.task);
+  //   });
+  // }
 
   create(): void {
     console.log('create');

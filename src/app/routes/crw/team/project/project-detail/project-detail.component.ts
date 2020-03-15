@@ -39,7 +39,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   getDatas(): void {
-    this.projectService.getProjectByProId(this.proId).subscribe(datas => {
+    this.projectService.getProjectTaskByProId(this.proId).subscribe(datas => {
       this.project = datas.data;
       console.log('project:', this.project);
     })
@@ -48,6 +48,14 @@ export class ProjectDetailComponent implements OnInit {
   to(key: string): void {
     console.log(key);
     this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/${key}`);
+  }
+
+  onActivate(event): void {
+    console.log('create', event);
+  }
+
+  onDeactivate(event): void {
+    console.log('destroy', event);
   }
 
 }

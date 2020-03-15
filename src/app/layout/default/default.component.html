@@ -1,7 +1,7 @@
 <div class="alain-default__progress-bar" *ngIf="isFetching"></div>
 <layout-header class="alain-default__header"></layout-header>
-<layout-sidebar *ngIf="sty" class="alain-default__aside"></layout-sidebar>
-<section [ngClass]="{'alain-default__content': sty===true, 'alain-default__content_user': sty===false}">
+<layout-sidebar *ngIf="sty_admin" class="alain-default__aside"></layout-sidebar>
+<section [ngClass]="{'alain-default__content': sty_admin, 'alain-default__content_user': sty_user}">
   <router-outlet></router-outlet>
 </section>
 <ng-template #settingHost></ng-template>

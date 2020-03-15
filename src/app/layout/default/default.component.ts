@@ -33,7 +33,8 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
   private settingHost: ViewContainerRef;
   isFetching = false;
   // auth = 'USER';
-  sty: boolean;
+  sty_admin: boolean;
+  sty_user: boolean;
 
   constructor(
     router: Router,
@@ -94,7 +95,11 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
     this.cacheService.get('auth').subscribe(auth => {
       console.log('auth:', auth);
       if (auth === "ADMIN") {
-        this.sty = true;
+        this.sty_admin = true;
+        this.sty_user = false;
+      } else {
+        this.sty_user = true;
+        this.sty_admin = false;
       }
     });
 

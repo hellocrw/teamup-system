@@ -12,11 +12,23 @@ export class ProjectService {
 
   constructor(private http: _HttpClient) { }
 
+  getproAll(): Observable<Result> {
+    return this.http.get<Result>(`${ProjectService.API}/all`);
+  }
+
   getProjectByTeamId(teamId: string): Observable<Result> {
     return this.http.get<Result>(`${ProjectService.API}/getProjectByTeamId/${teamId}`);
   }
 
-  getProjectByProId(proId: string): Observable<Result> {
-    return this.http.get<Result>(`${ProjectService.API}/getProjectByProId/${proId}`);
+  getProjectTaskByProId(proId: string): Observable<Result> {
+    return this.http.get<Result>(`${ProjectService.API}/getProjectTaskByProId/${proId}`);
+  }
+
+  /**
+   * 获取项目中的任务信息
+   * @param proId 项目ID
+   */
+  geTaskByProId(proId: string): Observable<Result> {
+    return this.http.get<Result>(`${ProjectService.API}/geTaskByProId/${proId}`);
   }
 }

@@ -21,6 +21,12 @@
         <span>校外</span>
       </a>
     </li>
+    <!-- Github Page -->
+    <li>
+      <a class="alain-default__nav-item" href="//github.com/hellocrw/team-01" target="_blank">
+        <i nz-icon nzType="github"></i>
+      </a>
+    </li>
     <!-- Search Button -->
     <li class="hidden-pc" (click)="searchToggleChange()">
       <div class="alain-default__nav-item">
@@ -54,6 +60,26 @@
       <a class="alain-default__nav-item" (click)="toTeamManagement('1')">
         <span>团队管理</span>
       </a>
+    </li>
+    <!-- Settings -->
+    <li class="hidden-mobile">
+      <div class="alain-default__nav-item" nz-dropdown [nzDropdownMenu]="settingsMenu" nzTrigger="click"
+        nzPlacement="bottomRight">
+        <i nz-icon nzType="setting"></i>
+      </div>
+      <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
+        <div nz-menu style="width:200px;">
+          <div nz-menu-item>
+            <header-fullscreen></header-fullscreen>
+          </div>
+          <div nz-menu-item>
+            <header-storage></header-storage>
+          </div>
+          <div nz-menu-item>
+            <header-i18n></header-i18n>
+          </div>
+        </div>
+      </nz-dropdown-menu>
     </li>
     <li class="hidden-mobile">
       <header-user></header-user>
