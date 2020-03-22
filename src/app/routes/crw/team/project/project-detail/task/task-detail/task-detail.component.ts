@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./task-detail.component.less']
 })
 export class TaskDetailComponent implements OnInit {
-
+  editStr = '曹荣武';
+  taskDate = '2017-07-07 ~ 2017-08-08';
   // 是否显示对话框
   isVisible = false;
 
