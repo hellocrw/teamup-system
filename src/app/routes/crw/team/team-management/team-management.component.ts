@@ -9,10 +9,9 @@ import { stringify } from 'querystring';
 @Component({
   selector: 'app-team-management',
   templateUrl: './team-management.component.html',
-  styleUrls: ['./team-management.component.less']
+  styleUrls: ['./team-management.component.less'],
 })
 export class TeamManagementComponent implements OnInit {
-
   notice: any[] = [];
   activities: any[] = [];
   radarData: any[];
@@ -104,11 +103,14 @@ export class TeamManagementComponent implements OnInit {
   ];
   // endregion
 
-  constructor(private http: _HttpClient, public msg: NzMessageService,
+  constructor(
+    private http: _HttpClient,
+    public msg: NzMessageService,
     private cdr: ChangeDetectorRef,
     private teamService: TeamService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
@@ -142,23 +144,21 @@ export class TeamManagementComponent implements OnInit {
           }
         });
       });
-      console.log('projects:', this.projects);
-      console.log('team:', this.team);
-    })
+      // console.log('projects:', this.projects);
+      // console.log('team:', this.team);
+    });
 
     // 获取我的团队信息
     this.teamService.getMyTeamProByTeamId(userId).subscribe(datas => {
       this.myTeam = datas.data;
-      console.log('myTeam:', this.myTeam);
-    })
+      // console.log('myTeam:', this.myTeam);
+    });
 
     // 获取我参与的团队信息
     this.teamService.getJoinTeamProByUserId(userId).subscribe(datas => {
       this.joinTeam = datas.data;
-      console.log('joinTeam:', this.joinTeam);
-    })
-
-
+      // console.log('joinTeam:', this.joinTeam);
+    });
   }
 
   /**
@@ -175,5 +175,4 @@ export class TeamManagementComponent implements OnInit {
   toTeamDetail(teamId: string): void {
     this.router.navigateByUrl(`team/team-detail/${teamId}`);
   }
-
 }

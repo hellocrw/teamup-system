@@ -11,7 +11,14 @@ import {
   Inject,
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Router, NavigationEnd, RouteConfigLoadStart, RouteConfigLoadEnd, NavigationError, NavigationCancel } from '@angular/router';
+import {
+  Router,
+  NavigationEnd,
+  RouteConfigLoadStart,
+  RouteConfigLoadEnd,
+  NavigationError,
+  NavigationCancel,
+} from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd';
 import { updateHostClass } from '@delon/util';
 import { SettingsService } from '@delon/theme';
@@ -25,7 +32,7 @@ import { CacheService } from '@delon/cache';
 @Component({
   selector: 'layout-default',
   templateUrl: './default.component.html',
-  styleUrls: ['./default.component.less']
+  styleUrls: ['./default.component.less'],
 })
 export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
@@ -93,8 +100,8 @@ export class LayoutDefaultComponent implements OnInit, AfterViewInit, OnDestroy 
 
   ngOnInit() {
     this.cacheService.get('auth').subscribe(auth => {
-      console.log('auth:', auth);
-      if (auth === "ADMIN") {
+      // console.log('auth:', auth);
+      if (auth === 'ADMIN') {
         this.sty_admin = true;
         this.sty_user = false;
       } else {

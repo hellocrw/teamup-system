@@ -1,98 +1,96 @@
 <nz-card [nzBordered]="false">
-    <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
-        <se label="团队类型" line>
-            <tag-select>
-                &nbsp;&nbsp;
-                <nz-tag *ngFor="let i of teamType let idx = index" nzMode="checkable"
-                    (nzCheckedChange)="changeCategory($event, idx)">
-                    {{ i.value }}
-                </nz-tag>
-            </tag-select>
-        </se>
-        <se label="">
-            <div class="ant-form ant-form-inline">
-                <nz-form-item>
-                    <nz-form-label nzFor="rate">发布时间</nz-form-label>
-                    <nz-form-control>
-                        <nz-range-picker [nzFormat]="dateFormat"></nz-range-picker>
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <nz-form-label nzFor="rate">学院</nz-form-label>
-                    <nz-form-control>
-                        <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
-                            style="width: 200px;">
-                            <nz-option [nzLabel]="'互联网金融与信息工程学院'" [nzValue]="'gduf'"></nz-option>
-                            <nz-option [nzLabel]="'金融学院'" [nzValue]="'good'"></nz-option>
-                            <nz-option [nzLabel]="'会计学院'" [nzValue]="'good'"></nz-option>
-                        </nz-select>
-                    </nz-form-control>
-                </nz-form-item>
-                <nz-form-item>
-                    <button nz-button nzType="primary">查找</button>
-                </nz-form-item>
-            </div>
-        </se>
-    </form>
+  <form nz-form se-container="1" size="compact" gutter="32" [labelWidth]="null">
+    <se label="团队类型" line>
+      <tag-select>
+        &nbsp;&nbsp;
+        <nz-tag *ngFor="let i of teamType let idx = index" nzMode="checkable"
+          (nzCheckedChange)="changeCategory($event, idx)">
+          {{ i.value }}
+        </nz-tag>
+      </tag-select>
+    </se>
+    <se label="">
+      <div class="ant-form ant-form-inline">
+        <nz-form-item>
+          <nz-form-label nzFor="rate">发布时间</nz-form-label>
+          <nz-form-control>
+            <nz-range-picker [nzFormat]="dateFormat"></nz-range-picker>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label nzFor="rate">学院</nz-form-label>
+          <nz-form-control>
+            <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
+              style="width: 200px;">
+              <nz-option [nzLabel]="'互联网金融与信息工程学院'" [nzValue]="'gduf'"></nz-option>
+              <nz-option [nzLabel]="'金融学院'" [nzValue]="'good'"></nz-option>
+              <nz-option [nzLabel]="'会计学院'" [nzValue]="'good'"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <button nz-button nzType="primary">查找</button>
+        </nz-form-item>
+      </div>
+    </se>
+  </form>
 </nz-card>
 <div>
-    <nz-list class="content_center" [nzRenderItem]="item" [nzDataSource]="teams"
-        [nzGrid]="{ gutter: 24, lg: 5, md: 10, sm: 12, xs: 24 }">
-        <ng-template #item let-item>
-            <nz-list-item>
-                <nz-card nzHoverable [nzCover]="cover">
-                    <ng-template #cover>
-                        <!-- <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
+  <nz-list class="content_center" [nzRenderItem]="item" [nzDataSource]="teams"
+    [nzGrid]="{ gutter: 24, lg: 7, md: 10, sm: 12, xs: 24 }">
+    <ng-template #item let-item>
+      <nz-list-item>
+        <nz-card nzHoverable [nzCover]="cover">
+          <ng-template #cover>
+            <!-- <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
                             <ng-template #nzTitle>
                                 <a (click)="msg.success('标题：' + item.id)">{{ item.teamName }}</a>
                             </ng-template>
                         </nz-card-meta> -->
-                    </ng-template>
+          </ng-template>
 
-                    <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
-                        <ng-template #nzTitle>
-                            <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
-                            <small class="text-grey" style="text-align: center;">
-                                [{{item.teamDate}}发布]
-                            </small>
-                            <small class="text-grey" style="float: right;">
-                                {{item.university}}
-                            </small>
+          <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
+            <ng-template #nzTitle>
+              <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
+              <small class="text-grey" style="text-align: center;">
+                [{{item.teamDate}}发布]
+              </small>
+              <small class="text-grey" style="float: right;">
+                {{item.university}}
+              </small>
 
-                            <br>
-                            <small class="text-grey">
-                                {{item.teamType}}
-                                <nz-divider nzType="vertical"></nz-divider>
-                                {{item.teamNumber}}人
-                                <nz-divider nzType="vertical"></nz-divider>
-                                {{item.teamNature}}
-                            </small>
-                        </ng-template>
-                    </nz-card-meta>
-                    <div class="card-item-content">
-                        <div>
-                            <!-- <span class="text-grey">团队描述：{{ item.teamDescribe }}</span> -->
-                            <span class="text-grey">项目:</span>
-                            <span class="text-grey" *ngFor="let project of item.projects; let i=index;">
-                                <span *ngIf="i<3">
-                                    <nz-divider nzType="vertical" *ngIf=" i !== 0"></nz-divider>
-                                    <a
-                                        [routerLink]="['/project/project-apply-view', project.proId]">{{project.proName}}</a>
-                                </span>
-                            </span>
-                        </div>
-                    </div>
+              <br>
+              <small class="text-grey">
+                {{item.teamType}}
+                <nz-divider nzType="vertical"></nz-divider>
+                {{item.teamNumber}}人
+                <nz-divider nzType="vertical"></nz-divider>
+                {{item.teamNature}}
+              </small>
+            </ng-template>
+          </nz-card-meta>
+          <div class="card-item-content">
+            <div>
+              <!-- <span class="text-grey">团队描述：{{ item.teamDescribe }}</span> -->
+              <span class="text-grey">项目:</span>
+              <span class="text-grey" *ngFor="let project of item.projects; let i=index;">
+                <span *ngIf="i<3">
+                  <nz-divider nzType="vertical" *ngIf=" i !== 0"></nz-divider>
+                  <a [routerLink]="['/project/project-apply-view', project.proId]">{{project.proName}}</a>
+                </span>
+              </span>
+            </div>
+          </div>
 
-                    <!-- ----------------------------------------------------- -->
-                    <nz-divider nzDashed></nz-divider>
-                    <!-- ----------------------------------------------------- -->
-                    <div class="card-item-content">
-                        <span>{{item.teamLabel}}</span>
-                        <span style="float: right;"><i nz-icon nzType="star"
-                                nzTheme="outline"></i>{{item.seeNum}}</span>
-                    </div>
-                </nz-card>
-            </nz-list-item>
-        </ng-template>
-    </nz-list>
+          <!-- ----------------------------------------------------- -->
+          <nz-divider nzDashed></nz-divider>
+          <!-- ----------------------------------------------------- -->
+          <div class="card-item-content">
+            <span>{{item.teamLabel}}</span>
+            <span style="float: right;"><i nz-icon nzType="star" nzTheme="outline"></i>{{item.seeNum}}</span>
+          </div>
+        </nz-card>
+      </nz-list-item>
+    </ng-template>
+  </nz-list>
 </div>

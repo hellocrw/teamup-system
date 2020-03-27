@@ -15,23 +15,10 @@ import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
-  styleUrls: ['./team.component.less']
+  styleUrls: ['./team.component.less'],
 })
 export class TeamComponent implements OnInit {
-
-  constructor(private router: Router,
-    private http: _HttpClient,
-    public msg: NzMessageService,
-    private cdr: ChangeDetectorRef,
-    private teamService: TeamService,
-    private dictionaryService: DictionaryService,
-    private testService: TestService,
-    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) { }
-  q: any = {
-    ps: 8,
-    categories: [],
-    owners: ['zxx'],
-  };
+  dateFormat = 'yyyy/MM/dd';
 
   private router$: Subscription;
   tabs: any[] = [
@@ -51,23 +38,22 @@ export class TeamComponent implements OnInit {
 
   pos = 0;
 
-
   proList: any[] = [
     {
       id: 1,
-      proName: "组队系统",
-      img: "https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png",
-      proDescribe: "那是一种内在的东西， 他们到达不了，也无法触及的",
-      seeNum: "12",
-      university: "广东金融学院"
+      proName: '组队系统',
+      img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
+      proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
+      seeNum: '12',
+      university: '广东金融学院',
     },
     {
       id: 2,
-      proName: "组队系统",
-      img: "https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png",
-      proDescribe: "那是一种内在的东西， 他们到达不了，也无法触及的",
-      seeNum: "12",
-      university: "广东金融学院"
+      proName: '组队系统',
+      img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
+      proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
+      seeNum: '12',
+      university: '广东金融学院',
     },
   ];
 
@@ -77,6 +63,8 @@ export class TeamComponent implements OnInit {
    * 项目类型
    */
   teamType = [];
+
+  selectType = [];
 
   // region: cateogry
   categories = [
@@ -97,8 +85,38 @@ export class TeamComponent implements OnInit {
 
   user: any;
 
+  constructor(
+    private router: Router,
+    private http: _HttpClient,
+    public msg: NzMessageService,
+    private cdr: ChangeDetectorRef,
+    private teamService: TeamService,
+    private dictionaryService: DictionaryService,
+    private testService: TestService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {}
+  q: any = {
+    ps: 8,
+    categories: [],
+    owners: ['zxx'],
+  };
+
+  /**
+   * 初始化
+   */
+  ngOnInit(): void {
+    // 获取Token信息的相关信息
+    // console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
+    // console.log('获取用户信息：', this.tokenService.get(JWTTokenModel).userInfo);
+    this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
+    // this.setActive();
+    // this.getData();
+    this.getDatas();
+  }
 
   changeCategory(status: boolean, idx: number) {
+    console.log(status);
+    this.msg.success(`${idx}`);
     if (idx === 0) {
       this.categories.map(i => (i.value = status));
     } else {
@@ -113,20 +131,6 @@ export class TeamComponent implements OnInit {
     if (idx !== -1) {
       this.pos = idx;
     }
-  }
-
-  /**
-   * 初始化
-   */
-  ngOnInit(): void {
-    // 获取Token信息的相关信息
-    console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
-    console.log('获取其他：', this.tokenService.get(JWTTokenModel).userInfo);
-    this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
-    // this.setActive();
-    // this.getData();
-    this.getDatas();
-
   }
 
   to(item: any) {
@@ -144,14 +148,14 @@ export class TeamComponent implements OnInit {
     // 获取团队类型teamType
     this.dictionaryService.getTeamType().subscribe(datas => {
       this.teamType = datas.data;
-      console.log('teamtype:', this.teamType);
+      // console.log('teamtype:', this.teamType);
     });
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
       this.teams = datas.data;
-      console.log('teams:', this.teams);
-    })
+      // console.log('teams:', this.teams);
+    });
   }
 
-  toTeamDetail() { }
+  toTeamDetail() {}
 }

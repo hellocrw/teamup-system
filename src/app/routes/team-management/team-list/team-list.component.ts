@@ -8,7 +8,7 @@ import { TeamService } from 'src/app/services/team/team.service';
 @Component({
   selector: 'app-team-list',
   templateUrl: './team-list.component.html',
-  styleUrls: ['./team-list.component.less']
+  styleUrls: ['./team-list.component.less'],
 })
 export class TeamListComponent implements OnInit {
   q: any = {
@@ -103,12 +103,12 @@ export class TeamListComponent implements OnInit {
     public msg: NzMessageService,
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getData();
     this.teamService.getTeamAll().subscribe(datas => {
-      console.log('team:', datas.data);
+      // console.log('team:', datas.data);
       this.user = datas.data;
     });
   }
@@ -176,5 +176,4 @@ export class TeamListComponent implements OnInit {
     // wait form reset updated finished
     setTimeout(() => this.getData());
   }
-
 }

@@ -17,7 +17,6 @@ import { CacheService } from '@delon/cache';
   providers: [SocialService],
 })
 export class UserLoginComponent implements OnDestroy {
-
   constructor(
     fb: FormBuilder,
     modalSrv: NzModalService,
@@ -35,7 +34,7 @@ export class UserLoginComponent implements OnDestroy {
     public cacheService: CacheService,
   ) {
     this.form = fb.group({
-      username: [null, [Validators.required, Validators.minLength(4)]],
+      username: [null, [Validators.required, Validators.minLength(3)]],
       password: [null, Validators.required],
       mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
       captcha: [null, [Validators.required]],
@@ -93,7 +92,7 @@ export class UserLoginComponent implements OnDestroy {
    */
 
   login() {
-    console.log("用户登录");
+    console.log('用户登录');
     this.error = '';
     if (this.type === 0) {
       this.userName.markAsDirty();
@@ -122,35 +121,34 @@ export class UserLoginComponent implements OnDestroy {
     //     userName: this.userName.value,
     //     password: this.password.value,
     //   })
-    this.token.getToken(this.type, this.userName.value, this.password.value)
-      .subscribe((res: any) => {
-        console.log('res:', res);
-        if (res.desc !== 'ok') {
-          this.error = res.desc;
-          return;
-        }
-        // 清空路由复用信息
-        this.reuseTabService.clear();
-        // 设置用户Token信息
-        this.tokenService.set(res.data);
-        this.cacheService.set("userInfo", res.data.userInfo);
-        this.cacheService.set("auth", res.data.auth);
+    this.token.getToken(this.type, this.userName.value, this.password.value).subscribe((res: any) => {
+      // console.log('res:', res);
+      if (res.desc !== 'ok') {
+        this.error = res.desc;
+        return;
+      }
+      // 清空路由复用信息
+      this.reuseTabService.clear();
+      // 设置用户Token信息
+      this.tokenService.set(res.data);
+      this.cacheService.set('userInfo', res.data.userInfo);
+      this.cacheService.set('auth', res.data.auth);
 
-        if (res.data.auth === 'ADMIN') {
-          this.router.navigateByUrl(`/dashboard/v1`);
-        } else {
-          this.router.navigateByUrl(`/`);
-        }
-        // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
-        // this.startupSrv.load().then(() => {
-        //   let url = this.tokenService.referrer!.url || '/';
-        //   console.log('url:', url);
-        //   if (url.includes('/passport')) {
-        //     url = '/';
-        //   }
-        //   this.router.navigateByUrl(url);
-        // });
-      });
+      if (res.data.auth === 'ADMIN') {
+        this.router.navigateByUrl(`/dashboard/v1`);
+      } else {
+        this.router.navigateByUrl(`/`);
+      }
+      // 重新获取 StartupService 内容，我们始终认为应用信息一般都会受当前用户授权范围而影响
+      // this.startupSrv.load().then(() => {
+      //   let url = this.tokenService.referrer!.url || '/';
+      //   console.log('url:', url);
+      //   if (url.includes('/passport')) {
+      //     url = '/';
+      //   }
+      //   this.router.navigateByUrl(url);
+      // });
+    });
   }
 
   // #region social
