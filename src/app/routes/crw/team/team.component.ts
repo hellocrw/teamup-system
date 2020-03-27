@@ -9,7 +9,6 @@ import { LoginInfo } from 'src/app/dto/LoginInfo';
 import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
 import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
-import { TeamModalComponent } from './team-modal/team-modal.component';
 import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
 
 @Component({

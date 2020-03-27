@@ -2,15 +2,15 @@ import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Result } from 'src/app/dto/Result';
 import { Observable } from 'rxjs';
+import { TeamDto } from 'src/app/dto/TeamDto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeamService {
+  private static API = 'api/team';
 
-  private static API = "api/team"
-
-  constructor(private http: _HttpClient) { }
+  constructor(private http: _HttpClient) {}
 
   /**
    * 获取团队以及团队对应的项目
@@ -56,5 +56,9 @@ export class TeamService {
    */
   getTeamAll(): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/all`);
+  }
+
+  saveTeam(teamDto: TeamDto): Observable<Result> {
+    return this.http.post<Result>(`${TeamService.API}/saveTeam`, teamDto);
   }
 }

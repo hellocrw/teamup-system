@@ -1,4 +1,4 @@
-export interface Team {
+export interface TeamDto {
   teamId?: string;
   teamName?: string;
   leaderId?: string;
@@ -6,7 +6,7 @@ export interface Team {
   teamType?: string;
   teamScope?: string;
   teamNumber?: number;
-  teamDate?: Date;
+  teamDate?: string;
   status?: string;
   staff?: string;
   teamNature?: string;
