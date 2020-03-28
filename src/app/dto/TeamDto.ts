@@ -1,3 +1,5 @@
+import { ProjectDto } from './projectDto';
+
 export interface TeamDto {
   teamId?: string;
   teamName?: string;
@@ -12,4 +14,5 @@ export interface TeamDto {
   teamNature?: string;
   teamLabel?: string;
   seeNum?: string;
+  projectDto?: ProjectDto;
 }

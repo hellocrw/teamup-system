@@ -1,102 +1,105 @@
 <nz-card style="width: 100%;" nzTitle="任务黑板" [nzExtra]="extraTemplate">
-    <nz-card-tab>
-        <nz-tabset nzSize="large" [(nzSelectedIndex)]="index">
-            <nz-tab nzTitle="所有任务"></nz-tab>
-            <nz-tab nzTitle="任务池"></nz-tab>
-            <nz-tab nzTitle="待完成"></nz-tab>
-            <nz-tab nzTitle="工作中"></nz-tab>
-            <nz-tab nzTitle="已完成"></nz-tab>
-        </nz-tabset>
-    </nz-card-tab>
-    <div *ngIf="index==0">
-        <div nz-row nzGutter="24">
-            <div nz-col nzSpan="4">
-                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
-                    [nzExtra]="extraTemplate" nzTitle="数据库设计">
-                    <sv-container col="1">
-                        <!-- <sv label="任务名称" type="primary">数据库设计</sv>
-                        <sv label="开始时间" type="success">2019-12-12</sv>
-                        <sv label="开始时间" type="success">2020-12-12</sv> -->
-                        <!-- <button nz-button nzGhost style="display:block;margin:0 auto">领取</button> -->
-                    </sv-container>
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <a (click)="toTaskDetail(1)">详情</a>
-                </ng-template>
-            </div>
-        </div>
+  <nz-card-tab>
+    <nz-tabset nzSize="large" [(nzSelectedIndex)]="index">
+      <nz-tab nzTitle="所有任务"></nz-tab>
+      <nz-tab nzTitle="任务池"></nz-tab>
+      <nz-tab nzTitle="待完成"></nz-tab>
+      <nz-tab nzTitle="工作中"></nz-tab>
+      <nz-tab nzTitle="已完成"></nz-tab>
+    </nz-tabset>
+  </nz-card-tab>
+  <div *ngIf="index==0">
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="4" *ngFor="let item of tasks">
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+          [nzExtra]="extraTemplate" [nzTitle]=item.taskContent>
+          <sv-container col="1">
+            <!-- <sv label="任务名称" type="primary">{{item.taskContent}}</sv> -->
+            <sv label="开始时间" type="success">{{item.taskStartTime}}</sv>
+            <sv label="开始时间" type="success">{{item.taskEndTime}}</sv>
+            <!-- <button nz-button nzGhost style="display:block;margin:0 auto">领取</button> -->
+          </sv-container>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <a (click)="toTaskDetail(item)">详情</a>
+        </ng-template>
+      </div>
     </div>
-    <div *ngIf="index==1">
-        <div nz-row nzGutter="24">
-            <div nz-col nzSpan="4">
-                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
-                    [nzExtra]="extraTemplate" nzTitle="数据库设计">
-                    <sv-container col="1">
-                        <!-- <sv label="执行者" type="primary">曹荣武</sv> -->
-                        <sv label="任务时间" type="success">15天</sv>
-                        <button nz-button nzGhost style="display:block;margin:0 auto"
-                            nzPopconfirmTitle="Are you sure delete this task?">领取</button>
-                    </sv-container>
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <a (click)="toTaskDetail(1)">详情</a>
-                </ng-template>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="index==1">
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="4" *ngFor="let item of taskPool">
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+          [nzExtra]="extraTemplate" [nzTitle]=item.taskContent>
+          <sv-container col="1">
+            <!-- <sv label="执行者" type="primary">曹荣武</sv> -->
+            <sv label="任务时间" type="success">{{item.taskEndTime}} - {{item.taskStartTime}}</sv>
+            <button nz-button nz-popconfirm style="display:block;margin:0 auto"
+              nzPopconfirmTitle="Are you sure delete this task?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"
+              nzPopconfirmPlacement="topLeft">领取</button>
+          </sv-container>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <a (click)="toTaskDetail(1)">详情</a>
+        </ng-template>
+      </div>
     </div>
-    <div *ngIf="index==2">
-        <div nz-row nzGutter="24">
-            <div nz-col nzSpan="4">
-                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
-                    [nzExtra]="extraTemplate" nzTitle="数据库设计">
-                    <sv-container col="1">
-                        <sv label="执行者" type="primary">曹荣武</sv>
-                        <sv label="任务时间" type="success">15天</sv>
-                        <button nz-button nzGhost style="display:block;margin:0 auto">开始工作</button>
-                    </sv-container>
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <a>详情</a>
-                </ng-template>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="index==2">
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="4" *ngFor="let item of taskTodo">
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+          [nzExtra]="extraTemplate" [nzTitle]=item.taskContent>
+          <sv-container col="1">
+            <sv label="执行者" type="primary">曹荣武</sv>
+            <sv label="任务时间" type="success">15天</sv>
+            <button nz-button nz-popconfirm style="display:block;margin:0 auto"
+              nzPopconfirmTitle="Are you sure delete this task?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"
+              nzPopconfirmPlacement="topLeft">开始工作</button>
+          </sv-container>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <a>详情</a>
+        </ng-template>
+      </div>
     </div>
-    <div *ngIf="index==3">
-        <div nz-row nzGutter="24">
-            <div nz-col nzSpan="4">
-                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
-                    [nzExtra]="extraTemplate" nzTitle="数据库设计">
-                    <sv-container col="1">
-                        <sv label="执行者" type="primary">曹荣武</sv>
-                        <sv label="任务时间" type="success">15天</sv>
-                        <button nz-button nzGhost style="display:block;margin:0 auto">完成</button>
-                    </sv-container>
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <a>详情</a>
-                </ng-template>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="index==3">
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="4" *ngFor="let item of taskWork">
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+          [nzExtra]="extraTemplate" [nzTitle]=item.taskContent>
+          <sv-container col="1">
+            <sv label="执行者" type="primary">曹荣武</sv>
+            <sv label="任务时间" type="success">15天</sv>
+            <button nz-button nz-popconfirm style="display:block;margin:0 auto" nzPopconfirmTitle="Are you sure delete this task?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"  nzPopconfirmPlacement="topLeft">完成</button>
+          </sv-container>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <a>详情</a>
+        </ng-template>
+      </div>
     </div>
-    <div *ngIf="index==4">
-        <div nz-row nzGutter="24">
-            <div nz-col nzSpan="4">
-                <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
-                    [nzExtra]="extraTemplate" nzTitle="数据库设计">
-                    <sv-container col="1">
-                        <sv label="执行者" type="primary">曹荣武</sv>
-                        <sv label="完成日期" type="success">2020-02-02</sv>
-                    </sv-container>
-                </nz-card>
-                <ng-template #extraTemplate>
-                    <a>详情</a>
-                </ng-template>
-            </div>
-        </div>
+  </div>
+  <div *ngIf="index==4">
+    <div nz-row nzGutter="24">
+      <div nz-col nzSpan="4" *ngFor="let item of taskFinish">
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+          [nzExtra]="extraTemplate" [nzTitle]=item.taskContent>
+          <sv-container col="1">
+            <sv label="执行者" type="primary">曹荣武</sv>
+            <sv label="完成日期" type="success">2020-02-02</sv>
+          </sv-container>
+        </nz-card>
+        <ng-template #extraTemplate>
+          <a>详情</a>
+        </ng-template>
+      </div>
     </div>
+  </div>
 </nz-card>
 <ng-template #extraTemplate>
-    <a (click)="create()">新增任务</a>
+  <a (click)="create()">新增任务</a>
 </ng-template>
 <app-task-modal #taskModalComponent></app-task-modal>
 <app-task-detail #taskDetailComponent></app-task-detail>

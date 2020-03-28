@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Router, ActivationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { TestService } from 'src/app/services/test.service';
@@ -15,9 +15,10 @@ import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
   selector: 'app-team',
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.less'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamComponent implements OnInit {
-  dateFormat = 'yyyy/MM/dd';
+  dateFormat = 'yyyy-MM-dd';
 
   private router$: Subscription;
   tabs: any[] = [
@@ -111,6 +112,8 @@ export class TeamComponent implements OnInit {
     // this.setActive();
     // this.getData();
     this.getDatas();
+
+    // this.teamService.fuzzyQuery('废铁').subscribe(data => console.log(data));
   }
 
   changeCategory(status: boolean, idx: number) {
@@ -152,9 +155,18 @@ export class TeamComponent implements OnInit {
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
       this.teams = datas.data;
-      // console.log('teams:', this.teams);
+      console.log('teams:', this.teams);
     });
   }
 
   toTeamDetail() {}
+
+  getMoreData() {
+    this.msg.success('加载更多');
+  }
+
+  search(item?: any): Observable<Result> {
+    this.msg.success('查找');
+    return null;
+  }
 }

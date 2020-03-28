@@ -8,13 +8,13 @@
   }">
 
   <sv-container size="large" col="1">
-    <sv label="任务名">数据库设计</sv>
+    <sv label="任务名">{{task.taskContent}}</sv>
     <sv label="创建人">
       <p nz-paragraph nzEditable [(nzContent)]="editStr"></p>
     </sv>
-    <sv label="创建时间">2017-07-07</sv>
+    <sv label="创建时间">{{task.taskCreateTime}}</sv>
     <sv label="生效日期">
-      <p nz-paragraph nzEditable [(nzContent)]="taskDate"></p>
+      <p nz-paragraph nzEditable [(nzContent)]=task.taskStartTime></p>
     </sv>
     <sv label="备注">请于两个工作日内确认</sv>
     <sv label="子任务列表">子任务列表 </sv>

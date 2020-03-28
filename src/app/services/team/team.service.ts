@@ -61,4 +61,11 @@ export class TeamService {
   saveTeam(teamDto: TeamDto): Observable<Result> {
     return this.http.post<Result>(`${TeamService.API}/saveTeam`, teamDto);
   }
+
+  /**
+   * 模糊查询团队信息
+   */
+  fuzzyQuery(teamName?: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/getTeamByTeamName/${teamName}`);
+  }
 }

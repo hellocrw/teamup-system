@@ -20,11 +20,11 @@ export class HeaderComponent {
   @ViewChild('newProjectModalComponent', { static: true })
   newProjectModalComponent: NewProjectModalComponent;
 
-  constructor(public settings: SettingsService, private router: Router) { }
+  constructor(public settings: SettingsService, private router: Router) {}
 
-  temp(): any {
-    console.log('temp');
-    this.router.navigateByUrl("/team");
+  search(event): any {
+    console.log('temp', event);
+    this.router.navigateByUrl('/team');
   }
 
   toggleCollapsedSidebar() {
@@ -36,7 +36,7 @@ export class HeaderComponent {
   }
 
   toTeamManagement(userId: string): void {
-    this.router.navigate(["/team/team-management", userId]);
+    this.router.navigate(['/team/team-management', userId]);
   }
 
   createTeam(userId: string): void {

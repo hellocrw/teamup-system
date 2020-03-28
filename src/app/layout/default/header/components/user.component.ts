@@ -41,18 +41,17 @@ import { CacheService } from '@delon/cache';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderUserComponent implements OnInit {
-
   userInfo: any;
   ngOnInit(): void {
-    this.userInfo = this.cacheService.get("userInfo");
-    console.log('userInfo:', this.userInfo);
+    this.userInfo = this.cacheService.get('userInfo');
+    // console.log('userInfo:', this.userInfo);
   }
   constructor(
     public settings: SettingsService,
     private cacheService: CacheService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) { }
+  ) {}
 
   logout() {
     this.tokenService.clear();

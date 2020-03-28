@@ -133,16 +133,13 @@ export class NewTeamModalComponent implements OnInit {
    * 确认,保存数据
    */
   handleOk(value) {
-    console.log(value);
-    this.msg.success('数据保存成功');
     this.item = value;
     this.item.status = '0';
     this.item.seeNum = '0';
     this.item.leaderId = '1';
     this.item.teamDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    console.log(this.item.teamDate);
-    console.log(this.item);
     this.teamService.saveTeam(this.item).subscribe(data => (this.res = data));
+    this.msg.success('数据保存成功');
     this.isVisible = false;
   }
 

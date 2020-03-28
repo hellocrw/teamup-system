@@ -1,60 +1,60 @@
 <page-header [breadcrumb]="breadcrumb" [content]="content" [extra]="extra" [tab]="tab">
-    <ng-template #breadcrumb>
-        <nz-breadcrumb>
-            <nz-breadcrumb-item>
-                <a [routerLink]="['/']">首页</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>
-                <a [routerLink]="['/team/team-management/3']">团队管理</a>
-            </nz-breadcrumb-item>
-            <nz-breadcrumb-item>{{project.proName}}</nz-breadcrumb-item>
-        </nz-breadcrumb>
-    </ng-template>
-    <ng-template #content>
-        <div class="content">
-            <div class="avatar">
-                <nz-avatar nzSrc="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"></nz-avatar>
-            </div>
-            <div class="desc">
-                <div class="desc-title">{{project.proName}}</div>
-                <sv-container size="small" col="2">
-                    <sv label="创建人">曹荣武</sv>
-                    <sv label="项目详情：">{{project.proDescribe}}</sv>
-                    <sv label="创建时间">2017-07-07</sv>
-                    <sv label="项目类型">技术类</sv>
-                    <sv label="生效日期">2017-07-07 ~ 2017-08-08</sv>
-                    <sv label="备注">请于两个工作日内确认</sv>
-                </sv-container>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template #extra>
-        <div class="page-extra">
-            <div>
-                <p>项目状态</p>
-                <p>未完成</p>
-            </div>
-            <div>
-                <p>项目人数</p>
-                <p>{{project.proCurrentNum}}</p>
-            </div>
-            <div>
-                <p>未完成任务数</p>
-                <p>
-                    8
-                    <span> / 24</span>
-                </p>
-            </div>
-            <div>
-                <p>项目访问</p>
-                <p>2,223</p>
-            </div>
-        </div>
-    </ng-template>
-    <ng-template #tab>
-        <nz-tabset [nzSelectedIndex]="pos">
-            <nz-tab *ngFor="let i of tabs" [nzTitle]="i.tab" (nzClick)="to(i.key)"></nz-tab>
-        </nz-tabset>
-    </ng-template>
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/']">首页</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/team/team-management/3']">团队管理</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{project.proName}}</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+  <ng-template #content>
+    <div class="content">
+      <div class="avatar">
+        <nz-avatar nzSrc="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"></nz-avatar>
+      </div>
+      <div class="desc">
+        <div class="desc-title">{{project.proName}}</div>
+        <sv-container size="small" col="2">
+          <sv label="创建人">{{project.leaderName}}</sv>
+          <sv label="项目详情：">{{project.proDescribe}}</sv>
+          <sv label="创建时间">{{project.proDate}}</sv>
+          <sv label="项目类型">{{project.proType}}</sv>
+          <sv label="生效日期">{{project.proStartTime}} ~ {{project.proEndTime}}</sv>
+          <sv label="备注">请于两个工作日内确认</sv>
+        </sv-container>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <div class="page-extra">
+      <div>
+        <p>项目状态</p>
+        <p>{{project.proStatus}}</p>
+      </div>
+      <div>
+        <p>项目人数</p>
+        <p>{{project.proCurrentNum}}</p>
+      </div>
+      <div>
+        <p>未完成任务数</p>
+        <p>
+          8
+          <span> / 22</span>
+        </p>
+      </div>
+      <div>
+        <p>项目访问</p>
+        <p>{{project.seeNum}}</p>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #tab>
+    <nz-tabset>
+      <nz-tab *ngFor="let i of tabs" [nzTitle]="i.tab" (nzClick)="to(i.key)"></nz-tab>
+    </nz-tabset>
+  </ng-template>
 </page-header>
-<router-outlet #projectDetail (activate)='onActivate($event)' (deactivate)='onDeactivate($event)'></router-outlet>
+<router-outlet #projectDetailComponent></router-outlet>
