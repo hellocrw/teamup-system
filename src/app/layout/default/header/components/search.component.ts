@@ -1,4 +1,6 @@
 import { Component, HostBinding, Input, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
+import { MessageService } from 'src/app/services/message/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'header-search',
@@ -11,7 +13,7 @@ import { Component, HostBinding, Input, ElementRef, AfterViewInit, ChangeDetecti
         (focus)="qFocus()"
         (blur)="qBlur()"
         [placeholder]="'搜索：团队、项目' | translate"
-        (keyup)="($event.which === 13) ? getProductList(search.value) : 0"
+        (keyup)="$event.which === 13 ? getProductList(search.value) : 0"
       />
     </nz-input-group>
   `,
@@ -36,7 +38,7 @@ export class HeaderSearchComponent implements AfterViewInit {
     setTimeout(() => this.qIpt.focus(), 300);
   }
 
-  constructor(private el: ElementRef) { }
+  constructor(private el: ElementRef, private messageService: MessageService, private router: Router) {}
 
   ngAfterViewInit() {
     this.qIpt = (this.el.nativeElement as HTMLElement).querySelector('.ant-input') as HTMLInputElement;
@@ -53,5 +55,9 @@ export class HeaderSearchComponent implements AfterViewInit {
 
   getProductList(value: string): void {
     console.log(value);
+    if (value !== null && value !== '') {
+      this.messageService.sendMessage(value);
+      this.router.navigateByUrl('/team');
+    }
   }
 }

@@ -11,6 +11,8 @@ import { Router, ActivationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { _HttpClient } from '@delon/theme';
 import { zip, Subscription } from 'rxjs';
+import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-account-center',
@@ -19,9 +21,16 @@ import { zip, Subscription } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountCenterComponent implements OnInit, OnDestroy {
-
-  constructor(private router: Router, private http: _HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private router: Router,
+    private http: _HttpClient,
+    private cdr: ChangeDetectorRef,
+    private cache: CacheService,
+  ) {}
   private router$: Subscription;
+
+  userInfo: any;
+
   user: any;
   notice: any;
   tabs: any[] = [
@@ -53,6 +62,10 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.cache.get('userInfo').subscribe(data => {
+      this.userInfo = data;
+      console.log(this.userInfo);
+    });
     zip(this.http.get('/user/current'), this.http.get('/api/notice')).subscribe(([user, notice]) => {
       this.user = user;
       this.notice = notice;

@@ -53,7 +53,7 @@
   </ng-template>
   <ng-template #tab>
     <nz-tabset>
-      <nz-tab *ngFor="let i of tabs" [nzTitle]="i.tab" (nzClick)="to(i.key)"></nz-tab>
+      <nz-tab *ngFor="let i of tabs" [nzTitle]="i.tab" (nzClick)="toTask(i.key)"></nz-tab>
     </nz-tabset>
   </ng-template>
 </page-header>

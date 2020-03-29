@@ -3,17 +3,18 @@
     <nz-card [nzBordered]="false" class="mb-lg" [nzLoading]="!user">
       <ng-container *ngIf="user">
         <div class="avatarHolder">
-          <img src="{{ user.avatar }}" />
-          <div class="name">{{ user.name }}</div>
-          <div>{{ user.signature }}</div>
+          <img src="{{ userInfo.userAvatar }}" />
+          <div class="name">{{ userInfo.userName }}</div>
+          <!-- <div>{{ user.signature }}</div> -->
         </div>
         <div class="detail">
-          <p><i class="title"></i>{{ user.title }}</p>
-          <p><i class="group"></i>{{ user.group }}</p>
+          <p *ngIf="userInfo.gender === '1'"><i class="title"></i>男</p>
+          <p *ngIf="userInfo.gender === '0'"><i class="title"></i>女</p>
+          <!-- <p><i class="group"></i>{{ user.group }}</p> -->
           <p>
             <i class="address"></i>
-            {{ user.geographic.province.label }}
-            {{ user.geographic.city.label }}
+            {{ userInfo.university }}
+            <!-- {{ user.geographic.city.label }} -->
           </p>
         </div>
         <nz-divider nzDashed></nz-divider>

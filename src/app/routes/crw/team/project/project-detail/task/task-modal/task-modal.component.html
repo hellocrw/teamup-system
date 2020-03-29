@@ -1,5 +1,5 @@
-<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="任务详情"
-  (nzOnCancel)="handleCancel()" [nzBodyStyle]="{
+<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="新增任务"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '300px',
     'overflow-y': 'auto',

@@ -58,6 +58,9 @@ export class TeamService {
     return this.http.get<Result>(`${TeamService.API}/all`);
   }
 
+  /**
+   * 保存团队信息
+   */
   saveTeam(teamDto: TeamDto): Observable<Result> {
     return this.http.post<Result>(`${TeamService.API}/saveTeam`, teamDto);
   }

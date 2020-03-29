@@ -4,6 +4,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TeamModalComponent } from 'src/app/routes/crw/team/team-modal/team-modal.component';
 import { NewTeamModalComponent } from './components/new-team-modal.component';
 import { NewProjectModalComponent } from './components/new-project-modal.component';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'layout-header',
@@ -20,10 +21,11 @@ export class HeaderComponent {
   @ViewChild('newProjectModalComponent', { static: true })
   newProjectModalComponent: NewProjectModalComponent;
 
-  constructor(public settings: SettingsService, private router: Router) {}
+  constructor(public settings: SettingsService, private router: Router, private messageService: MessageService) {}
 
-  search(event): any {
-    console.log('temp', event);
+  search($event): void {
+    console.log('temp', $event.target.text);
+    this.messageService.data = $event.target.text;
     this.router.navigateByUrl('/team');
   }
 

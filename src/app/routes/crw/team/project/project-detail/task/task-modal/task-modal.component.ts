@@ -1,17 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { SFArrayWidgetSchema, SFSchema, SFDateWidgetSchema, SFTextareaWidgetSchema } from '@delon/form';
 import { NzMessageService } from 'ng-zorro-antd';
+import { TaskDto } from 'src/app/dto/TaskDto';
+import { TaskService } from 'src/app/services/task/task.service';
 
 @Component({
   selector: 'app-task-modal',
   templateUrl: './task-modal.component.html',
-  styleUrls: ['./task-modal.component.less']
+  styleUrls: ['./task-modal.component.less'],
 })
 export class TaskModalComponent implements OnInit {
-
   // 是否显示对话框
   isVisible = false;
 
+  task: TaskDto = null;
 
   schema: SFSchema = {
     properties: {
@@ -66,29 +68,54 @@ export class TaskModalComponent implements OnInit {
         ui: { grid: { arraySpan: 12 } } as SFArrayWidgetSchema,
       },
     },
-  }
+  };
 
-  constructor(public msg: NzMessageService) { }
+  constructor(private msg: NzMessageService, private taskService: TaskService) {}
 
   ngOnInit() {
-  }
-
-  submit(value: any) {
-    this.msg.success(JSON.stringify(value));
+    this.task = this.initFormData();
   }
 
   /**
-   * 确定
+   * 初始化数据
    */
-  handleCancel() {
+  initFormData(item?: TaskDto): TaskDto {
+    return {
+      taskId: item ? item.taskId : null,
+      teamId: item ? item.teamId : null,
+      proId: item ? item.proId : null,
+      taskCreateTime: item ? item.taskCreateTime : null,
+      taskStartTime: item ? item.taskStartTime : null,
+      taskEndTime: item ? item.taskEndTime : null,
+      taskContent: item ? item.taskContent : null,
+      userId: item ? item.userId : null,
+      taskStatus: item ? item.taskStatus : null,
+      taskMark: item ? item.taskMark : null,
+      subTaskDto: item ? item.subTaskDto : null,
+    };
+  }
+
+  submit(value: TaskDto) {
+    this.msg.success(JSON.stringify(value));
+    this.task = value;
+    this.task.teamId = '1';
+    this.task.proId = '1';
+    this.task.userId = '1';
+    this.taskService.saveTask(this.task).subscribe(datas => console.log(datas));
     this.isVisible = false;
   }
 
   /**
    * 取消
    */
-  handleOk() {
+  handleCancel() {
     this.isVisible = false;
   }
 
+  /**
+   * 确定
+   */
+  handleOk() {
+    this.isVisible = false;
+  }
 }

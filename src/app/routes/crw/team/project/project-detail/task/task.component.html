@@ -40,7 +40,7 @@
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-          <a (click)="toTaskDetail(1)">详情</a>
+          <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>
@@ -59,7 +59,7 @@
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-          <a>详情</a>
+            <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>
@@ -76,7 +76,7 @@
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-          <a>详情</a>
+            <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>
@@ -92,7 +92,7 @@
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-          <a>详情</a>
+          <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>

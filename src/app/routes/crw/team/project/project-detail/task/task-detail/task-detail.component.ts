@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskComponent } from '../task.component';
 import { TaskDto } from 'src/app/dto/TaskDto';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -15,10 +16,13 @@ export class TaskDetailComponent implements OnInit {
 
   task: TaskDto;
 
-  constructor() {}
+  constructor(private messageService: MessageService) {}
 
   ngOnInit() {
+    // console.log('task onInit');
     this.task = this.initFormData();
+    // this.messageService.message$.subscribe(proId => console.log('proId:', proId));
+    // console.log('task destroy');
   }
 
   /**

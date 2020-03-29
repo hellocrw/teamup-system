@@ -1,4 +1,4 @@
-<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="1200" [(nzVisible)]="isVisible" nzTitle="填写入队申请信息"
+<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="600" [(nzVisible)]="isVisible" nzTitle="入队申请"
   (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '300px',
@@ -6,7 +6,24 @@
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
   }">
-  <p>Content one</p>
-  <p>Content two</p>
-  <p>Content three</p>
+  <form #projectInfo="ngForm" nz-form>
+    <nz-form-item nzGutter="24">
+      <nz-form-label [nzSpan]="4" nzFor="teamId" nzRequired>姓名</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <input nz-input required />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="24">
+      <nz-form-label [nzSpan]="4" nzFor="proName" nzRequired>联系方式</nz-form-label>
+      <nz-form-control [nzSpan]="18">
+        <input nz-input required />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nzGutter="24">
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>申请描述</nz-form-label>
+      <nz-form-control [nzSm]="18" [nzXs]="24">
+        <textarea rows="4" nz-input></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </nz-modal>

@@ -9,15 +9,10 @@
           <input nz-input [(ngModel)]="user.name" name="name" required />
         </se>
         <se label="个人简介">
-          <textarea
-            nz-input
-            [(ngModel)]="user.profile"
-            name="profile"
-            [nzAutosize]="{ minRows: 4, maxRows: 10 }"
-            placeholder="个人简介"
-          ></textarea>
+          <textarea nz-input [(ngModel)]="user.profile" name="profile" [nzAutosize]="{ minRows: 4, maxRows: 10 }"
+            placeholder="个人简介"></textarea>
         </se>
-        <se label="国家/地区">
+        <!-- <se label="国家/地区">
           <nz-select [(ngModel)]="user.country" name="country" required>
             <nz-option nzLabel="中国" nzValue="China"></nz-option>
           </nz-select>
@@ -40,9 +35,9 @@
         </se>
         <se label="街道地址" error="请输入您的街道地址!">
           <input nz-input [(ngModel)]="user.address" name="address" required />
-        </se>
+        </se> -->
         <se label="联系电话" error="请输入您的联系电话!">
-          <input nz-input [(ngModel)]="user.phone" name="phone" required />
+          <input nz-input name="phone" value="15925462231" required />
         </se>
         <se>
           <button nz-button nzType="primary" [disabled]="f.invalid">更新基本信息</button>

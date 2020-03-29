@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { ProjectDto } from 'src/app/dto/projectDto';
 import { TaskDto } from 'src/app/dto/TaskDto';
-import { TaskService } from 'src/app/services/task/task.service';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -36,7 +36,7 @@ export class ProjectDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private taskService: TaskService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
@@ -52,18 +52,19 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  to(key: string): void {
+  toTask(key: string): void {
     // console.log(key);
-    this.router.navigate([`/team/project/project-detail/${this.proId}/${key}`], {
-      queryParams: { name: 'josk' },
-    });
+    // 发送消息
+    // this.messageService.sendMessage(key);
+    this.messageService.data = this.proId;
+    this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/${key}`);
   }
 
-  onActivate(event): void {
+  onActivate(event: any): void {
     console.log('create:', event);
   }
 
-  onDeactivate(event): void {
+  onDeactivate(event: any): void {
     console.log('destroy:', event);
   }
 

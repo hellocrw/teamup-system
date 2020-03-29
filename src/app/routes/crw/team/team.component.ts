@@ -3,13 +3,15 @@ import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd';
 import { Subscription, Observable } from 'rxjs';
 import { Router, ActivationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, debounce, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { TestService } from 'src/app/services/test.service';
 import { LoginInfo } from 'src/app/dto/LoginInfo';
 import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
 import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
 import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
+import { MessageService } from 'src/app/services/message/message.service';
+import { TeamDto } from 'src/app/dto/TeamDto';
 
 @Component({
   selector: 'app-team',
@@ -39,22 +41,22 @@ export class TeamComponent implements OnInit {
   pos = 0;
 
   proList: any[] = [
-    {
-      id: 1,
-      proName: '组队系统',
-      img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
-      proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
-      seeNum: '12',
-      university: '广东金融学院',
-    },
-    {
-      id: 2,
-      proName: '组队系统',
-      img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
-      proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
-      seeNum: '12',
-      university: '广东金融学院',
-    },
+    // {
+    //   id: 1,
+    //   proName: '组队系统',
+    //   img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
+    //   proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
+    //   seeNum: '12',
+    //   university: '广东金融学院',
+    // },
+    // {
+    //   id: 2,
+    //   proName: '组队系统',
+    //   img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
+    //   proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
+    //   seeNum: '12',
+    //   university: '广东金融学院',
+    // },
   ];
 
   loading = true;
@@ -81,9 +83,13 @@ export class TeamComponent implements OnInit {
 
   result: Result;
 
-  teams: Result;
+  teams: TeamDto[] = null;
 
   user: any;
+
+  searchKey: string;
+
+  // res$: Observable<Result>;
 
   constructor(
     private router: Router,
@@ -93,6 +99,7 @@ export class TeamComponent implements OnInit {
     private teamService: TeamService,
     private dictionaryService: DictionaryService,
     private testService: TestService,
+    private messageService: MessageService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {}
   q: any = {
@@ -105,6 +112,9 @@ export class TeamComponent implements OnInit {
    * 初始化
    */
   ngOnInit(): void {
+    this.searchKey = this.messageService.data;
+    console.log('teamscope:', this.searchKey);
+    this.messageService.data = null;
     // 获取Token信息的相关信息
     // console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
     // console.log('获取用户信息：', this.tokenService.get(JWTTokenModel).userInfo);
@@ -112,8 +122,17 @@ export class TeamComponent implements OnInit {
     // this.setActive();
     // this.getData();
     this.getDatas();
-
-    // this.teamService.fuzzyQuery('废铁').subscribe(data => console.log(data));
+    // 搜索功能的实现，监听输入
+    this.messageService.messageSource
+      .pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        switchMap((term: string) => this.teamService.fuzzyQuery(term)),
+      )
+      .subscribe(res => {
+        this.teams = res.data;
+        console.log('监听搜索功能', this.teams);
+      });
   }
 
   changeCategory(status: boolean, idx: number) {
@@ -154,7 +173,7 @@ export class TeamComponent implements OnInit {
     });
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
-      this.teams = datas.data;
+      this.teams = datas.data.slice(0, 10);
       console.log('teams:', this.teams);
     });
   }
@@ -167,6 +186,7 @@ export class TeamComponent implements OnInit {
 
   search(item?: any): Observable<Result> {
     this.msg.success('查找');
+    console.log('temp:', this.messageService.data);
     return null;
   }
 }

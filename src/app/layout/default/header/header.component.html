@@ -12,13 +12,13 @@
       </div>
     </li>
     <li>
-      <a class="alain-default__nav-item" (click)="search()">
-        <span>校内</span>
+      <a class="alain-default__nav-item" (click)="search($event)">
+        校内
       </a>
     </li>
     <li>
-      <a class="alain-default__nav-item" (click)="search()">
-        <span>校外</span>
+      <a class="alain-default__nav-item" (click)="search($event)">
+        校外
       </a>
     </li>
     <!-- Github Page -->
@@ -52,9 +52,9 @@
       <header-notify></header-notify>
     </li>
     <!-- Task -->
-    <li class="hidden-mobile">
+    <!-- <li class="hidden-mobile">
       <header-task></header-task>
-    </li>
+    </li> -->
     <!-- 团队管理 -->
     <li>
       <a class="alain-default__nav-item" (click)="toTeamManagement('1')">

@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core';
 import { TaskModalComponent } from './task-modal/task-modal.component';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { ProjectService } from 'src/app/services/project/project.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectDetailComponent } from '../project-detail.component';
 import { TaskService } from 'src/app/services/task/task.service';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { NzMessageService } from 'ng-zorro-antd';
+import { MessageService } from 'src/app/services/message/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task',
@@ -18,7 +20,9 @@ import { NzMessageService } from 'ng-zorro-antd';
     '[attr.aria-label]': 'true',
   },
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, OnDestroy {
+  sub: Subscription;
+
   index = 0;
 
   proId: string;
@@ -59,7 +63,13 @@ export class TaskComponent implements OnInit {
   @ViewChild('taskDetailComponent', { static: true })
   taskDetailComponent: TaskDetailComponent;
 
-  constructor(private taskService: TaskService, private route: ActivatedRoute, private msg: NzMessageService) {}
+  constructor(
+    private taskService: TaskService,
+    private route: ActivatedRoute,
+    private msg: NzMessageService,
+    private messageService: MessageService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     // console.log('task.proId:', this.projectDetailComponent.proId);
@@ -69,11 +79,30 @@ export class TaskComponent implements OnInit {
     //   'proId:',
     //   this.route.queryParams.subscribe(data => console.log(data.name)),
     // );
+    // 订阅
+    // this.messageService.message$.subscribe(data => (this.proId = data));
+    console.log('proId:', this.messageService.data);
+    this.proId = this.messageService.data;
     this.getData();
+    if (this.proId === null) {
+      this.router.navigateByUrl('/team');
+    }
+  }
+
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngDoCheck(): void {
+    // console.log('proId:', this.messageService.data);
+  }
+
+  ngOnDestroy(): void {
+    // TODO 取消订阅有bug
+    // 取消订阅
+    // this.sub.unsubscribe();
+    this.messageService.data = null;
   }
 
   getData(): void {
-    this.taskService.geTaskByProId('1').subscribe(datas => {
+    this.taskService.geTaskByProId(this.proId).subscribe(datas => {
       this.tasks = datas.data;
       // console.log('task', this.task);
       if (this.tasks == null) {
@@ -117,7 +146,7 @@ export class TaskComponent implements OnInit {
   }
 
   confirm() {
-    this.msg.success('领取成功');
+    this.msg.success('任务已更新');
   }
   cancel() {
     console.log('取消');

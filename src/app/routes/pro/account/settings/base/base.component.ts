@@ -10,7 +10,6 @@ import { NzMessageService } from 'ng-zorro-antd';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsBaseComponent implements OnInit {
-
   constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
   avatar = '';
   userLoading = true;
@@ -42,7 +41,8 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   // #endregion
 
   save() {
-    this.msg.success(JSON.stringify(this.user));
+    // this.msg.success(JSON.stringify(this.user));
+    this.msg.success('信息已更新');
     return false;
   }
 }

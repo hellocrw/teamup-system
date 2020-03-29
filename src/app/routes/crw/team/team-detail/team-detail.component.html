@@ -1,32 +1,31 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
-    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18">
-        <nz-card class="team_module" [nzTitle]="team.teamName | translate " [nzBordered]="false" class="mb-lg">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18">
+    <nz-card class="team_module" [nzTitle]="team.teamName | translate " [nzBordered]="false" class="mb-lg">
 
-            <div nz-row nzGutter="16">
-                <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md" *ngFor="let item of team.projects">
-                    <a (click)="toProDetail(item.proId)" nz-row nzType="flex" nzAlign="middle"
-                        class="bg-primary rounded-md">
-                        <div nz-col nzSpan="24" class="p-md text-white">
-                            <div class="h3 mt0">{{item.proName}}</div>
-                            <p class="text-nowrap mb0">项目描述：{{item.proDescribe}}</p>
-                        </div>
-                    </a>
-                </div>
+      <div nz-row nzGutter="16">
+        <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md" *ngFor="let item of team.projects">
+          <a (click)="toProDetail(item.proId)" nz-row nzType="flex" nzAlign="middle" class="bg-primary rounded-md">
+            <div nz-col nzSpan="24" class="p-md text-white">
+              <div class="h3 mt0">{{item.proName}}</div>
+              <p class="text-nowrap mb0">项目描述：{{item.proDescribe}}</p>
             </div>
+          </a>
+        </div>
+      </div>
 
-            <!-- <button style="display: block; margin: 0 auto;" nz-button nzType="primary"
+      <!-- <button style="display: block; margin: 0 auto;" nz-button nzType="primary"
                 (click)="addToTeam()">申请入队</button> -->
-        </nz-card>
-    </div>
+    </nz-card>
+  </div>
 
-    <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6">
-        <nz-card [nzTitle]="'团队成员信息' | translate" [nzBordered]="false" class="mb-lg">
-            <button nz-button nz-popover nzPopoverTitle="队长" [nzPopoverPlacement]="'bottom'"
-                [nzPopoverContent]="contentTemplate">
-                曹荣武
-            </button>
-            <ng-template #contentTemplate>
-                内容展示
-            </ng-template>
-        </nz-card>
-    </div>
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6">
+    <nz-card [nzTitle]="'团队成员信息' | translate" [nzBordered]="false" class="mb-lg">
+      <button nz-button nz-popover nzPopoverTitle="队长" [nzPopoverPlacement]="'bottom'"
+        [nzPopoverContent]="contentTemplate">
+        曹荣武
+      </button>
+      <ng-template #contentTemplate>
+        内容展示
+      </ng-template>
+    </nz-card>
+  </div>

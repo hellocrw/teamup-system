@@ -5,6 +5,7 @@ import { zip } from 'rxjs';
 import { TeamService } from 'src/app/services/team/team.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { stringify } from 'querystring';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'app-team-management',
@@ -110,6 +111,7 @@ export class TeamManagementComponent implements OnInit {
     private teamService: TeamService,
     private route: ActivatedRoute,
     private router: Router,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
@@ -166,6 +168,8 @@ export class TeamManagementComponent implements OnInit {
    * @param proId 项目ID
    */
   toProjectDetail(proId: string): void {
+    // 发送消息
+    this.messageService.data = proId;
     this.router.navigateByUrl(`team/project/project-detail/${proId}/task`);
   }
 
