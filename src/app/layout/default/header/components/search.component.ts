@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
         [(ngModel)]="q"
         (focus)="qFocus()"
         (blur)="qBlur()"
-        [placeholder]="'搜索：团队、项目' | translate"
+        [placeholder]="'搜索：团队名称' | translate"
         (keyup)="$event.which === 13 ? getProductList(search.value) : 0"
       />
     </nz-input-group>

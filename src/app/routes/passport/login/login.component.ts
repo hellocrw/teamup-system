@@ -9,6 +9,8 @@ import { environment } from '@env/environment';
 import { StartupService } from '@core';
 import { TokenService } from 'src/app/services/token/token.service';
 import { CacheService } from '@delon/cache';
+import { userInfo } from 'os';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'passport-login',
@@ -17,6 +19,8 @@ import { CacheService } from '@delon/cache';
   providers: [SocialService],
 })
 export class UserLoginComponent implements OnDestroy {
+  userInfo: UserInfoDto = null;
+
   constructor(
     fb: FormBuilder,
     modalSrv: NzModalService,
@@ -131,7 +135,9 @@ export class UserLoginComponent implements OnDestroy {
       this.reuseTabService.clear();
       // 设置用户Token信息
       this.tokenService.set(res.data);
-      this.cacheService.set('userInfo', res.data.userInfo);
+      this.userInfo = res.data.userInfo;
+      this.cacheService.set('userInfo', this.userInfo);
+      this.cacheService.set('userId', this.userInfo.userId);
       this.cacheService.set('auth', res.data.auth);
 
       if (res.data.auth === 'ADMIN') {

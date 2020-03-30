@@ -31,7 +31,6 @@ export class TaskDetailComponent implements OnInit {
   initFormData(item?: TaskDto): TaskDto {
     return {
       taskId: item ? item.taskId : null,
-      teamId: item ? item.teamId : null,
       proId: item ? item.proId : null,
       taskCreateTime: item ? item.taskCreateTime : null,
       taskStartTime: item ? item.taskStartTime : null,

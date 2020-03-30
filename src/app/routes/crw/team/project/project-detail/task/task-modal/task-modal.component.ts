@@ -82,7 +82,6 @@ export class TaskModalComponent implements OnInit {
   initFormData(item?: TaskDto): TaskDto {
     return {
       taskId: item ? item.taskId : null,
-      teamId: item ? item.teamId : null,
       proId: item ? item.proId : null,
       taskCreateTime: item ? item.taskCreateTime : null,
       taskStartTime: item ? item.taskStartTime : null,
@@ -98,7 +97,6 @@ export class TaskModalComponent implements OnInit {
   submit(value: TaskDto) {
     this.msg.success(JSON.stringify(value));
     this.task = value;
-    this.task.teamId = '1';
     this.task.proId = '1';
     this.task.userId = '1';
     this.taskService.saveTask(this.task).subscribe(datas => console.log(datas));

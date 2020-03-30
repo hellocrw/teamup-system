@@ -33,6 +33,8 @@ import { TeamListComponent } from './team-management/team-list/team-list.compone
 import { TeamAnalysisComponent } from './team-management/team-analysis/team-analysis.component';
 import { ProjectAnalysisComponent } from './project-management/project-analysis/project-analysis.component';
 import { ProListComponent } from './project-management/project-list/project-list.component';
+import { NotificeModalComponent } from './crw/team/project/project-detail/notifice/notifice-modal/notifice-modal.component';
+import { FilesModelComponent } from './crw/team/project/project-detail/files/files-model/files-model.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -71,7 +73,9 @@ const COMPONENTS_NOROUNT = [];
     TeamListComponent,
     TeamAnalysisComponent,
     ProListComponent,
-    ProjectAnalysisComponent],
+    ProjectAnalysisComponent,
+    NotificeModalComponent,
+    FilesModelComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }

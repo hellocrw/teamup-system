@@ -33,4 +33,11 @@ export class TaskService {
   saveTask(task: TaskDto): Observable<Result> {
     return this.http.post<Result>(`${TaskService.API}`, task);
   }
+
+  /**
+   * 通过用户ID获取任务信息
+   */
+  getTaskByUserId(userId: string): Observable<Result> {
+    return this.http.get<Result>(`${TaskService.API}/getTaskByUserId/${userId}`);
+  }
 }

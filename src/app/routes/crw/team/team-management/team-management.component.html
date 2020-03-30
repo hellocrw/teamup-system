@@ -44,6 +44,22 @@
 </page-header>
 <div nz-row [nzGutter]="24">
   <div nz-col nzXs="24" nzSm="24" nzMd="16">
+    <nz-card nzTitle="团队列表" [nzExtra]="allTeam" [nzBordered]="false"
+      [nzBodyStyle]="{ 'padding-top.px': 12, 'padding-bottom.px': 12 }" class="mb-lg">
+      <ng-template #allTeam>
+        <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">全部团队</a>
+      </ng-template>
+      <div class="members">
+        <div nz-row [nzGutter]="48">
+          <div nz-col [nzSpan]="12" *ngFor="let i of team">
+            <a (click)="toTeamDetail(i.teamId)">
+              <nz-avatar [nzSrc]="i.logo" [nzSize]="'small'"></nz-avatar>
+              <span class="member">{{ i.teamName }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nz-card>
     <nz-card nzTitle="进行中的项目" [nzExtra]="allProject" [nzBordered]="false" [nzLoading]="loading"
       class="ant-card__body-nopadding mb-lg project-list">
       <ng-template #allProject>
@@ -68,7 +84,41 @@
         </nz-card>
       </div>
     </nz-card>
-    <nz-card nzTitle="动态" [nzBordered]="false" [nzLoading]="loading" class="ant-card__body-nopadding mb-lg active-card">
+    <nz-card nzTitle="团队管理数据分析" [nzExtra]="teamAnalysis" class="ant-card__body-nopadding mb-lg active-card">
+      <g2-pie [hasLegend]="true" title="团队数据" subTitle="团队数据" [total]="total" [data]="salesPieData" height="294">
+      </g2-pie>
+      <!-- <g2-radar *ngIf="radarData" [data]="radarData" [height]="343" [hasLegend]="true"></g2-radar> -->
+    </nz-card>
+    <ng-template #teamAnalysis>
+      <div class="sales-type-radio">
+        <nz-radio-group>
+          <label nz-radio-button [nzValue]="'all'">
+            团队分析
+          </label>
+          <label nz-radio-button [nzValue]="'online'">
+            项目分析
+          </label>
+          <label nz-radio-button [nzValue]="'offline'">
+            任务分析
+          </label>
+        </nz-radio-group>
+      </div>
+    </ng-template>
+
+  </div>
+  <div nz-col nzXs="24" nzSm="24" nzMd="8">
+    <nz-card nzTitle="需要完成的任务" [nzBordered]="false" class="ant-card__body-nopadding mb-lg">
+      <div class="links">
+        <st [data]="myTask" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
+        <!-- <a *ngFor="let item of myTask" (click)="msg.success(item.taskContent)">{{ item.taskContent }}</a> -->
+        <!-- <button nz-button (click)="links.push({ title: 'new titel', href: 'href' })" [nzType]="'dashed'"
+          [nzSize]="'small'">
+          <i nz-icon nzType="plus"></i>
+          <span>添加</span>
+        </button> -->
+      </div>
+    </nz-card>
+    <nz-card nzTitle="动态" [nzBordered]="false" [nzLoading]="loading">
       <nz-list nzSize="large" class="activities">
         <nz-list-item *ngFor="let item of activities">
           <nz-list-item-meta [nzAvatar]="item.user.avatar" [nzTitle]="activeTitle" [nzDescription]="activeDescription">
@@ -85,42 +135,34 @@
       </nz-list>
     </nz-card>
   </div>
-  <div nz-col nzXs="24" nzSm="24" nzMd="8">
-    <nz-card nzTitle="团队列表" [nzExtra]="allTeam" [nzBordered]="false"
-      [nzBodyStyle]="{ 'padding-top.px': 12, 'padding-bottom.px': 12 }" class="mb-lg">
-      <ng-template #allTeam>
-        <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">全部团队</a>
-      </ng-template>
-      <div class="members">
-        <div nz-row [nzGutter]="48">
-          <div nz-col [nzSpan]="12" *ngFor="let i of team">
-            <a (click)="toTeamDetail(i.teamId)">
-              <nz-avatar [nzSrc]="i.logo" [nzSize]="'small'"></nz-avatar>
-              <span class="member">{{ i.teamName }}</span>
-            </a>
+</div>
+<!-- TODO -->
+<div>
+  <nz-card [nzLoading]="loading" [nzBordered]="false" [nzBodyStyle]="{ padding: '0 0 32px' }"
+    class="offline-card mt-lg">
+    <nz-tabset *ngIf="data.offlineData" [(nzSelectedIndex)]="offlineIdx"
+      (nzSelectedIndexChange)="offlineChange($event)">
+      <nz-tab *ngFor="let tab of data.offlineData; let i = index" [nzTitle]="nzTabHeading">
+        <ng-template #nzTabHeading>
+          <div nz-row [nzGutter]="8" style="width: 138px; margin: 8px 0;">
+            <div nz-col [nzSpan]="12">
+              <number-info [title]="tab.name" [subTitle]="'app.analysis.conversion-rate' | translate" gap="2"
+                [total]="tab.cvr * 100 + '%'" [theme]="i !== offlineIdx && 'light'"></number-info>
+            </div>
+            <div nz-col [nzSpan]="12" style="padding-top: 36px;">
+              <g2-pie [animate]="false" [color]="i !== offlineIdx && '#BDE4FF'" [inner]="0.55" [tooltip]="false"
+                [padding]="[0, 0, 0, 0]" [percent]="tab.cvr * 100" [height]="64">
+              </g2-pie>
+            </div>
           </div>
+        </ng-template>
+        <div class="px-lg">
+          <g2-timeline *ngIf="tab.show" [data]="tab.chart" [titleMap]="titleMap"></g2-timeline>
         </div>
-      </div>
-    </nz-card>
+      </nz-tab>
+    </nz-tabset>
+  </nz-card>
 
-
-    <nz-card nzTitle="任务列表" [nzBordered]="false" class="ant-card__body-nopadding mb-lg">
-      <div class="links">
-        <a *ngFor="let item of links" (click)="msg.success(item.title)">{{ item.title }}</a>
-        <button nz-button (click)="links.push({ title: 'new titel', href: 'href' })" [nzType]="'dashed'"
-          [nzSize]="'small'">
-          <i nz-icon nzType="plus"></i>
-          <span>添加</span>
-        </button>
-      </div>
-    </nz-card>
-
-    <nz-card nzTitle="团队管理数据分析" [nzBordered]="false" [nzLoading]="loading" class="mb-lg">
-      <g2-radar *ngIf="radarData" [data]="radarData" [height]="343" [hasLegend]="true"></g2-radar>
-    </nz-card>
-
-
-  </div>
 </div>
 
 <!-- <nz-layout>

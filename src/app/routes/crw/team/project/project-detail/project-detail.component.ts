@@ -1,16 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { ProjectDto } from 'src/app/dto/projectDto';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { MessageService } from 'src/app/services/message/message.service';
+import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.less'],
 })
-export class ProjectDetailComponent implements OnInit {
+export class ProjectDetailComponent implements OnInit, OnDestroy {
+  userInfo: any;
+
+  userId: string;
+
   proId: string;
 
   project: ProjectDto = null;
@@ -37,9 +43,11 @@ export class ProjectDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private messageService: MessageService,
+    private cache: CacheService,
   ) {}
 
   ngOnInit() {
+    this.cache.get('userInfo').subscribe(userInfo => (this.userInfo = userInfo));
     this.project = this.initFormData();
     this.proId = this.route.snapshot.paramMap.get('proId');
     // this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/task`);
@@ -66,6 +74,10 @@ export class ProjectDetailComponent implements OnInit {
 
   onDeactivate(event: any): void {
     console.log('destroy:', event);
+  }
+
+  ngOnDestroy(): void {
+    this.messageService.data = null;
   }
 
   /**

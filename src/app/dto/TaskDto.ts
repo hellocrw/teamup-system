@@ -2,7 +2,6 @@ import { SubTaskDto } from './SubTaskDto';
 
 export interface TaskDto {
   taskId?: string;
-  teamId?: string;
   proId?: string;
   taskCreateTime?: string;
   taskStartTime?: string;

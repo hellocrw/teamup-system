@@ -1,3 +1,21 @@
-<nz-card [nzBordered]="false" nzTitle="公告管理">
-    <p>公告管理详情</p>
+<nz-card [nzBordered]="false" nzTitle="公告管理" [nzExtra]="extraTemplate">
+  <!-- <p>公告管理详情</p> -->
+  <nz-list nzSize="large" class="activities">
+    <nz-list-item *ngFor="let item of noticeInfo">
+      <nz-list-item-meta [nzTitle]="activeTitle" [nzDescription]="activeDescription">
+        <ng-template #activeTitle>
+          <span (click)="msg.success(item.userName)" class="username">{{ item.userName }}</span>
+          &nbsp;:&nbsp;
+          <span class="event" [innerHTML]="item.noticeContent"></span>
+        </ng-template>
+        <ng-template #activeDescription>
+          <span class="datetime" title="{{ item.createTime }}">{{ item.createTime }}</span>
+        </ng-template>
+      </nz-list-item-meta>
+    </nz-list-item>
+  </nz-list>
 </nz-card>
+<ng-template #extraTemplate>
+  <a (click)="create()">发布公告</a>
+</ng-template>
+<app-notifice-modal #notificeModelComponent></app-notifice-modal>

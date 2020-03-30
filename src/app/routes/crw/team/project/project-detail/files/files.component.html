@@ -1,3 +1,11 @@
-<nz-card [nzBordered]="false" nzTitle="文件管理">
-    <p>文件管理详情</p>
+<nz-card [nzBordered]="false" nzTitle="文件管理" [nzExtra]="extraTemplate">
+  <st [data]="files" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
 </nz-card>
+<ng-template #extraTemplate>
+  <nz-upload nzAction="" [nzShowUploadList]="false">
+    <button nz-button class="button_view">
+      <i nz-icon nzType="upload"></i>
+      <span>上传文件</span>
+    </button>
+  </nz-upload>
+</ng-template>

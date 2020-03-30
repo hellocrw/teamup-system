@@ -98,7 +98,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     // TODO 取消订阅有bug
     // 取消订阅
     // this.sub.unsubscribe();
-    this.messageService.data = null;
+    // this.messageService.data = null;
   }
 
   getData(): void {
