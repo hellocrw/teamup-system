@@ -11,7 +11,17 @@ export class ApplyService {
 
   constructor(private http: _HttpClient) {}
 
+  /**
+   * 根据用户ID获取申请信息
+   */
   getApplyByUserId(userId: string): Observable<Result> {
     return this.http.get<Result>(`${ApplyService.API}/getApplyByUserId/${userId}`);
+  }
+
+  /**
+   * 获取别人的入队申请信息
+   */
+  getEnqueueApply(userId: string): Observable<Result> {
+    return this.http.get<Result>(`${ApplyService.API}/getEnqueueApply/${userId}`);
   }
 }

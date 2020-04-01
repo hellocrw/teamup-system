@@ -5,5 +5,6 @@ export interface FilesDto {
   userName?: string;
   fileLink?: string;
   proId?: string;
+  proName?: string;
   uploadTime?: string;
 }

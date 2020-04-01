@@ -7,6 +7,9 @@ import { _HttpClient } from '@delon/theme';
 import { STColumn, STChange, STColumnTag } from '@delon/abc';
 import { UserTeamDto } from 'src/app/dto/UserTeamDto';
 import { UserTeamService } from 'src/app/services/user-team/user-team.service';
+import { TeamDto } from 'src/app/dto/TeamDto';
+import { ProjectDto } from 'src/app/dto/projectDto';
+import { MessageService } from 'src/app/services/message/message.service';
 
 const isLeader: STColumnTag = {
   0: { text: '队员', color: 'green' },
@@ -18,8 +21,8 @@ const isLeader: STColumnTag = {
   styleUrls: ['./team-detail.component.less'],
 })
 export class TeamDetailComponent implements OnInit {
-  team: any;
-  // prjects: any[] = [];
+  team: TeamDto = null;
+  projects: ProjectDto[] = [];
   teamId: string;
 
   userTeam: UserTeamDto[] = [];
@@ -61,11 +64,32 @@ export class TeamDetailComponent implements OnInit {
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private userTeamService: UserTeamService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
+    this.team = this.initDatas();
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.getDatas();
+  }
+
+  initDatas(item?: TeamDto): TeamDto {
+    return {
+      teamId: item ? item.teamId : null,
+      teamName: item ? item.teamName : null,
+      leaderId: item ? item.leaderId : null,
+      teamDescribe: item ? item.teamDescribe : null,
+      teamType: item ? item.teamType : null,
+      teamScope: item ? item.teamScope : null,
+      teamNumber: item ? item.teamNumber : null,
+      teamDate: item ? item.teamDate : null,
+      status: item ? item.status : null,
+      staff: item ? item.staff : null,
+      teamNature: item ? item.teamNature : null,
+      teamLabel: item ? item.teamLabel : null,
+      seeNum: item ? item.seeNum : null,
+      projects: item ? item.projects : null,
+    };
   }
 
   getDatas(more = false): void {
@@ -78,7 +102,9 @@ export class TeamDetailComponent implements OnInit {
     // 获取对应的团队信息以及项目信息
     this.teamService.getTeamProByTeamId(this.teamId).subscribe(datas => {
       this.team = datas.data;
-      // console.log('team:', this.team);
+      console.log('teams:', this.team);
+      this.projects = this.team.projects;
+      console.log('projects:', this.projects);
     });
     // 获取用户-团队信息
     this.userTeamService.getUserByTeamId(this.teamId).subscribe(f => (this.userTeam = f.data));
@@ -88,6 +114,7 @@ export class TeamDetailComponent implements OnInit {
    * 跳转到项目详情页面
    */
   toProDetail(proId: string): void {
-    this.router.navigateByUrl(`team/project/project-detail/${proId}`);
+    this.messageService.data = proId;
+    this.router.navigateByUrl(`team/project/project-detail/${proId}/task`);
   }
 }

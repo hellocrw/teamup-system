@@ -108,7 +108,6 @@ export class TeamListComponent implements OnInit {
   ngOnInit() {
     this.getData();
     this.teamService.getTeamAll().subscribe(datas => {
-      // console.log('team:', datas.data);
       this.user = datas.data;
     });
   }

@@ -68,6 +68,7 @@ export class FilesComponent implements OnInit {
       userName: item ? item.userName : null,
       fileLink: item ? item.fileLink : null,
       proId: item ? item.proId : null,
+      proName: item ? item.proName : null,
       uploadTime: item ? item.uploadTime : null,
     };
   }

@@ -11,6 +11,9 @@ export class NoticeService {
 
   constructor(private http: _HttpClient) {}
 
+  /**
+   * 根据项目ID获取公告信息
+   */
   getNoticesByProId(proId: string): Observable<Result> {
     return this.http.get<Result>(`${NoticeService.API}/getNoticesByProId/${proId}`);
   }

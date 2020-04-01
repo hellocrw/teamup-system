@@ -4,6 +4,8 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { NoticeItem, NoticeIconList } from '@delon/abc';
 import { ApplyService } from 'src/app/services/apply/apply.service';
 import { ApplyDto } from 'src/app/dto/ApplyDto';
+import { NoticeService } from 'src/app/services/notice/notice.service';
+import { CacheService } from '@delon/cache';
 
 /**
  * 菜单通知
@@ -19,122 +21,140 @@ import { ApplyDto } from 'src/app/dto/ApplyDto';
       btnIconClass="alain-default__nav-item-icon"
       (select)="select($event)"
       (clear)="clear($event)"
-      (popoverVisibleChange)="loadData()"
+      (popoverVisibleChange)="loadDatas()"
     ></notice-icon>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderNotifyComponent implements OnInit {
   /**
-   * 申请信息
+   * 入队审批
    */
-  applyInfo: ApplyDto[];
+  enqueueInfo: ApplyDto[] = [];
 
-  userId: string;
+  myApplyInfo: ApplyDto[] = [];
+
+  noticeList: NoticeIconList[] = [];
+
+  // notice: NoticeIconList = null;
+
+  userId: any;
 
   data: NoticeItem[] = [
     {
-      title: '通知',
+      title: '入队审批',
       list: [],
       emptyText: '你已查看所有通知',
-      emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/wAhyIChODzsoKIOBHcBk.svg',
       clearText: '清空通知',
     },
     {
-      title: '消息',
+      title: '我的申请',
       list: [],
       emptyText: '您已读完所有消息',
-      emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/sAuJeJzSKbUmHfBQRzmZ.svg',
       clearText: '清空消息',
-    },
-    {
-      title: '待办',
-      list: [],
-      emptyText: '你已完成所有待办',
-      emptyImage: 'https://gw.alipayobjects.com/zos/rmsportal/HsIsxMZiWKrNUavQUXqx.svg',
-      clearText: '清空待办',
     },
   ];
   count = 5;
   loading = false;
 
-  constructor(private msg: NzMessageService, private cdr: ChangeDetectorRef, private applyService: ApplyService) {}
+  constructor(
+    private msg: NzMessageService,
+    private cdr: ChangeDetectorRef,
+    private applyService: ApplyService,
+    private noticeService: NoticeService,
+    private cache: CacheService,
+  ) {}
 
   /**
    * 生命钩子，初始化
    */
   ngOnInit(): void {
-    // this.getDatas();
+    this.cache.get('userId').subscribe(f => (this.userId = f));
+    this.getDatas();
+    console.log('count:', this.count);
   }
 
-  getDatas(): void {
+  getDatas() {
     /**
-     * 获取申请信息
+     * 入队申请
      */
-    this.applyService.getApplyByUserId(this.userId).subscribe(res => (this.applyInfo = res.data));
-  }
-
-  private updateNoticeData(notices: NoticeIconList[]): NoticeItem[] {
-    const data = this.data.slice();
-    data.forEach(i => (i.list = []));
-
-    notices.forEach(item => {
-      const newItem = { ...item };
-      if (newItem.datetime)
-        newItem.datetime = distanceInWordsToNow(item.datetime!, {
-          locale: (window as any).__locale__,
-        });
-      if (newItem.extra && newItem.status) {
-        newItem.color = {
-          todo: undefined,
-          processing: 'blue',
-          urgent: 'red',
-          doing: 'gold',
-        }[newItem.status];
-      }
-      data.find(w => w.title === newItem.type)!.list.push(newItem);
+    this.applyService.getEnqueueApply(this.userId).subscribe(res => {
+      this.enqueueInfo = res.data;
+      console.log('enqueueInfo:', this.enqueueInfo);
+      this.toNoticeIconList(this.enqueueInfo);
     });
-    return data;
+    /**
+     * 我的申请信息
+     */
+    this.applyService.getApplyByUserId(this.userId).subscribe(res => {
+      this.myApplyInfo = res.data;
+      console.log('myApplyInfo:', this.myApplyInfo);
+      // this.toNoticeIconList(this.myApplyInfo);
+    });
   }
 
-  loadData() {
+  loadDatas() {
     if (this.loading) return;
     this.loading = true;
     setTimeout(() => {
-      this.data = this.updateNoticeData([
-        {
-          id: '000000001',
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-          title: '你收到了 14 份新周报',
-          datetime: '2017-08-09',
-          type: '通知',
-        },
-        {
-          id: '000000006',
-          avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-          title: '曲丽丽 评论了你',
-          description: '描述信息描述信息描述信息',
-          datetime: '2017-08-07',
-          type: '消息',
-        },
-        {
-          id: '000000009',
-          title: '任务名称',
-          description: '任务需要在 2017-01-12 20:00 前启动',
-          extra: '未开始',
-          status: 'todo',
-          type: '待办',
-        },
-      ]);
+      this.updateNoticeData(this.noticeList);
       this.loading = false;
+      // TODO
       this.cdr.detectChanges();
     }, 1000);
   }
 
+  private updateNoticeData(noticeList: NoticeIconList[]): NoticeItem[] {
+    const dataType = this.data.slice();
+    dataType.forEach(i => (i.list = []));
+    noticeList.forEach(item => {
+      const newItem = { ...item };
+      dataType.find(w => w.title === '入队审批')!.list.push(newItem);
+    });
+    return dataType;
+  }
+
+  /**
+   * 将applyDto[]的值赋于NoticeIconList[]中
+   */
+  toNoticeIconList(item: ApplyDto[]): void {
+    this.enqueueInfo.forEach(f => {
+      this.noticeList.push(this.addItem(f));
+    });
+  }
+
+  addItem(f: ApplyDto): NoticeIconList {
+    let notice: NoticeIconList = null;
+    notice = this.initDatas();
+    notice.read = false;
+    notice.title = f.userName + '申请加入' + f.teamName;
+    notice.datetime = f.applyDate;
+    return notice;
+  }
+
+  initDatas(item?: NoticeIconList): NoticeIconList {
+    return {
+      /** 标题 */
+      title: item ? item.title : null,
+      /** 描述信息 */
+      description: item ? item.description : null,
+      /** 时间戳 */
+      datetime: item ? item.datetime : null,
+      /** 是否已读状态 */
+      read: item ? item.read : false,
+    };
+  }
+
+  /**
+   * 清空内容
+   */
   clear(type: string) {
     this.msg.success(`清空了 ${type}`);
   }
 
+  /**
+   * 选择内容
+   */
   select(res: any) {
     this.msg.success(`点击了 ${res.title} 的 ${res.item.title}`);
   }

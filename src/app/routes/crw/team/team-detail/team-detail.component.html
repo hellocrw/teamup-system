@@ -1,5 +1,5 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="18">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15">
     <!-- <nz-card class="team_module" [nzTitle]="team.teamName | translate" [nzBordered]="false" class="mb-lg">
       <div nz-row nzGutter="16">
         <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md" *ngFor="let item of team.projects">
@@ -13,34 +13,27 @@
       </div>
     </nz-card> -->
     <nz-card [nzBordered]="false" class="team_module" nzTitle="项目列表" [nzBordered]="false" class="mb-lg">
-      <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="list" [nzRenderItem]="item"
+      <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="projects" [nzRenderItem]="item"
         [nzLoadMore]="loadMore">
         <ng-template #item let-item>
-          <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra" [nzActions]="[op1, op2, op3]">
-            <ng-template #op1> <i nz-icon nzType="star" class="mr-sm"></i>{{ item.star }}</ng-template>
-            <ng-template #op2> <i nz-icon nzType="like" class="mr-sm"></i>{{ item.like }}</ng-template>
-            <ng-template #op3> <i nz-icon nzType="message" class="mr-sm"></i>{{ item.message }}</ng-template>
+          <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra">
             <ng-template #nzExtra>
               <div style="width: 272px; height: 1px;"></div>
             </ng-template>
             <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="nzDescription">
               <ng-template #nzTitle>
-                <a href="{{ item.href }}" target="_blank">{{ item.title }}</a>
+                <a (click)="toProDetail(item.proId)"
+                  style="color:cornflowerblue;font-size: large;">{{ item.proName }}</a>
               </ng-template>
               <ng-template #nzDescription>
-                <nz-tag>Alain</nz-tag>
-                <nz-tag>ng-zorro-antd</nz-tag>
-                <nz-tag>Ant Design</nz-tag>
+                <nz-tag>{{item.proType}}</nz-tag>
               </ng-template>
             </nz-list-item-meta>
             <ng-template #nzContent>
-              <p>{{ item.content }}</p>
+              <p>项目描述:&nbsp;{{ item.proDescribe }}</p>
               <div class="mt-md d-flex">
-                <nz-avatar [nzSrc]="item.avatar" [nzSize]="'small'" class="mr-sm"></nz-avatar>
-                <a href="{{ item.href }}" target="_blank">{{ item.owner }}</a>
-                <span class="px-sm">发布在</span>
-                <a href="{{ item.href }}" target="_blank">{{ item.href }}</a>
-                <time class="pl-md text-grey" title="{{ item.updatedAt }}">{{ item.updatedAt | _date }}</time>
+                <span class="px-sm">发布时间</span>
+                <time class="pl-md text-grey" title="{{ item.proDate }}">{{ item.proDate }}</time>
               </div>
             </ng-template>
           </nz-list-item>
@@ -56,7 +49,7 @@
     </nz-card>
   </div>
 
-  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="6">
+  <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
     <nz-card [nzTitle]="'团队成员' | translate" [nzBordered]="false" class="mb-lg">
       <st [data]="userTeam" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
     </nz-card>

@@ -5,4 +5,5 @@ export interface NoticeDto {
   proId?: string;
   noticeContent?: string;
   createTime?: string;
+  status?: string;
 }

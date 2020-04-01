@@ -113,7 +113,6 @@ export class TeamComponent implements OnInit {
    */
   ngOnInit(): void {
     this.searchKey = this.messageService.data;
-    console.log('teamscope:', this.searchKey);
     this.messageService.data = null;
     // 获取Token信息的相关信息
     // console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
@@ -174,7 +173,6 @@ export class TeamComponent implements OnInit {
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
       this.teams = datas.data.slice(0, 10);
-      console.log('teams:', this.teams);
     });
   }
 

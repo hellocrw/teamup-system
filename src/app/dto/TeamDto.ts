@@ -14,5 +14,5 @@ export interface TeamDto {
   teamNature?: string;
   teamLabel?: string;
   seeNum?: string;
-  projectDto?: ProjectDto;
+  projects?: ProjectDto[];
 }

@@ -59,7 +59,7 @@
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-            <a (click)="toTaskDetail(item)">详情</a>
+          <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>
@@ -72,11 +72,13 @@
           <sv-container col="1">
             <sv label="执行者" type="primary">曹荣武</sv>
             <sv label="任务时间" type="success">15天</sv>
-            <button nz-button nz-popconfirm style="display:block;margin:0 auto" nzPopconfirmTitle="Are you sure delete this task?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"  nzPopconfirmPlacement="topLeft">完成</button>
+            <button nz-button nz-popconfirm style="display:block;margin:0 auto"
+              nzPopconfirmTitle="Are you sure delete this task?" (nzOnConfirm)="confirm()" (nzOnCancel)="cancel()"
+              nzPopconfirmPlacement="topLeft">完成</button>
           </sv-container>
         </nz-card>
         <ng-template #extraTemplate>
-            <a (click)="toTaskDetail(item)">详情</a>
+          <a (click)="toTaskDetail(item)">详情</a>
         </ng-template>
       </div>
     </div>
