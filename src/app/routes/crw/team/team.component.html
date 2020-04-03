@@ -38,15 +38,7 @@
     [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
     <ng-template #item let-item>
       <nz-list-item>
-        <nz-card nzHoverable [nzCover]="cover">
-          <ng-template #cover>
-            <!-- <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
-                            <ng-template #nzTitle>
-                                <a (click)="msg.success('标题：' + item.id)">{{ item.teamName }}</a>
-                            </ng-template>
-                        </nz-card-meta> -->
-          </ng-template>
-
+        <nz-card nzHoverable>
           <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
             <ng-template #nzTitle>
               <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
@@ -90,12 +82,10 @@
         </nz-card>
       </nz-list-item>
     </ng-template>
-    <!-- <ng-template #loadMoreTpl>
-        <div class="text-center mt-md">
-          <button nz-button (click)="getMoreData()" [nzType]="'dashed'" style="min-width:200px;">
-            加载更多
-          </button>
-        </div>
-      </ng-template> -->
   </nz-list>
+</div>
+<div class="text-center mt-md">
+  <button nz-button (click)="getMoreData()" [nzType]="'dashed'" style="min-width:200px;">
+    获取更多
+  </button>
 </div>

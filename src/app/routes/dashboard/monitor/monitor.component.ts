@@ -10,6 +10,33 @@ import { _HttpClient } from '@delon/theme';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardMonitorComponent implements OnInit, OnDestroy {
+  salesPieData = [
+    {
+      x: '技术类',
+      y: 10,
+    },
+    {
+      x: '金融类',
+      y: 12,
+    },
+    {
+      x: '社团类',
+      y: 11,
+    },
+    {
+      x: '爱好类',
+      y: 13,
+    },
+    {
+      x: '兴趣类',
+      y: 21,
+    },
+    {
+      x: '其他',
+      y: 12,
+    },
+  ];
+  total: string;
 
   constructor(private http: _HttpClient, public msg: NzMessageService, private cdr: ChangeDetectorRef) {}
   data: any = {};

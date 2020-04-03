@@ -71,7 +71,7 @@ export class HeaderNotifyComponent implements OnInit {
   ngOnInit(): void {
     this.cache.get('userId').subscribe(f => (this.userId = f));
     this.getDatas();
-    console.log('count:', this.count);
+    // console.log('count:', this.count);
   }
 
   getDatas() {
@@ -80,7 +80,7 @@ export class HeaderNotifyComponent implements OnInit {
      */
     this.applyService.getEnqueueApply(this.userId).subscribe(res => {
       this.enqueueInfo = res.data;
-      console.log('enqueueInfo:', this.enqueueInfo);
+      // console.log('enqueueInfo:', this.enqueueInfo);
       this.toNoticeIconList(this.enqueueInfo);
     });
     /**
@@ -88,7 +88,7 @@ export class HeaderNotifyComponent implements OnInit {
      */
     this.applyService.getApplyByUserId(this.userId).subscribe(res => {
       this.myApplyInfo = res.data;
-      console.log('myApplyInfo:', this.myApplyInfo);
+      // console.log('myApplyInfo:', this.myApplyInfo);
       // this.toNoticeIconList(this.myApplyInfo);
     });
   }

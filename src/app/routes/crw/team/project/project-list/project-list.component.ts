@@ -62,4 +62,8 @@ export class ProjectListComponent implements OnInit {
   delete(item) {
     console.log('删除');
   }
+
+  to(teamId: string): void {
+    this.msg.success(teamId);
+  }
 }

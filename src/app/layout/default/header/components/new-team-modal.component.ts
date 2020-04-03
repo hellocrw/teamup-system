@@ -5,6 +5,7 @@ import { CacheService } from '@delon/cache';
 import { TeamService } from 'src/app/services/team/team.service';
 import { Result } from 'src/app/dto/Result';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-team-modal',
@@ -110,6 +111,7 @@ export class NewTeamModalComponent implements OnInit {
     private cache: CacheService,
     private teamService: TeamService,
     private datePipe: DatePipe,
+    private route: Router,
   ) {}
 
   ngOnInit() {
@@ -141,6 +143,7 @@ export class NewTeamModalComponent implements OnInit {
     this.teamService.saveTeam(this.item).subscribe(data => (this.res = data));
     this.msg.success('数据保存成功');
     this.isVisible = false;
+    this.route.navigateByUrl('/team');
   }
 
   /**

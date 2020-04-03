@@ -1,5 +1,5 @@
 <nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="600" [(nzVisible)]="isVisible" nzTitle="入队申请"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzBodyStyle]="{
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(projectInfo.value)" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '300px',
     'overflow-y': 'auto',
@@ -8,21 +8,21 @@
   }">
   <form #projectInfo="ngForm" nz-form>
     <nz-form-item nzGutter="24">
-      <nz-form-label [nzSpan]="4" nzFor="teamId" nzRequired>姓名</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzFor="userName" nzRequired>姓名</nz-form-label>
       <nz-form-control [nzSpan]="18">
-        <input nz-input required />
+        <input nz-input #userName="ngModel" [(ngModel)]="applyInfo.userName" name="userName" required />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nzGutter="24">
-      <nz-form-label [nzSpan]="4" nzFor="proName" nzRequired>联系方式</nz-form-label>
+      <nz-form-label [nzSpan]="4" nzFor="phone" nzRequired>联系方式</nz-form-label>
       <nz-form-control [nzSpan]="18">
-        <input nz-input required />
+        <input nz-input required name="phone" #phone="ngModel" [(ngModel)]="applyInfo.phone" />
       </nz-form-control>
     </nz-form-item>
     <nz-form-item nzGutter="24">
       <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>申请描述</nz-form-label>
       <nz-form-control [nzSm]="18" [nzXs]="24">
-        <textarea rows="4" nz-input></textarea>
+        <textarea rows="4" name="decribe" #decribe="ngModel" [(ngModel)]="applyInfo.decribe" nz-input></textarea>
       </nz-form-control>
     </nz-form-item>
   </form>

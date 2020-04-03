@@ -1,6 +1,7 @@
 <div class="alain-default__header-logo">
   <strong class="alain-default__nav-item">
-    <a class="alain-default__nav-item" [routerLink]="['/team']" routerLinkActive="router-link-active">找团队 | 找项目</a>
+    <a class="alain-default__nav-item" (click)="to()" [routerLink]="['/team']" routerLinkActive="router-link-active">找团队
+      | 找项目</a>
   </strong>
 </div>
 <div class="alain-default__nav-wrap">
@@ -57,8 +58,8 @@
     </li> -->
     <!-- 团队管理 -->
     <li>
-      <a class="alain-default__nav-item" (click)="toTeamManagement('1')">
-        <span>团队管理</span>
+      <a class="alain-default__nav-item" (click)="toTeamManagement(userInfo.userId)">
+        <span>后台管理</span>
       </a>
     </li>
     <!-- Settings -->

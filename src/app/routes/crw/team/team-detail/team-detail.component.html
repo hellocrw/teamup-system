@@ -1,17 +1,5 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15">
-    <!-- <nz-card class="team_module" [nzTitle]="team.teamName | translate" [nzBordered]="false" class="mb-lg">
-      <div nz-row nzGutter="16">
-        <div nz-col nzXs="24" nzSm="12" nzMd="6" class="mb-md" *ngFor="let item of team.projects">
-          <a (click)="toProDetail(item.proId)" nz-row nzType="flex" nzAlign="middle" class="bg-primary rounded-md">
-            <div nz-col nzSpan="24" class="p-md text-white">
-              <div class="h3 mt0">{{item.proName}}</div>
-              <p class="text-nowrap mb0">项目描述：{{item.proDescribe}}</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </nz-card> -->
     <nz-card [nzBordered]="false" class="team_module" nzTitle="项目列表" [nzBordered]="false" class="mb-lg">
       <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="projects" [nzRenderItem]="item"
         [nzLoadMore]="loadMore">

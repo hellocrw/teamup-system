@@ -36,7 +36,7 @@ export class TeamService {
   }
 
   /**
-   * 通过用户ID获取我的团队信息以及对应的项目信息
+   * 通过用户ID获取我的创建团队信息以及对应的项目信息
    * @param userId 用户ID
    */
   getMyTeamProByTeamId(userId: string): Observable<Result> {
@@ -70,5 +70,13 @@ export class TeamService {
    */
   fuzzyQuery(teamName?: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/getTeamByTeamName/${teamName}`);
+  }
+
+  /**
+   * 通过团队范围获取团队信息
+   */
+  getTeamByteamScope(teamScope: string): Observable<Result> {
+    console.log('item', teamScope);
+    return this.http.get<Result>(`${TeamService.API}/getTeamByteamScope/${teamScope}`);
   }
 }

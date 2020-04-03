@@ -30,10 +30,10 @@ export class TeamApplyViewComponent implements OnInit {
 
   getDatas(): void {
     this.teamInfo = this.initDatas();
-    console.log(this.teamId);
     this.teamService.getTeamProByTeamId(this.teamId).subscribe(res => {
       this.teamInfo = res.data;
       console.log('teamInfo:', this.teamInfo);
+      this.applyModalComponent.teamInfo = this.teamInfo;
     });
   }
 
@@ -55,7 +55,7 @@ export class TeamApplyViewComponent implements OnInit {
     };
   }
 
-  apply(event) {
+  apply(event: any) {
     console.log('申请入队');
     this.applyModalComponent.isVisible = true;
   }

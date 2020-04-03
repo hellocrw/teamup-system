@@ -40,24 +40,7 @@ export class TeamComponent implements OnInit {
 
   pos = 0;
 
-  proList: any[] = [
-    // {
-    //   id: 1,
-    //   proName: '组队系统',
-    //   img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
-    //   proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
-    //   seeNum: '12',
-    //   university: '广东金融学院',
-    // },
-    // {
-    //   id: 2,
-    //   proName: '组队系统',
-    //   img: 'https://gw.alipayobjects.com/zos/rmsportal/HrxcVbrKnCJOZvtzSqjN.png',
-    //   proDescribe: '那是一种内在的东西， 他们到达不了，也无法触及的',
-    //   seeNum: '12',
-    //   university: '广东金融学院',
-    // },
-  ];
+  proList: any[] = [];
 
   loading = true;
 
@@ -115,11 +98,7 @@ export class TeamComponent implements OnInit {
     this.searchKey = this.messageService.data;
     this.messageService.data = null;
     // 获取Token信息的相关信息
-    // console.log('获取Token：', this.tokenService.get(JWTTokenModel).token);
-    // console.log('获取用户信息：', this.tokenService.get(JWTTokenModel).userInfo);
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
-    // this.setActive();
-    // this.getData();
     this.getDatas();
     // 搜索功能的实现，监听输入
     this.messageService.messageSource
@@ -132,6 +111,32 @@ export class TeamComponent implements OnInit {
         this.teams = res.data;
         console.log('监听搜索功能', this.teams);
       });
+    this.messageService.university
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((item: string) => this.teamService.getTeamByteamScope(item)),
+      )
+      .subscribe(res => {
+        this.teams = res.data;
+        console.log('监听搜索功能', this.teams);
+      });
+  }
+
+  /**
+   * 获取页面数据
+   */
+  getDatas(): void {
+    // 获取用户基本信息
+    this.user = this.tokenService.get(JWTTokenModel).userInfo;
+    // 获取团队类型teamType
+    this.dictionaryService.getTeamType().subscribe(datas => {
+      this.teamType = datas.data;
+    });
+    // 获取所有团队信息
+    this.teamService.getTeams().subscribe(datas => {
+      this.teams = datas.data.slice(0, 8);
+    });
   }
 
   changeCategory(status: boolean, idx: number) {
@@ -142,7 +147,6 @@ export class TeamComponent implements OnInit {
     } else {
       this.categories[idx].value = status;
     }
-    // this.getDatas();
   }
 
   private setActive() {
@@ -162,24 +166,10 @@ export class TeamComponent implements OnInit {
     this.router$.unsubscribe();
   }
 
-  getDatas(): void {
-    // 获取用户基本信息
-    this.user = this.tokenService.get(JWTTokenModel).userInfo;
-    // 获取团队类型teamType
-    this.dictionaryService.getTeamType().subscribe(datas => {
-      this.teamType = datas.data;
-      // console.log('teamtype:', this.teamType);
-    });
-    // 获取所有团队信息
-    this.teamService.getTeams().subscribe(datas => {
-      this.teams = datas.data.slice(0, 10);
-    });
-  }
-
   toTeamDetail() {}
 
   getMoreData() {
-    this.msg.success('加载更多');
+    this.router.navigateByUrl('/team/team-more');
   }
 
   search(item?: any): Observable<Result> {

@@ -30,6 +30,7 @@ import { TeamApplyViewComponent } from './crw/team/team-apply-view/team-apply-vi
 import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view/project-apply-view.component';
 import { TeamListComponent } from './team-management/team-list/team-list.component';
 import { ProListComponent } from './project-management/project-list/project-list.component';
+import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,6 @@ const routes: Routes = [
     canActivate: [SimpleGuard],
     canActivateChild: [SimpleGuard],
     children: [
-
       { path: '', redirectTo: 'team', pathMatch: 'full' },
       { path: 'index', redirectTo: 'team', pathMatch: 'full' },
       {
@@ -50,18 +50,20 @@ const routes: Routes = [
       { path: 'project/project-apply-view/:proId', component: ProjectApplyViewComponent },
       { path: 'team/team-management/:userId', component: TeamManagementComponent },
       {
-        path: 'team/project/project-detail/:proId', component: ProjectDetailComponent,
+        path: 'team/project/project-detail/:proId',
+        component: ProjectDetailComponent,
         children: [
           { path: 'task', component: TaskComponent },
           { path: 'files', component: FilesComponent },
           { path: 'notifice', component: NotificeComponent },
-        ]
+        ],
       },
       { path: 'dashboard/v1', component: DashboardV1Component },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
       { path: 'team-management/team-list', component: TeamListComponent },
+      { path: 'team/team-more', component: TeamMoreComponent },
       { path: 'project-management/pro-list', component: ProListComponent },
       { path: 'team/project/project-list', component: ProjectListComponent },
       {
@@ -125,4 +127,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class RouteRoutingModule { }
+export class RouteRoutingModule {}

@@ -4,7 +4,7 @@
       <nz-breadcrumb-item>
         <a [routerLink]="['/']">首页</a>
       </nz-breadcrumb-item>
-      <nz-breadcrumb-item>团队管理</nz-breadcrumb-item>
+      <nz-breadcrumb-item>后台管理</nz-breadcrumb-item>
     </nz-breadcrumb>
   </ng-template>
   <ng-template #content>
@@ -47,7 +47,7 @@
     <nz-card nzTitle="团队列表" [nzExtra]="allTeam" [nzBordered]="false" style="min-height: 200px;"
       [nzBodyStyle]="{ 'padding-top.px': 12, 'padding-bottom.px': 12 }" class="mb-lg">
       <ng-template #allTeam>
-        <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">全部团队</a>
+        <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">团队管理</a>
       </ng-template>
       <div class="members">
         <div nz-row [nzGutter]="48">
