@@ -3,9 +3,12 @@ import { SFArrayWidgetSchema, SFSchema, SFDateWidgetSchema, SFTextareaWidgetSche
 import { NzMessageService } from 'ng-zorro-antd';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { TaskService } from 'src/app/services/task/task.service';
+import { DatePipe } from '@angular/common';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'app-task-modal',
+  providers: [DatePipe],
   templateUrl: './task-modal.component.html',
   styleUrls: ['./task-modal.component.less'],
 })
@@ -13,54 +16,57 @@ export class TaskModalComponent implements OnInit {
   // 是否显示对话框
   isVisible = false;
 
+  userId: any;
+
   task: TaskDto = null;
 
   schema: SFSchema = {
     properties: {
-      taskName: { type: 'string', title: '任务名' },
-      taskDescribe: {
+      taskContent: { type: 'string', title: '任务名' },
+      taskMark: {
         type: 'string',
-        title: '任务描述',
+        title: '任务备注',
         // tslint:disable-next-line: no-object-literal-type-assertion
         ui: {
           widget: 'textarea',
           autosize: { minRows: 4, maxRows: 6 },
         } as SFTextareaWidgetSchema,
       },
-      taskDate: {
+      taskStartTime: {
         type: 'string',
         // tslint:disable-next-line: no-object-literal-type-assertion
-        ui: { widget: 'date', end: 'end' } as SFDateWidgetSchema,
-        default: new Date(),
+        ui: { widget: 'date', end: 'taskEndTime' } as SFDateWidgetSchema,
+        default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
         title: '任务时间',
       },
-      end: {
+      taskEndTime: {
         type: 'string',
-        default: new Date(),
+        default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
       },
-      product: {
+      // TODO
+      subTaskDtos: {
         type: 'array',
         title: '子任务列表',
         maxItems: 4,
         items: {
           type: 'object',
           properties: {
-            subTaskName: { type: 'string', title: '名称' },
-            content: {
-              type: 'string',
-              title: '描述',
-            },
-            date: {
-              type: 'string',
-              // tslint:disable-next-line: no-object-literal-type-assertion
-              ui: { widget: 'date', end: 'end' } as SFDateWidgetSchema,
-              default: new Date(),
-              title: '时间',
-            },
-            end: {
-              type: 'string',
-              default: new Date(),
-            },
+            subTaskContent: { type: 'string', title: '名称' },
+            // content: {
+            //   type: 'string',
+            //   title: '描述',
+            // },
+            // date: {
+            //   type: 'string',
+            //   // tslint:disable-next-line: no-object-literal-type-assertion
+            //   ui: { widget: 'date', end: 'end' } as SFDateWidgetSchema,
+            //   default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+            //   title: '时间',
+            // },
+            // end: {
+            //   type: 'string',
+            //   default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+            // },
           },
           required: ['subTaskName', 'taskName', 'taskDescribe', 'content', 'date'],
         },
@@ -70,9 +76,15 @@ export class TaskModalComponent implements OnInit {
     },
   };
 
-  constructor(private msg: NzMessageService, private taskService: TaskService) {}
+  constructor(
+    private msg: NzMessageService,
+    private taskService: TaskService,
+    private datePipe: DatePipe,
+    private cache: CacheService,
+  ) {}
 
   ngOnInit() {
+    this.cache.get('userId').subscribe(f => (this.userId = f));
     this.task = this.initFormData();
   }
 
@@ -90,16 +102,18 @@ export class TaskModalComponent implements OnInit {
       userId: item ? item.userId : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
-      subTaskDto: item ? item.subTaskDto : null,
+      subTaskDtos: item ? item.subTaskDtos : null,
     };
   }
 
   submit(value: TaskDto) {
     this.msg.success(JSON.stringify(value));
-    this.task = value;
-    this.task.proId = '1';
-    this.task.userId = '1';
-    this.taskService.saveTask(this.task).subscribe(datas => console.log(datas));
+    value.proId = '1';
+    // value.userId = '1';
+    value.taskStatus = '1';
+    value.userId = this.userId;
+    value.taskCreateTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.taskService.saveTask(value).subscribe(datas => console.log(datas));
     this.isVisible = false;
   }
 

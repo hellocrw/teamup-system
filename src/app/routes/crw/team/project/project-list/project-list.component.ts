@@ -5,6 +5,7 @@ import { ProBasicListEditComponent } from 'src/app/routes/pro/list/basic-list/ed
 import { TeamService } from 'src/app/services/team/team.service';
 import { CacheService } from '@delon/cache';
 import { TeamDto } from 'src/app/dto/TeamDto';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-project-list',
@@ -12,8 +13,11 @@ import { TeamDto } from 'src/app/dto/TeamDto';
   styleUrls: ['./project-list.component.less'],
 })
 export class ProjectListComponent implements OnInit {
+  isCollapsed = false;
   userId: any;
   teams: TeamDto[] = [];
+  myTeams: TeamDto[] = [];
+  joinTeams: TeamDto[] = [];
   q: any = {
     status: 'all',
   };
@@ -27,6 +31,7 @@ export class ProjectListComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private teamService: TeamService,
     private cache: CacheService,
+    private route: Router,
   ) {}
 
   ngOnInit() {
@@ -42,9 +47,25 @@ export class ProjectListComponent implements OnInit {
     this.teamService.getTeamProByUserId(this.userId).subscribe(res => {
       this.teams = res.data;
       console.log('teams:', this.teams);
-      this.loading = false;
-      this.cdr.detectChanges();
     });
+
+    /**
+     * 获取我创建的团队信息
+     */
+    this.teamService.getMyTeamProByUserId(this.userId).subscribe(res => {
+      this.myTeams = res.data;
+      console.log('myteams:', this.myTeams);
+    });
+
+    /**
+     * 获取我参与的团队信息
+     */
+    this.teamService.getJoinTeamProByUserId(this.userId).subscribe(res => {
+      this.joinTeams = res.data;
+      console.log('joinTeams:', this.joinTeams);
+    });
+    this.loading = false;
+    this.cdr.detectChanges();
   }
 
   openEdit(record: any = {}) {
@@ -57,13 +78,5 @@ export class ProjectListComponent implements OnInit {
       }
       this.cdr.detectChanges();
     });
-  }
-
-  delete(item) {
-    console.log('删除');
-  }
-
-  to(teamId: string): void {
-    this.msg.success(teamId);
   }
 }

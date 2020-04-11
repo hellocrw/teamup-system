@@ -36,6 +36,7 @@ import { ProListComponent } from './project-management/project-list/project-list
 import { NotificeModalComponent } from './crw/team/project/project-detail/notifice/notifice-modal/notifice-modal.component';
 import { FilesModelComponent } from './crw/team/project/project-detail/files/files-model/files-model.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
+import { ListComponent } from './crw/team/project/project-list/list/list.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -77,7 +78,8 @@ const COMPONENTS_NOROUNT = [];
     ProjectAnalysisComponent,
     NotificeModalComponent,
     FilesModelComponent,
-    TeamMoreComponent],
+    TeamMoreComponent,
+    ListComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }

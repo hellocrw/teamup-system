@@ -173,8 +173,11 @@ export class TeamComponent implements OnInit {
   }
 
   search(item?: any): Observable<Result> {
-    this.msg.success('查找');
-    console.log('temp:', this.messageService.data);
+    // this.msg.success('查找');
+    this.msg.success(item);
+    // console.log('1:', item);
+    this.teamService.getTeamByTeamType(item).subscribe(res => (this.teams = res.data));
+    // console.log('temp:', this.messageService.data);
     return null;
   }
 }

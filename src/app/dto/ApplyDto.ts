@@ -8,4 +8,6 @@ export interface ApplyDto {
   decribe?: string;
   phone?: string;
   status?: string;
+  // TODO
+  type?: string;
 }

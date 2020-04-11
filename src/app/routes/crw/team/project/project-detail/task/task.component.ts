@@ -145,9 +145,37 @@ export class TaskComponent implements OnInit, OnDestroy {
     this.taskDetailComponent.isVisible = true;
   }
 
-  confirm() {
-    this.msg.success('任务已更新');
+  /**
+   * 领取任务
+   */
+  confirm(item: TaskDto): void {
+    console.log('2:', item);
+    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    this.taskPool = this.taskPool.filter(f => f !== item);
+    this.taskTodo.push(item);
+    this.msg.success(item.taskContent + '任务已领取');
   }
+
+  /**
+   * 开始工作
+   */
+  startWork(item: TaskDto): void {
+    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    this.taskTodo = this.taskTodo.filter(f => f !== item);
+    this.taskWork.push(item);
+    this.msg.success(item.taskContent + '开始工作');
+  }
+
+  /**
+   * 完成任务
+   */
+  finish(item: TaskDto): void {
+    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    this.taskWork = this.taskWork.filter(f => f !== item);
+    this.taskFinish.push(item);
+    this.msg.success(item.taskContent + '已完成');
+  }
+
   cancel() {
     console.log('取消');
   }

@@ -79,17 +79,28 @@ export class HeaderNotifyComponent implements OnInit {
      * 入队申请
      */
     this.applyService.getEnqueueApply(this.userId).subscribe(res => {
+      const type = '入队审批';
       this.enqueueInfo = res.data;
       // console.log('enqueueInfo:', this.enqueueInfo);
-      this.toNoticeIconList(this.enqueueInfo);
+      this.toNoticeIconList(this.enqueueInfo, type);
     });
     /**
      * 我的申请信息
      */
     this.applyService.getApplyByUserId(this.userId).subscribe(res => {
+      const type = '我的申请';
       this.myApplyInfo = res.data;
       // console.log('myApplyInfo:', this.myApplyInfo);
-      // this.toNoticeIconList(this.myApplyInfo);
+      // this.toNoticeIconList(this.myApplyInfo, type);
+    });
+  }
+
+  /**
+   * 将applyDto[]的值赋于NoticeIconList[]中
+   */
+  toNoticeIconList(item: ApplyDto[], type: string): void {
+    item.forEach(f => {
+      this.noticeList.push(this.addItem(f));
     });
   }
 
@@ -110,17 +121,9 @@ export class HeaderNotifyComponent implements OnInit {
     noticeList.forEach(item => {
       const newItem = { ...item };
       dataType.find(w => w.title === '入队审批')!.list.push(newItem);
+      // dataType.find(w => w.title === '我的申请')!.list.push(newItem);
     });
     return dataType;
-  }
-
-  /**
-   * 将applyDto[]的值赋于NoticeIconList[]中
-   */
-  toNoticeIconList(item: ApplyDto[]): void {
-    this.enqueueInfo.forEach(f => {
-      this.noticeList.push(this.addItem(f));
-    });
   }
 
   addItem(f: ApplyDto): NoticeIconList {

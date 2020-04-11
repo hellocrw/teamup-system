@@ -31,6 +31,7 @@ import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view
 import { TeamListComponent } from './team-management/team-list/team-list.component';
 import { ProListComponent } from './project-management/project-list/project-list.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
+import { ListComponent } from './crw/team/project/project-list/list/list.component';
 
 const routes: Routes = [
   {
@@ -66,6 +67,7 @@ const routes: Routes = [
       { path: 'team/team-more', component: TeamMoreComponent },
       { path: 'project-management/pro-list', component: ProListComponent },
       { path: 'team/project/project-list', component: ProjectListComponent },
+      { path: 'team/project/project-list/list/:teamId', component: ListComponent },
       {
         path: 'widgets',
         loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),
@@ -118,6 +120,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    // RouterModule.forChild(routes),
     RouterModule.forRoot(routes, {
       useHash: environment.useHash,
       // NOTICE: If you use `reuse-tab` component and turn on keepingScroll you can set to `disabled`

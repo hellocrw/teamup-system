@@ -4,6 +4,9 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { DatePipe } from '@angular/common';
 import { Result } from 'src/app/dto/Result';
+import { TeamService } from 'src/app/services/team/team.service';
+import { CacheService } from '@delon/cache';
+import { TeamDto } from 'src/app/dto/TeamDto';
 
 @Component({
   selector: 'app-new-project-modal',
@@ -29,7 +32,7 @@ import { Result } from 'src/app/dto/Result';
           <nz-form-label [nzSpan]="4" nzFor="teamId" nzRequired>所属团队</nz-form-label>
           <nz-form-control [nzSpan]="7">
             <nz-select #teamId="ngModel" [(ngModel)]="item.teamId" name="teamId" nzPlaceHolder="" nzAllowClear required>
-              <nz-option nzLabel="废铁团队" nzValue="1"> </nz-option>
+              <nz-option *ngFor="let team of myTeams" [nzLabel]="team.teamName" [nzValue]="team.teamName"> </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -73,14 +76,33 @@ import { Result } from 'src/app/dto/Result';
 export class NewProjectModalComponent implements OnInit {
   isVisible = false;
 
+  userId: any;
+
+  myTeams: TeamDto[];
+
   item: ProjectDto = null;
 
   res: Result;
 
-  constructor(private msg: NzMessageService, private projectService: ProjectService, private datePipe: DatePipe) {}
+  constructor(
+    private msg: NzMessageService,
+    private projectService: ProjectService,
+    private datePipe: DatePipe,
+    private teamService: TeamService,
+    private cache: CacheService,
+  ) {}
 
   ngOnInit() {
+    this.cache.get('userId').subscribe(f => (this.userId = f));
     this.item = this.initFormData();
+    this.getDatas();
+  }
+
+  getDatas(): void {
+    this.teamService.getMyTeamProByUserId(this.userId).subscribe(res => {
+      this.myTeams = res.data;
+      console.log(this.myTeams);
+    });
   }
 
   /**

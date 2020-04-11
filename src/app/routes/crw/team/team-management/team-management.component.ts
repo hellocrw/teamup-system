@@ -233,7 +233,7 @@ export class TeamManagementComponent implements OnInit {
       // console.log('team:', this.team);
     });
     // 获取我的团队信息
-    this.teamService.getMyTeamProByTeamId(userId).subscribe(datas => {
+    this.teamService.getMyTeamProByUserId(userId).subscribe(datas => {
       this.myTeam = datas.data;
       // console.log('myTeam:', this.myTeam);
     });

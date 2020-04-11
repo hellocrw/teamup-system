@@ -39,7 +39,7 @@ export class TeamService {
    * 通过用户ID获取我的创建团队信息以及对应的项目信息
    * @param userId 用户ID
    */
-  getMyTeamProByTeamId(userId: string): Observable<Result> {
+  getMyTeamProByUserId(userId: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/getMyTeamProByUserId/${userId}`);
   }
 
@@ -78,5 +78,9 @@ export class TeamService {
   getTeamByteamScope(teamScope: string): Observable<Result> {
     console.log('item', teamScope);
     return this.http.get<Result>(`${TeamService.API}/getTeamByteamScope/${teamScope}`);
+  }
+
+  getTeamByTeamType(key: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/getTeamByTeamType/${key}`);
   }
 }

@@ -23,6 +23,7 @@ export class TeamApplyViewComponent implements OnInit {
   teamInfo: TeamDto = null;
 
   ngOnInit() {
+    console.log('view 的初始化');
     this.teamId = this.route.snapshot.paramMap.get('teamId');
     this.getDatas();
     // this.msg.success(JSON.stringify(this.teamInfo));
@@ -58,5 +59,6 @@ export class TeamApplyViewComponent implements OnInit {
   apply(event: any) {
     console.log('申请入队');
     this.applyModalComponent.isVisible = true;
+    this.applyModalComponent.teamInfo = this.teamInfo;
   }
 }

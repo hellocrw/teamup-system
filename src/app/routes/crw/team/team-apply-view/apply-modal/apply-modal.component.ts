@@ -5,6 +5,7 @@ import { ApplyService } from 'src/app/services/apply/apply.service';
 import { TeamDto } from 'src/app/dto/TeamDto';
 import { CacheService } from '@delon/cache';
 import { Result } from 'src/app/dto/Result';
+import { TeamService } from 'src/app/services/team/team.service';
 
 @Component({
   selector: 'app-apply-modal',
@@ -18,16 +19,25 @@ export class ApplyModalComponent implements OnInit {
 
   userInfo: any;
 
-  teamInfo: TeamDto;
+  @Input() teamInfo: TeamDto;
 
   result: Result;
 
-  constructor(private msg: NzMessageService, private applyService: ApplyService, private cache: CacheService) {}
+  constructor(
+    private msg: NzMessageService,
+    private applyService: ApplyService,
+    private cache: CacheService,
+    private teamService: TeamService,
+  ) {}
 
   ngOnInit() {
+    console.log('modal的初始化');
     this.applyInfo = this.initFormDatas();
     this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
-    console.log('team:', this.teamInfo);
+    this.teamService.getTeamProByTeamId(this.userInfo.userId).subscribe(res => {
+      this.teamInfo = res.data;
+      console.log('team:', this.teamInfo);
+    });
   }
 
   initFormDatas(item?: ApplyDto): ApplyDto {
@@ -55,13 +65,15 @@ export class ApplyModalComponent implements OnInit {
    * 确定
    */
   handleOk(projectInfo: ApplyDto) {
+    this.applyInfo = projectInfo;
     this.applyInfo.userId = this.userInfo.userId;
-    this.applyInfo.teamId = '1';
-    this.applyInfo.teamName = '废铁团队';
+    this.applyInfo.teamId = this.teamInfo.teamId;
+    this.applyInfo.teamName = this.teamInfo.teamName;
     this.applyInfo.status = '0';
     this.applyInfo.applyDate = '2020-02-02';
-    this.applyService.create(projectInfo).subscribe(res => (this.result = res));
-    this.msg.success(JSON.stringify(projectInfo));
+    console.log('填写信息：', this.applyInfo);
+    this.applyService.create(this.applyInfo).subscribe(res => (this.result = res));
+    this.msg.success('申请成功');
     this.isVisible = false;
   }
 }

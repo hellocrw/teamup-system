@@ -39,7 +39,7 @@ export class TaskDetailComponent implements OnInit {
       userId: item ? item.userId : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
-      subTaskDto: item ? item.subTaskDto : null,
+      subTaskDtos: item ? item.subTaskDtos : null,
     };
   }
 
