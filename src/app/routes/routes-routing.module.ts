@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
@@ -32,6 +32,7 @@ import { TeamListComponent } from './team-management/team-list/team-list.compone
 import { ProListComponent } from './project-management/project-list/project-list.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
 import { ListComponent } from './crw/team/project/project-list/list/list.component';
+import { Path } from '@delon/theme';
 
 const routes: Routes = [
   {
@@ -66,8 +67,16 @@ const routes: Routes = [
       { path: 'team-management/team-list', component: TeamListComponent },
       { path: 'team/team-more', component: TeamMoreComponent },
       { path: 'project-management/pro-list', component: ProListComponent },
-      { path: 'team/project/project-list', component: ProjectListComponent },
-      { path: 'team/project/project-list/list/:teamId', component: ListComponent },
+      {
+        path: 'team/project/project-list',
+        component: ProjectListComponent,
+        children: [
+          {
+            path: 'list/:teamId',
+            component: ListComponent,
+          },
+        ],
+      },
       {
         path: 'widgets',
         loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule),

@@ -1,4 +1,37 @@
-<nz-layout class="inner-layout">
+<nz-layout>
+  <nz-sider nzWidth="200px" nzTheme="light">
+    <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <li nz-submenu nzTitle="我创建的团队" nzIcon="user" nzOpen>
+        <ul *ngFor="let item of myTeams">
+          <li nz-menu-item>
+            <a [routerLink]="['/team/project/project-list/list/',item.teamId]"
+              routerLinkActive="active">{{item.teamName}}</a>
+          </li>
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="我参与的团队" nzIcon="team" nzOpen>
+        <ul *ngFor="let item of joinTeams">
+          <li nz-menu-item>
+            <a [routerLink]="['/team/project/project-list/list/',item.teamId]"
+              routerLinkActive="active">{{item.teamName}}</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="inner-layout">
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>Home</nz-breadcrumb-item>
+      <nz-breadcrumb-item>List</nz-breadcrumb-item>
+      <nz-breadcrumb-item>App</nz-breadcrumb-item>
+    </nz-breadcrumb>
+    <nz-content>
+      <!-- 内容 -->
+      <router-outlet></router-outlet>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+<!-- <nz-layout class="inner-layout">
   <nz-sider nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <div class="logo"></div>
     <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
@@ -36,4 +69,4 @@
     </nz-content>
     <nz-footer>Ant Design ©2019 Implement By Angular</nz-footer>
   </nz-layout>
-</nz-layout>
+</nz-layout> -->

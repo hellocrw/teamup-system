@@ -79,29 +79,53 @@ export class HeaderNotifyComponent implements OnInit {
      * 入队申请
      */
     this.applyService.getEnqueueApply(this.userId).subscribe(res => {
-      const type = '入队审批';
       this.enqueueInfo = res.data;
       // console.log('enqueueInfo:', this.enqueueInfo);
-      this.toNoticeIconList(this.enqueueInfo, type);
+      this.toNoticeIconList(this.enqueueInfo);
     });
     /**
      * 我的申请信息
      */
     this.applyService.getApplyByUserId(this.userId).subscribe(res => {
-      const type = '我的申请';
       this.myApplyInfo = res.data;
       // console.log('myApplyInfo:', this.myApplyInfo);
-      // this.toNoticeIconList(this.myApplyInfo, type);
+      // this.toNoticeIconList(this.myApplyInfo);
+      this.toApplyList(this.myApplyInfo);
     });
+  }
+
+  toApplyList(item: ApplyDto[]): void {
+    item.forEach(f => {
+      this.noticeList.push(this.addApply(f));
+    });
+  }
+
+  addApply(f: ApplyDto): NoticeIconList {
+    let applyList: NoticeIconList = null;
+    applyList = this.initDatas();
+    applyList.read = false;
+    applyList.title = '申请加入' + f.teamName;
+    applyList.datetime = f.applyDate;
+    applyList.type = '我的申请';
+    return applyList;
   }
 
   /**
    * 将applyDto[]的值赋于NoticeIconList[]中
    */
-  toNoticeIconList(item: ApplyDto[], type: string): void {
+  toNoticeIconList(item: ApplyDto[]): void {
     item.forEach(f => {
       this.noticeList.push(this.addItem(f));
     });
+  }
+  addItem(f: ApplyDto): NoticeIconList {
+    let noticeList: NoticeIconList = null;
+    noticeList = this.initDatas();
+    noticeList.read = false;
+    noticeList.title = f.userName + '申请加入' + f.teamName;
+    noticeList.datetime = f.applyDate;
+    noticeList.type = '入队审批';
+    return noticeList;
   }
 
   loadDatas() {
@@ -120,19 +144,10 @@ export class HeaderNotifyComponent implements OnInit {
     dataType.forEach(i => (i.list = []));
     noticeList.forEach(item => {
       const newItem = { ...item };
-      dataType.find(w => w.title === '入队审批')!.list.push(newItem);
+      dataType.find(w => w.title === newItem.type)!.list.push(newItem);
       // dataType.find(w => w.title === '我的申请')!.list.push(newItem);
     });
     return dataType;
-  }
-
-  addItem(f: ApplyDto): NoticeIconList {
-    let notice: NoticeIconList = null;
-    notice = this.initDatas();
-    notice.read = false;
-    notice.title = f.userName + '申请加入' + f.teamName;
-    notice.datetime = f.applyDate;
-    return notice;
   }
 
   initDatas(item?: NoticeIconList): NoticeIconList {

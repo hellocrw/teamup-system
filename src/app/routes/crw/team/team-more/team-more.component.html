@@ -1,7 +1,7 @@
 <div nz-row [nzGutter]="24" class="pt-lg" nzJustify="center">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15" nzOffset="4">
-    <nz-card [nzBordered]=" false" class="team_module" nzTitle="团队列表" [nzBordered]="false" class="mb-lg">
-      <nz-list nzItemLayout="vertical" [nzDataSource]="teams" [nzRenderItem]="item" [nzLoadMore]="loadMore">
+    <nz-card [nzBordered]="false" class="team_module" nzTitle="团队列表" [nzBordered]="false" class="mb-lg">
+      <nz-list nzItemLayout="vertical" [nzDataSource]="pageTeams.content" [nzRenderItem]="item" [nzLoadMore]="loadMore">
         <ng-template #item let-item>
           <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra">
             <ng-template #nzExtra>
@@ -12,7 +12,7 @@
                 <a (click)="toApply(item.teamId)" style="color:cornflowerblue;font-size: large;">{{ item.teamName }}</a>
               </ng-template>
               <ng-template #nzDescription>
-                <nz-tag>{{item.teamType}}</nz-tag>
+                <nz-tag>{{ item.teamType }}</nz-tag>
               </ng-template>
             </nz-list-item-meta>
             <ng-template #nzContent>
@@ -26,9 +26,15 @@
         </ng-template>
         <ng-template #loadMore>
           <div class="text-center mt-md">
-            <nz-pagination [nzPageIndex]="1" [nzTotal]="50"></nz-pagination>
+            <nz-pagination
+              [(nzPageIndex)]="pageNum"
+              [(nzPageSize)]="pageSize"
+              [nzTotal]="pageTeams.totalSize"
+              (nzPageIndexChange)="getDatas()"
+            ></nz-pagination>
           </div>
         </ng-template>
       </nz-list>
     </nz-card>
   </div>
+</div>

@@ -1,25 +1,25 @@
 <div nz-row nzGutter="24" class="py-lg">
-    <div nz-col nzMd="24" nzLg="12" nzOffset="6">
-        <nz-card class="mb-lg">
-            <nz-content>
-                <div>
-                    <nz-descriptions nzTitle="项目信息" nzLayout="vertical" style="text-align: left; margin-left: 20px;"
-                        nzSize="middle">
-                        <nz-descriptions-item nzTitle="项目描述" nzSpan="4">
-                            &nbsp;&nbsp;&nbsp;&nbsp;团队描述信息展示内容
-                        </nz-descriptions-item>
-                        <nz-descriptions-item nzTitle="技能需求" nzSpan="4">
-                            &nbsp;&nbsp;&nbsp;&nbsp;springboot、angular、VUE...
-                        </nz-descriptions-item>
-                        <nz-descriptions-item nzTitle="规划时间" nzSpan="4">
-                            &nbsp;&nbsp;&nbsp;&nbsp;2019.10.01 - 2020.04.01
-                        </nz-descriptions-item>
-                        <nz-descriptions-item nzTitle="其他信息" nzSpan="4">
-                            &nbsp;&nbsp;&nbsp;&nbsp;No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China
-                        </nz-descriptions-item>
-                    </nz-descriptions>
-                </div>
-            </nz-content>
-        </nz-card>
-    </div>
+  <div nz-col nzMd="24" nzLg="12" nzOffset="6">
+    <nz-card class="mb-lg">
+      <nz-content>
+        <div>
+          <nz-descriptions [nzTitle]="project.proName" nzLayout="vertical" style="text-align: left; margin-left: 20px;"
+            nzSize="middle">
+            <nz-descriptions-item nzTitle="项目描述" nzSpan="4">
+              &nbsp;&nbsp;&nbsp;&nbsp;{{project.proDescribe}}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="技能需求" nzSpan="4">
+              &nbsp;&nbsp;&nbsp;&nbsp;{{project.staff}}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="规划时间" nzSpan="4">
+              &nbsp;&nbsp;&nbsp;&nbsp;{{project.proStartTime}} - {{project.proEndTime}}
+            </nz-descriptions-item>
+            <nz-descriptions-item nzTitle="类型" nzSpan="4">
+              &nbsp;&nbsp;&nbsp;&nbsp;{{project.proType}}
+            </nz-descriptions-item>
+          </nz-descriptions>
+        </div>
+      </nz-content>
+    </nz-card>
+  </div>
 </div>

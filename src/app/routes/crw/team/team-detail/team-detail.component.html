@@ -1,8 +1,8 @@
 <div nz-row [nzGutter]="24" class="pt-lg">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15">
     <nz-card [nzBordered]="false" class="team_module" nzTitle="项目列表" [nzBordered]="false" class="mb-lg">
-      <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="projects" [nzRenderItem]="item"
-        [nzLoadMore]="loadMore">
+      <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="projects" [nzRenderItem]="item">
+        <!-- [nzLoadMore]="loadMore" -->
         <ng-template #item let-item>
           <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra">
             <ng-template #nzExtra>
@@ -26,13 +26,13 @@
             </ng-template>
           </nz-list-item>
         </ng-template>
-        <ng-template #loadMore>
+        <!-- <ng-template #loadMore>
           <div class="text-center mt-md">
             <button nz-button [nzLoading]="loading" [nzType]="'dashed'" style="min-width:200px;">
               加载更多
             </button>
           </div>
-        </ng-template>
+        </ng-template> -->
       </nz-list>
     </nz-card>
   </div>

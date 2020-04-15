@@ -62,6 +62,7 @@ import { ActivatedRoute, Router } from '@angular/router';
               required
             >
               <nz-option nzLabel="校内" nzValue="校内"> </nz-option>
+              <nz-option nzLabel="校外" nzValue="校外"> </nz-option>
             </nz-select>
           </nz-form-control>
         </nz-form-item>
@@ -101,6 +102,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class NewTeamModalComponent implements OnInit {
   isVisible = false;
+  userInfo: any = null;
 
   item: TeamDto = null;
 
@@ -116,9 +118,10 @@ export class NewTeamModalComponent implements OnInit {
 
   ngOnInit() {
     this.item = this.initFormData();
+    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
   }
 
-  addTeam(value): void {
+  addTeam(value: TeamDto): void {
     console.log('xxxx');
     console.log(value);
   }
@@ -134,8 +137,11 @@ export class NewTeamModalComponent implements OnInit {
   /**
    * 确认,保存数据
    */
-  handleOk(value) {
+  handleOk(value: TeamDto) {
     this.item = value;
+    if (value.teamScope === '校内') {
+      this.item.teamScope = this.userInfo.university;
+    }
     this.item.status = '0';
     this.item.seeNum = '0';
     this.item.leaderId = '1';

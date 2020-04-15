@@ -3,6 +3,8 @@ import { _HttpClient } from '@delon/theme';
 import { Result } from 'src/app/dto/Result';
 import { Observable } from 'rxjs';
 import { TeamDto } from 'src/app/dto/TeamDto';
+import { PageRequest } from 'src/app/dto/PageRequest';
+import { PageResult } from 'src/app/dto/PageResult';
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +82,17 @@ export class TeamService {
     return this.http.get<Result>(`${TeamService.API}/getTeamByteamScope/${teamScope}`);
   }
 
+  /**
+   * 通过项目类型获取项目信息
+   */
   getTeamByTeamType(key: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/getTeamByTeamType/${key}`);
+  }
+
+  /**
+   * 分页查询团队信息
+   */
+  getTeamByPage(param: PageRequest): Observable<Result> {
+    return this.http.post<Result>(`${TeamService.API}/getPageInfo`, param);
   }
 }
