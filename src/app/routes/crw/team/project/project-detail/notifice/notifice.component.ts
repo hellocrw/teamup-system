@@ -72,12 +72,20 @@ export class NotificeComponent implements OnInit {
       userId: item ? item.userId : null,
       userName: item ? item.userName : null,
       proId: item ? item.proId : null,
+      proName: item ? item.proName : null,
       noticeContent: item ? item.noticeContent : null,
+      createTime: item ? item.createTime : null,
+      status: item ? item.status : null,
     };
   }
 
   create() {
     // this.msg.success('新增公告');
     this.notificeModelComponent.isVisible = true;
+  }
+
+  getChildData(value: NoticeDto): void {
+    console.log('noticeDto', value);
+    this.noticeInfo.push(value);
   }
 }

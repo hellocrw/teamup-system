@@ -179,4 +179,10 @@ export class TaskComponent implements OnInit, OnDestroy {
   cancel() {
     console.log('取消');
   }
+
+  getChildData(data) {
+    console.log('childData传进来了', data);
+    this.tasks.push(data);
+    this.taskPool.push(data);
+  }
 }

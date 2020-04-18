@@ -12,6 +12,8 @@ import { TaskService } from 'src/app/services/task/task.service';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { STColumn, STChange, STColumnTag } from '@delon/abc';
 import { I18NService } from '@core';
+import { TeamTypeService } from 'src/app/services/team-type/team-type.service';
+import { element } from 'protractor';
 
 const taskStatus: STColumnTag = {
   1: { text: '成功', color: 'green' },
@@ -99,32 +101,22 @@ export class TeamManagementComponent implements OnInit {
     },
   ];
 
+  /**
+   * 数据分析的data
+   */
   salesPieData = [
-    {
-      x: '技术类',
-      y: 10,
-    },
-    {
-      x: '金融类',
-      y: 12,
-    },
-    {
-      x: '社团类',
-      y: 11,
-    },
-    {
-      x: '爱好类',
-      y: 13,
-    },
-    {
-      x: '兴趣类',
-      y: 21,
-    },
-    {
-      x: '其他',
-      y: 12,
-    },
+    // {
+    //   x: '技术类',
+    //   y: 10,
+    // },
+    // {
+    //   x: '其他',
+    //   y: 12,
+    // },
   ];
+  /**
+   * 数据分析总数
+   */
   total: string;
 
   members = [
@@ -138,24 +130,6 @@ export class TeamManagementComponent implements OnInit {
       id: 'members-2',
       title: '程序员日常',
       logo: 'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png',
-      link: '',
-    },
-    {
-      id: 'members-3',
-      title: '设计天团',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png',
-      link: '',
-    },
-    {
-      id: 'members-4',
-      title: '中二少女团',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png',
-      link: '',
-    },
-    {
-      id: 'members-5',
-      title: '骗你学计算机',
-      logo: 'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png',
       link: '',
     },
   ];
@@ -177,6 +151,7 @@ export class TeamManagementComponent implements OnInit {
     private messageService: MessageService,
     private cache: CacheService,
     private i18n: I18NService,
+    private teamTypeSerice: TeamTypeService,
   ) {}
 
   // format(val: number) {
@@ -191,7 +166,7 @@ export class TeamManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0).toFixed(2)}`;
+    this.userId = this.route.snapshot.paramMap.get('userId');
     zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
       ([chart, notice, activities]: [any, any, any]) => {
         this.radarData = chart.radarData;
@@ -221,8 +196,8 @@ export class TeamManagementComponent implements OnInit {
     // 获取未完成的项目信息
     this.teamService.getTeamProByUserId(userId).subscribe(datas => {
       this.team = datas.data;
-      this.team.forEach(element => {
-        element.projects.forEach(project => {
+      this.team.forEach(e => {
+        e.projects.forEach(project => {
           this.projects.push(project);
           if (project.proStatus === '未完成') {
             this.undoneProject.push(project);
@@ -242,6 +217,56 @@ export class TeamManagementComponent implements OnInit {
     this.teamService.getJoinTeamProByUserId(userId).subscribe(datas => {
       this.joinTeam = datas.data;
       // console.log('joinTeam:', this.joinTeam);
+    });
+
+    // 获取团队类型数量
+    this.teamTypeSerice.getTeamTypeNumber(userId).subscribe(res => {
+      this.salesPieData = res.data;
+      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+    });
+  }
+
+  /**
+   * 获取团队数据分析
+   */
+  getTeamAnalysis(): void {
+    this.teamTypeSerice.getTeamTypeNumber(this.userId).subscribe(res => {
+      this.salesPieData = res.data;
+      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+    });
+  }
+
+  /**
+   * 获取项目数据分析
+   */
+  getProAnalysis(): void {
+    console.log('getProAnalysis');
+    this.teamTypeSerice.getProTypeNumber(this.userId).subscribe(res => {
+      this.salesPieData = res.data;
+      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+    });
+  }
+
+  /**
+   * 获取任务数据分析
+   */
+  getTaskAnalysis(): void {
+    this.teamTypeSerice.getTaskTypeNumber(this.userId).subscribe(res => {
+      this.salesPieData = res.data;
+      this.salesPieData = this.salesPieData.filter(f => f.x !== 1);
+      this.salesPieData.forEach(e => {
+        if (e.x === 2) {
+          e.x = '待完成';
+        }
+        if (e.x === 3) {
+          e.x = '工作中';
+        }
+        if (e.x === 4) {
+          e.x = '已完成';
+        }
+      });
+      console.log(this.salesPieData);
+      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
     });
   }
 

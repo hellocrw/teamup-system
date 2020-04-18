@@ -15,7 +15,7 @@ import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 export class ProjectDetailComponent implements OnInit, OnDestroy {
   userInfo: any;
 
-  userId: string;
+  userId: any;
 
   proId: string;
 
@@ -48,6 +48,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.cache.get('userInfo').subscribe(userInfo => (this.userInfo = userInfo));
+    this.cache.get('userId').subscribe(f => (this.userId = f));
     this.project = this.initFormData();
     this.proId = this.route.snapshot.paramMap.get('proId');
     // this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/task`);

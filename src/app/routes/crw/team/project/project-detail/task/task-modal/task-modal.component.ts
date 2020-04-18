@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { SFArrayWidgetSchema, SFSchema, SFDateWidgetSchema, SFTextareaWidgetSchema } from '@delon/form';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TaskDto } from 'src/app/dto/TaskDto';
@@ -15,6 +15,8 @@ import { CacheService } from '@delon/cache';
 export class TaskModalComponent implements OnInit {
   // 是否显示对话框
   isVisible = false;
+
+  @Output() element = new EventEmitter<TaskDto>();
 
   userId: any;
 
@@ -106,6 +108,9 @@ export class TaskModalComponent implements OnInit {
     };
   }
 
+  /**
+   * 添加任务
+   */
   submit(value: TaskDto) {
     this.msg.success(JSON.stringify(value));
     value.proId = '1';
@@ -115,6 +120,8 @@ export class TaskModalComponent implements OnInit {
     value.taskCreateTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     this.taskService.saveTask(value).subscribe(datas => console.log(datas));
     this.isVisible = false;
+    // 将子组件添加的任务发送给父组件
+    this.element.emit(value);
   }
 
   /**

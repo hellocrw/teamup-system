@@ -35,10 +35,6 @@
           <span> / 24</span>
         </p>
       </div>
-      <div>
-        <p>项目访问</p>
-        <p>2,223</p>
-      </div>
     </div>
   </ng-template>
 </page-header>
@@ -47,7 +43,7 @@
     <nz-card nzTitle="团队列表" [nzExtra]="allTeam" [nzBordered]="false" style="min-height: 200px;"
       [nzBodyStyle]="{ 'padding-top.px': 12, 'padding-bottom.px': 12 }" class="mb-lg">
       <ng-template #allTeam>
-        <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">团队管理</a>
+        <!-- <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">团队管理</a> -->
       </ng-template>
       <div class="members">
         <div nz-row [nzGutter]="48">
@@ -98,20 +94,20 @@
       </div>
     </nz-card>
     <nz-card nzTitle="数据分析" [nzExtra]="teamAnalysis" class="ant-card__body-nopadding mb-lg active-card">
-      <g2-pie [hasLegend]="true" title="团队数据" subTitle="团队数据" [total]="total" [data]="salesPieData" height="294">
+      <g2-pie [hasLegend]="true" title="数据总数" subTitle="数据总数" [total]="total" [data]="salesPieData" height="294">
       </g2-pie>
       <!-- <g2-radar *ngIf="radarData" [data]="radarData" [height]="343" [hasLegend]="true"></g2-radar> -->
     </nz-card>
     <ng-template #teamAnalysis>
       <div class="sales-type-radio">
         <nz-radio-group>
-          <label nz-radio-button [nzValue]="'all'">
+          <label nz-radio-button [nzValue]="'team'" (click)="getTeamAnalysis()">
             团队分析
           </label>
-          <label nz-radio-button [nzValue]="'online'">
+          <label nz-radio-button [nzValue]="'project'" (click)="getProAnalysis()">
             项目分析
           </label>
-          <label nz-radio-button [nzValue]="'offline'">
+          <label nz-radio-button [nzValue]="'task'" (click)="getTaskAnalysis()">
             任务分析
           </label>
         </nz-radio-group>

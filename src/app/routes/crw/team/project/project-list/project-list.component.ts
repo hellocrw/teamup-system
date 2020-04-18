@@ -37,6 +37,7 @@ export class ProjectListComponent implements OnInit {
   ngOnInit() {
     this.cache.get('userId').subscribe(f => (this.userId = f));
     this.getData();
+    // this.route.navigateByUrl('/team/project/project-list/list/1');
   }
 
   getData() {

@@ -3,6 +3,7 @@ export interface NoticeDto {
   userId?: string;
   userName?: string;
   proId?: string;
+  proName?: string;
   noticeContent?: string;
   createTime?: string;
   status?: string;

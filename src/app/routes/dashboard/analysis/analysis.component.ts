@@ -81,7 +81,7 @@ export class DashboardAnalysisComponent implements OnInit {
     public msg: NzMessageService,
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getData();
@@ -93,26 +93,10 @@ export class DashboardAnalysisComponent implements OnInit {
       this.data = datas.data;
       console.log('admin:', this.data);
     });
-    this.q.statusList = this.status.filter(w => w.checked).map(item => item.index);
-    if (this.q.status !== null && this.q.status > -1) {
-      this.q.statusList.push(this.q.status);
-    }
-    // this.http.get('/rule', this.q)
-    //   .pipe(
-    //     map((list: any[]) =>
-    //       list.map(i => {
-    //         const statusItem = this.status[i.status];
-    //         i.statusText = statusItem.text;
-    //         i.statusType = statusItem.type;
-    //         return i;
-    //       }),
-    //     ),
-    //     tap(() => (this.loading = false)),
-    //   ).subscribe(res => {
-    //     this.data = res;
-    //     console.log(this.data);
-    //     this.cdr.detectChanges();
-    //   });
+    // this.q.statusList = this.status.filter(w => w.checked).map(item => item.index);
+    // if (this.q.status !== null && this.q.status > -1) {
+    //   this.q.statusList.push(this.q.status);
+    // }
   }
 
   stChange(e: STChange) {

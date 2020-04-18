@@ -5,7 +5,7 @@ import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { Result } from 'src/app/dto/Result';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserInfoService {
   /**
@@ -13,7 +13,7 @@ export class UserInfoService {
    */
   private static API = 'api/user';
 
-  constructor(private http: _HttpClient) { }
+  constructor(private http: _HttpClient) {}
 
   /**
    * 根据ID查找用户信息
@@ -43,4 +43,7 @@ export class UserInfoService {
     return this.http.get<Result>(`${UserInfoService.API}/getUserInfo`);
   }
 
+  getLeaderByTeamId(teamId: string): Observable<Result> {
+    return this.http.get<Result>(`${UserInfoService.API}/getLeaderByTeamId/${teamId}`);
+  }
 }

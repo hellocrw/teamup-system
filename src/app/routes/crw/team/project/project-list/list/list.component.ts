@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ProjectService } from 'src/app/services/project/project.service';
 import { ProjectDto } from 'src/app/dto/projectDto';
@@ -24,10 +24,19 @@ export class ListComponent implements OnInit {
     private msg: NzMessageService,
     private route: ActivatedRoute,
     private projectService: ProjectService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
+    console.log('init');
     this.getData();
+    // this.route.queryParamMap.subscribe((params: ParamMap) => {
+    //   this.teamId = params.get('teamId');
+    //   this.projectService.getProjectByTeamId(this.teamId).subscribe(res => {
+    //     this.projects = res.data;
+    //     console.log('projects', this.projects);
+    //   });
+    // });
   }
 
   getData(): void {
@@ -51,5 +60,8 @@ export class ListComponent implements OnInit {
 
   edit(item: any): void {
     this.msg.success(item.email);
+  }
+  toProjectDetail(proId: string): void {
+    this.router.navigateByUrl('/team/');
   }
 }

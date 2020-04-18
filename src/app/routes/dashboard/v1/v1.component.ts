@@ -20,36 +20,7 @@ export class DashboardV1Component implements OnInit {
     statusList: [],
   };
   // user: any[] = [];
-  user: any[] = [
-    // {
-    //   userId: '1',
-    //   userName: 'crw',
-    //   gender: '男',
-    //   university: '广东金融学院',
-    //   college: '互联网学院',
-    //   profession: '计算机科学与技术',
-    //   grade: '16',
-    //   userClass: '1',
-    //   userNo: '161543108',
-    //   userTel: '18814231208',
-    //   email: '2388092655@qq.com',
-    //   ability: 'java,springboot',
-    // },
-    // {
-    //   userId: '2',
-    //   userName: 'crw',
-    //   gender: '男',
-    //   university: '广东金融学院',
-    //   college: '互联网学院',
-    //   profession: '计算机科学与技术',
-    //   grade: '16',
-    //   userClass: '1',
-    //   userNo: '161543108',
-    //   userTel: '18814231208',
-    //   email: '2388092655@qq.com',
-    //   ability: 'java,springboot',
-    // }
-  ];
+  user: any[] = [];
   loading = false;
   status = [
     { index: 0, text: '关闭', value: false, type: 'default', checked: false },
@@ -109,7 +80,7 @@ export class DashboardV1Component implements OnInit {
     public msg: NzMessageService,
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getData();
