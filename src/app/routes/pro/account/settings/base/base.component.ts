@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@
 import { _HttpClient } from '@delon/theme';
 import { zip } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
+import { CacheService } from '@delon/cache';
 
 @Component({
   selector: 'app-account-settings-base',
@@ -10,10 +11,16 @@ import { NzMessageService } from 'ng-zorro-antd';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountSettingsBaseComponent implements OnInit {
-  constructor(private http: _HttpClient, private cdr: ChangeDetectorRef, private msg: NzMessageService) {}
+  constructor(
+    private http: _HttpClient,
+    private cdr: ChangeDetectorRef,
+    private msg: NzMessageService,
+    private cache: CacheService,
+  ) {}
   avatar = '';
   userLoading = true;
   user: any;
+  userInfo: any;
 
   // #region geo
 
@@ -21,6 +28,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   cities: any[] = [];
 
   ngOnInit(): void {
+    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
     zip(this.http.get('/user/current'), this.http.get('/geo/province')).subscribe(([user, province]: any) => {
       this.userLoading = false;
       this.user = user;

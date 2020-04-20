@@ -33,6 +33,10 @@ import { ProListComponent } from './project-management/project-list/project-list
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
 import { ListComponent } from './crw/team/project/project-list/list/list.component';
 import { Path } from '@delon/theme';
+import { UserMonitorComponent } from './dashboard/user-monitor/user-monitor.component';
+import { ProMonitorComponent } from './dashboard/pro-monitor/pro-monitor.component';
+import { FilesManagementComponent } from './dashboard/files-management/files-management.component';
+import { ACLGuard } from '@delon/acl';
 
 const routes: Routes = [
   {
@@ -60,9 +64,12 @@ const routes: Routes = [
           { path: 'notifice', component: NotificeComponent },
         ],
       },
-      { path: 'dashboard/v1', component: DashboardV1Component },
+      { path: 'dashboard/v1', component: DashboardV1Component, canActivate: [ACLGuard], data: { guard: 'admin' } },
       { path: 'dashboard/analysis', component: DashboardAnalysisComponent },
       { path: 'dashboard/monitor', component: DashboardMonitorComponent },
+      { path: 'dashboard/user-monitor', component: UserMonitorComponent },
+      { path: 'dashboard/pro-monitor', component: ProMonitorComponent },
+      { path: 'dashboard/files-management', component: FilesManagementComponent },
       { path: 'dashboard/workplace', component: DashboardWorkplaceComponent },
       { path: 'team-management/team-list', component: TeamListComponent },
       { path: 'team/team-more', component: TeamMoreComponent },

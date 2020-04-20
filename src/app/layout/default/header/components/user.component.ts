@@ -13,8 +13,8 @@ import { CacheService } from '@delon/cache';
       nzPlacement="bottomRight"
       [nzDropdownMenu]="userMenu"
     >
-      <nz-avatar [nzSrc]="settings.user.avatar" nzSize="small" class="mr-sm"></nz-avatar>
-      {{ userInfo.value.userName }}
+      <nz-avatar [nzSrc]="userInfo.userAvatar" nzSize="small" class="mr-sm"></nz-avatar>
+      {{ userInfo.userName }}
     </div>
     <nz-dropdown-menu #userMenu="nzDropdownMenu">
       <div nz-menu class="width-sm">
@@ -43,7 +43,7 @@ import { CacheService } from '@delon/cache';
 export class HeaderUserComponent implements OnInit {
   userInfo: any;
   ngOnInit(): void {
-    this.userInfo = this.cacheService.get('userInfo');
+    this.cacheService.get('userInfo').subscribe(f => (this.userInfo = f));
     // console.log('userInfo:', this.userInfo);
   }
   constructor(

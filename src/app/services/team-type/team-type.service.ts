@@ -31,4 +31,18 @@ export class TeamTypeService {
   getTaskTypeNumber(userId: string): Observable<Result> {
     return this.http.get<Result>(`${TeamTypeService.API}/getTaskTypeNumber/${userId}`);
   }
+
+  /**
+   * 管理员获取团队分析数据
+   */
+  getTeamAnalysis(): Observable<Result> {
+    return this.http.get<Result>(`${TeamTypeService.API}/getTeamAnalysis/`);
+  }
+
+  /**
+   * 管理员获取用户分析数据
+   */
+  getUserAnalysis(): Observable<Result> {
+    return this.http.get<Result>(`${TeamTypeService.API}/getUserAnalysis/`);
+  }
 }

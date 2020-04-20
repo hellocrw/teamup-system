@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRe
 import { NzMessageService } from 'ng-zorro-antd';
 import { zip } from 'rxjs';
 import { _HttpClient } from '@delon/theme';
+import { TeamTypeService } from 'src/app/services/team-type/team-type.service';
 
 @Component({
   selector: 'app-dashboard-monitor',
@@ -11,34 +12,23 @@ import { _HttpClient } from '@delon/theme';
 })
 export class DashboardMonitorComponent implements OnInit, OnDestroy {
   salesPieData = [
-    {
-      x: '技术类',
-      y: 10,
-    },
-    {
-      x: '金融类',
-      y: 12,
-    },
-    {
-      x: '社团类',
-      y: 11,
-    },
-    {
-      x: '爱好类',
-      y: 13,
-    },
-    {
-      x: '兴趣类',
-      y: 21,
-    },
-    {
-      x: '其他',
-      y: 12,
-    },
+    // {
+    //   x: '技术类',
+    //   y: 10,
+    // },
+    // {
+    //   x: '金融类',
+    //   y: 12,
+    // },
   ];
   total: string;
 
-  constructor(private http: _HttpClient, public msg: NzMessageService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private http: _HttpClient,
+    public msg: NzMessageService,
+    private cdr: ChangeDetectorRef,
+    private teamTypeService: TeamTypeService,
+  ) {}
   data: any = {};
   tags = [];
   loading = true;
@@ -62,6 +52,7 @@ export class DashboardMonitorComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
+    this.getDatas();
     zip(this.http.get('/chart'), this.http.get('/chart/tags')).subscribe(([res, tags]: [any, any]) => {
       this.data = res;
       tags.list[Math.floor(Math.random() * tags.list.length) + 1].value = 1000;
@@ -73,6 +64,13 @@ export class DashboardMonitorComponent implements OnInit, OnDestroy {
     // active chart
     this.refData();
     this.activeTime$ = setInterval(() => this.refData(), 1000 * 2);
+  }
+
+  getDatas(): void {
+    this.teamTypeService.getTeamAnalysis().subscribe(res => {
+      this.salesPieData = res.data;
+      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+    });
   }
 
   refData() {

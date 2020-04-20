@@ -37,6 +37,9 @@ import { NotificeModalComponent } from './crw/team/project/project-detail/notifi
 import { FilesModelComponent } from './crw/team/project/project-detail/files/files-model/files-model.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
 import { ListComponent } from './crw/team/project/project-list/list/list.component';
+import { UserMonitorComponent } from './dashboard/user-monitor/user-monitor.component';
+import { ProMonitorComponent } from './dashboard/pro-monitor/pro-monitor.component';
+import { FilesManagementComponent } from './dashboard/files-management/files-management.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -79,7 +82,10 @@ const COMPONENTS_NOROUNT = [];
     NotificeModalComponent,
     FilesModelComponent,
     TeamMoreComponent,
-    ListComponent],
+    ListComponent,
+    UserMonitorComponent,
+    ProMonitorComponent,
+    FilesManagementComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class RoutesModule { }

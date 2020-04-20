@@ -13,6 +13,8 @@ import { _HttpClient } from '@delon/theme';
 import { zip, Subscription } from 'rxjs';
 import { CacheService } from '@delon/cache';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { TeamService } from 'src/app/services/team/team.service';
+import { TeamDto } from 'src/app/dto/TeamDto';
 
 @Component({
   selector: 'app-account-center',
@@ -26,12 +28,18 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
     private http: _HttpClient,
     private cdr: ChangeDetectorRef,
     private cache: CacheService,
+    private teamService: TeamService,
   ) {}
   private router$: Subscription;
 
   userInfo: any;
 
+  myTeams: TeamDto[];
+
+  joinTeams: TeamDto[];
+
   user: any;
+
   notice: any;
   tabs: any[] = [
     {
@@ -73,6 +81,19 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
     });
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
     this.setActive();
+    this.getDatas();
+  }
+
+  getDatas(): void {
+    // 获取我创建的团队
+    this.teamService.getMyTeamProByUserId(this.userInfo.userId).subscribe(res => {
+      this.myTeams = res.data;
+      // console.log('teams111:', this.myTeams);
+    });
+    // 获取我参与的团队
+    this.teamService.getJoinTeamProByUserId(this.userInfo.userId).subscribe(res => {
+      this.joinTeams = res.data;
+    });
   }
 
   to(item: any) {

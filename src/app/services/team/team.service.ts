@@ -95,4 +95,18 @@ export class TeamService {
   getTeamByPage(param: PageRequest): Observable<Result> {
     return this.http.post<Result>(`${TeamService.API}/getPageInfo`, param);
   }
+
+  /**
+   * 完成组队
+   */
+  TeamStatusFinish(teamId: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/TeamStatusFinish/${teamId}`);
+  }
+
+  /**
+   * 继续组队
+   */
+  TeamStatusContinue(teamId: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/TeamStatusContinue/${teamId}`);
+  }
 }

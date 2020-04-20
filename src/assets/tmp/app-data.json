@@ -35,13 +35,8 @@
             },
             {
               "text": "监控页",
-              "link": "/dashboard/monitor",
+              "link": "/dashboard/user-monitor",
               "i18n": "menu.dashboard.monitor"
-            },
-            {
-              "text": "工作台",
-              "link": "/dashboard/workplace",
-              "i18n": "menu.dashboard.workplace"
             }
           ]
         },
@@ -59,11 +54,6 @@
               "text": "监控页",
               "link": "/dashboard/monitor",
               "i18n": "menu.dashboard.monitor"
-            },
-            {
-              "text": "工作台",
-              "link": "/dashboard/workplace",
-              "i18n": "menu.dashboard.workplace"
             }
           ]
         },
@@ -73,14 +63,21 @@
           "icon": "anticon-user",
           "children": [
             {
-              "text": "团队列表",
+              "text": "项目列表",
               "link": "/project-management/pro-list",
               "i18n": "menu.project.list"
+            },
+            {
+              "text": "监控页",
+              "link": "/dashboard/pro-monitor",
+              "i18n": "menu.dashboard.monitor"
             }
+
           ]
         },
         {
           "text": "文件管理",
+          "link": "/dashboard/files-management",
           "i18n": "menu.shortcut",
           "icon": "anticon-rocket",
           "shortcutRoot": true,
