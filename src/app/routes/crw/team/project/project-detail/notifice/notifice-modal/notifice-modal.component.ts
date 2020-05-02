@@ -1,8 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NoticeDto } from 'src/app/dto/NoticeDto';
 import { CacheService } from '@delon/cache';
 import { NoticeService } from 'src/app/services/notice/notice.service';
 import { DatePipe } from '@angular/common';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { ProjectDto } from 'src/app/dto/projectDto';
+import { ProjectService } from 'src/app/services/project/project.service';
 
 @Component({
   selector: 'app-notifice-modal',
@@ -14,17 +17,30 @@ export class NotificeModalComponent implements OnInit {
   // 是否显示对话框
   isVisible = false;
 
-  userInfo: any;
+  project: ProjectDto = null;
+
+  @Input() proId: string;
+
+  userInfo: UserInfoDto = null;
 
   notice: NoticeDto = null;
 
   @Output() element = new EventEmitter<NoticeDto>();
 
-  constructor(private cache: CacheService, private noticeService: NoticeService, private datePipe: DatePipe) {}
+  constructor(
+    private cache: CacheService,
+    private noticeService: NoticeService,
+    private datePipe: DatePipe,
+    private projectService: ProjectService,
+  ) {}
 
   ngOnInit() {
-    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
+    console.log('myproId: ', this.proId);
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
     this.notice = this.initNotice();
+    this.projectService.getProjectByProId(this.proId).subscribe(res => {
+      this.project = res.data;
+    });
   }
 
   /**
@@ -57,8 +73,8 @@ export class NotificeModalComponent implements OnInit {
     console.log('data:', data);
     data.userId = this.userInfo.userId;
     data.userName = this.userInfo.userName;
-    data.proId = '1';
-    data.proName = 'ceshi';
+    data.proId = this.project.proId;
+    data.proName = this.project.proName;
     data.createTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
     data.status = '0';
     this.noticeService.save(data).subscribe();

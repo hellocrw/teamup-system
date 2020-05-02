@@ -32,7 +32,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
   ) {}
   private router$: Subscription;
 
-  userInfo: any;
+  userInfo: UserInfoDto;
 
   myTeams: TeamDto[];
 
@@ -70,7 +70,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.cache.get('userInfo').subscribe(data => {
+    this.cache.get<UserInfoDto>('userInfo').subscribe(data => {
       this.userInfo = data;
       console.log(this.userInfo);
     });

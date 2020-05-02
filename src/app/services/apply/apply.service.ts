@@ -32,4 +32,18 @@ export class ApplyService {
   create(applyInfo: ApplyDto): Observable<Result> {
     return this.http.post<Result>(`${ApplyService.API}/create`, applyInfo);
   }
+
+  /**
+   * 同意入队
+   */
+  agreeApply(applyId: string): Observable<Result> {
+    return this.http.get<Result>(`${ApplyService.API}/agreeApply/${applyId}`);
+  }
+
+  /**
+   * 拒绝入队
+   */
+  disagreeApply(applyId: string): Observable<Result> {
+    return this.http.get<Result>(`${ApplyService.API}/disagreeApply/${applyId}`);
+  }
 }

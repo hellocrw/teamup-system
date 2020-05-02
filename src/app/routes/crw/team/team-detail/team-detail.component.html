@@ -1,10 +1,83 @@
+<page-header [breadcrumb]="breadcrumb" [content]="content" [extra]="extra">
+  <ng-template #breadcrumb>
+    <nz-breadcrumb>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/']">首页</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>
+        <a [routerLink]="['/team/project/project-list']">团队管理</a>
+      </nz-breadcrumb-item>
+      <nz-breadcrumb-item>{{team.teamName}}</nz-breadcrumb-item>
+    </nz-breadcrumb>
+  </ng-template>
+  <ng-template #content>
+    <div class="content">
+      <div class="avatar">
+        <nz-avatar nzSrc="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"></nz-avatar>
+      </div>
+      <div class="desc">
+        <div class="desc-title">{{team.teamName}}</div>
+        <sv-container size="small" col="2">
+          <sv label="创建人">{{team.leaderId}}</sv>
+          <sv label="团队详情">{{team.teamDescribe}}</sv>
+          <sv label="创建时间">{{team.teamDate}}</sv>
+          <sv label="团队类型">{{team.teamType}}</sv>
+          <!-- <sv label="生效日期">{{project.proStartTime}} ~ {{project.proEndTime}}</sv> -->
+          <sv label="备注">请于两个工作日内确认</sv>
+        </sv-container>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template #extra>
+    <div class="page-extra">
+      <div>
+        <p>团队状态</p>
+        <p *ngIf="team.status === '0'">待审核</p>
+        <p *ngIf="team.status === '1'">正在组队</p>
+        <p *ngIf="team.status === '2'">完成组队</p>
+      </div>
+      <div>
+        <p>团队人数</p>
+        <p>{{team.teamNumber}}</p>
+      </div>
+      <div>
+        <p>项目总数</p>
+        <p>{{projects.length}}</p>
+      </div>
+      <!-- <div>
+        <p>项目访问</p>
+        <p>{{project.seeNum}}</p>
+      </div> -->
+    </div>
+  </ng-template>
+</page-header>
+
+
+
 <div nz-row [nzGutter]="24" class="pt-lg">
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="15">
     <nz-card [nzBordered]="false" class="team_module" nzTitle="项目列表" [nzBordered]="false" class="mb-lg">
+
+      <button nz-button (click)="openEditModal(item)" [nzType]="'dashed'" nzBlock class="mb-sm">
+        <i nz-icon nzType="plus"></i>
+        <span>添加项目</span>
+      </button>
+
       <nz-list nzItemLayout="vertical" [nzLoading]="loading" [nzDataSource]="projects" [nzRenderItem]="item">
         <!-- [nzLoadMore]="loadMore" -->
         <ng-template #item let-item>
-          <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra">
+          <nz-list-item [nzContent]="nzContent" [nzExtra]="nzExtra" [nzActions]="[edit, op]">
+
+            <ng-template #edit>
+              <div>
+                <a (click)="updateProject(item)">修改</a>
+              </div>
+            </ng-template>
+
+            <ng-template #op>
+              <a (click)="deleteProject(item)">删除</a>
+            </ng-template>
+
             <ng-template #nzExtra>
               <div style="width: 272px; height: 1px;"></div>
             </ng-template>
@@ -42,3 +115,4 @@
       <st [data]="userTeam" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
     </nz-card>
   </div>
+  <app-add-project-modal #addProjectModalComponent [team]="team" (event)="eventHandler($event)"></app-add-project-modal>

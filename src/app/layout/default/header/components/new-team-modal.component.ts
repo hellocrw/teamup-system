@@ -6,6 +6,10 @@ import { TeamService } from 'src/app/services/team/team.service';
 import { Result } from 'src/app/dto/Result';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { UserTeamDto } from 'src/app/dto/UserTeamDto';
+import { UserTeamService } from 'src/app/services/user-team/user-team.service';
 
 @Component({
   selector: 'app-new-team-modal',
@@ -15,7 +19,7 @@ import { ActivatedRoute, Router } from '@angular/router';
       [nzMaskClosable]="false"
       [nzWidth]="800"
       [(nzVisible)]="isVisible"
-      nzTitle="新增团队"
+      nzTitle="填写组队基本信息"
       (nzOnCancel)="handleCancel()"
       (nzOnOk)="handleOk(teamInfo.value)"
       [nzBodyStyle]="{
@@ -27,6 +31,20 @@ import { ActivatedRoute, Router } from '@angular/router';
       }"
     >
       <form #teamInfo="ngForm" nz-form>
+        <nz-form-item nzGutter="24">
+          <nz-form-label [nzSpan]="4" nzRequired>管理员ID</nz-form-label>
+          <nz-form-control [nzSpan]="18">
+            <input
+              nz-input
+              placeholder="填3则无需管理员，直接组队成功"
+              name="adminId"
+              [(ngModel)]="item.adminId"
+              #adminId="ngModel"
+              type="number"
+              required
+            />
+          </nz-form-control>
+        </nz-form-item>
         <nz-form-item nzGutter="24">
           <nz-form-label [nzSpan]="4" nzRequired>团队名称</nz-form-label>
           <nz-form-control [nzSpan]="7">
@@ -48,7 +66,8 @@ import { ActivatedRoute, Router } from '@angular/router';
               nzAllowClear
               required
             >
-              <nz-option nzLabel="技术类" nzValue="技术类"> </nz-option>
+              <nz-option *ngFor="let item of teamType; let idx = index" #value [nzLabel]="item.value" [nzValue]="idx">
+              </nz-option>
             </nz-select>
           </nz-form-control>
           <nz-form-label [nzSpan]="4" nzFor="teamScope" nzRequired>团队范围</nz-form-label>
@@ -102,11 +121,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class NewTeamModalComponent implements OnInit {
   isVisible = false;
-  userInfo: any = null;
+
+  userInfo: UserInfoDto = null;
 
   item: TeamDto = null;
 
   res: Result;
+  // 团队类型
+  teamType: TeamTypeDto[] = [];
 
   constructor(
     private msg: NzMessageService,
@@ -114,11 +136,14 @@ export class NewTeamModalComponent implements OnInit {
     private teamService: TeamService,
     private datePipe: DatePipe,
     private route: Router,
+    private userTeamService: UserTeamService,
   ) {}
 
   ngOnInit() {
     this.item = this.initFormData();
-    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
+    // 获取缓存中的团队类型
+    this.cache.get<TeamTypeDto[]>('teamType').subscribe(f => (this.teamType = f));
   }
 
   addTeam(value: TeamDto): void {
@@ -135,27 +160,36 @@ export class NewTeamModalComponent implements OnInit {
   }
 
   /**
-   * 确认,保存数据
+   * 确认,创建团队
    */
   handleOk(value: TeamDto) {
-    this.item = value;
-    if (value.teamScope === '校内') {
-      this.item.teamScope = this.userInfo.university;
-    }
-    this.item.status = '0';
-    this.item.seeNum = '0';
-    this.item.leaderId = '1';
-    this.item.teamDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.teamService.saveTeam(this.item).subscribe(data => (this.res = data));
-    this.msg.success('数据保存成功');
+    this.save(value);
     this.isVisible = false;
-    this.route.navigateByUrl('/team');
+    // this.route.navigateByUrl('/team');
   }
 
   /**
    * 保存数据
    */
-  save() {}
+  save(team: TeamDto) {
+    // 保存团队信息
+    if (team.adminId == null) {
+      team.adminId = '0';
+    }
+    this.item = team;
+    if (team.teamScope === '校内') {
+      this.item.teamScope = this.userInfo.university;
+    }
+    this.item.status = '0';
+    this.item.seeNum = '0';
+    this.item.leaderId = this.userInfo.userId;
+    this.item.leaderName = this.userInfo.userName;
+    this.item.teamDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    this.teamService.saveTeam(this.item).subscribe(data => {
+      this.res = data;
+      this.msg.success(data.desc);
+    });
+  }
 
   /**
    * 初始化数据
@@ -164,7 +198,9 @@ export class NewTeamModalComponent implements OnInit {
     return {
       teamId: item ? item.teamId : null,
       teamName: item ? item.teamName : null,
+      adminId: item ? item.adminId : null,
       leaderId: item ? item.leaderId : null,
+      leaderName: item ? item.leaderName : null,
       teamDescribe: item ? item.teamDescribe : null,
       teamType: item ? item.teamType : null,
       teamScope: item ? item.teamScope : null,
@@ -175,6 +211,17 @@ export class NewTeamModalComponent implements OnInit {
       teamNature: item ? item.teamNature : null,
       teamLabel: item ? item.teamLabel : null,
       seeNum: item ? item.seeNum : null,
+    };
+  }
+
+  initUserTeamData(item?: UserTeamDto): UserTeamDto {
+    return {
+      utId: item ? item.utId : null,
+      userId: item ? item.userId : null,
+      userName: item ? item.userName : null,
+      teamId: item ? item.teamId : null,
+      teamName: item ? item.teamName : null,
+      isLeader: item ? item.isLeader : null,
     };
   }
 }

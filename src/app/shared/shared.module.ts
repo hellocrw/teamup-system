@@ -17,6 +17,8 @@ import { CountdownModule } from 'ngx-countdown';
 import { UEditorModule } from 'ngx-ueditor';
 import { NgxTinymceModule } from 'ngx-tinymce';
 
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+
 const THIRDMODULES = [NgZorroAntdModule, CountdownModule, UEditorModule, NgxTinymceModule];
 // #endregion
 
@@ -36,6 +38,7 @@ const DIRECTIVES = [];
     DelonChartModule,
     DelonACLModule,
     DelonFormModule,
+    NzDatePickerModule,
     // third libs
     ...THIRDMODULES,
   ],
@@ -54,6 +57,7 @@ const DIRECTIVES = [];
     DelonChartModule,
     DelonACLModule,
     DelonFormModule,
+    NzDatePickerModule,
     // i18n
     TranslateModule,
     // third libs

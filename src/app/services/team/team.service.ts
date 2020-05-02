@@ -22,6 +22,13 @@ export class TeamService {
   }
 
   /**
+   * 删除团队信息
+   */
+  delete(teamId: string): Observable<Result> {
+    return this.http.delete<Result>(`${TeamService.API}/${teamId}`);
+  }
+
+  /**
    * 根据团队ID获取团队信息以及对应的项目信息
    * @param teamId 团队ID
    */
@@ -108,5 +115,26 @@ export class TeamService {
    */
   TeamStatusContinue(teamId: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/TeamStatusContinue/${teamId}`);
+  }
+
+  /**
+   * 同意组队
+   */
+  agree(teamId: string): Observable<Result> {
+    return this.http.put<Result>(`${TeamService.API}/agree?teamId=${teamId}`);
+  }
+
+  /**
+   * 不同意组队
+   */
+  disagree(teamId: string): Observable<Result> {
+    return this.http.put<Result>(`${TeamService.API}/disagree?teamId=${teamId}`);
+  }
+
+  /**
+   * 管理员获取团队信息
+   */
+  getTeamByAdmin(adminId: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/getTeamByAdmin/${adminId}`);
   }
 }

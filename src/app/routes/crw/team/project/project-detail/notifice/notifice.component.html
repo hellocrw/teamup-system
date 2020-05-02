@@ -18,4 +18,4 @@
 <ng-template #extraTemplate>
   <a (click)="create()">发布公告</a>
 </ng-template>
-<app-notifice-modal #notificeModelComponent (element)="getChildData($event)"></app-notifice-modal>
+<app-notifice-modal #notificeModelComponent (element)="getChildData($event)" [proId]="proId"></app-notifice-modal>

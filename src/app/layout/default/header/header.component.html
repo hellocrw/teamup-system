@@ -38,15 +38,15 @@
   <header-search class="alain-default__search" [toggleChange]="searchToggleStatus"></header-search>
   <ul class="alain-default__nav">
     <li>
-      <a nz-dropdown [nzDropdownMenu]="menu" class="alain-default__nav-item">
-        新增
+      <a nz-dropdown (click)="createTeam()" class="alain-default__nav-item">
+        发起组队
       </a>
-      <nz-dropdown-menu #menu="nzDropdownMenu">
+      <!-- <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu nzSelectable>
-          <li nz-menu-item><a (click)="createTeam('1')">团队</a></li>
+          <li nz-menu-item><a (click)="createTeam()">发起组队</a></li>
           <li nz-menu-item><a (click)="createProject()">项目</a></li>
         </ul>
-      </nz-dropdown-menu>
+      </nz-dropdown-menu> -->
     </li>
     <!-- Notify -->
     <li>

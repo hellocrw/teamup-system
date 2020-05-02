@@ -43,6 +43,9 @@ export class UserInfoService {
     return this.http.get<Result>(`${UserInfoService.API}/getUserInfo`);
   }
 
+  /**
+   * 通过团队ID获取队长信息
+   */
   getLeaderByTeamId(teamId: string): Observable<Result> {
     return this.http.get<Result>(`${UserInfoService.API}/getLeaderByTeamId/${teamId}`);
   }

@@ -6,9 +6,9 @@ import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { ProjectService } from 'src/app/services/project/project.service';
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.less']
+  selector: 'app-pro-list',
+  templateUrl: './pro-list.component.html',
+  styleUrls: ['./pro-list.component.less'],
 })
 export class ProListComponent implements OnInit {
   q: any = {
@@ -78,7 +78,6 @@ export class ProListComponent implements OnInit {
     { title: '项目类型', index: 'proType' },
     { title: '项目当前人数', index: 'proCurrentNum' },
     { title: '项目限制人数', index: 'proLimiedNum' },
-    { title: '项目人数', index: 'number' },
     { title: '查看人数', index: 'seeNum' },
     { title: '技术类型', index: 'staffList' },
     { title: '需要人员类型', index: 'staff' },
@@ -107,7 +106,7 @@ export class ProListComponent implements OnInit {
     public msg: NzMessageService,
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.getData();
@@ -180,5 +179,4 @@ export class ProListComponent implements OnInit {
     // wait form reset updated finished
     setTimeout(() => this.getData());
   }
-
 }

@@ -32,7 +32,7 @@ import { TaskDetailComponent } from './crw/team/project/project-detail/task/task
 import { TeamListComponent } from './team-management/team-list/team-list.component';
 import { TeamAnalysisComponent } from './team-management/team-analysis/team-analysis.component';
 import { ProjectAnalysisComponent } from './project-management/project-analysis/project-analysis.component';
-import { ProListComponent } from './project-management/project-list/project-list.component';
+import { ProListComponent } from './project-management/pro-list/pro-list.component';
 import { NotificeModalComponent } from './crw/team/project/project-detail/notifice/notifice-modal/notifice-modal.component';
 import { FilesModelComponent } from './crw/team/project/project-detail/files/files-model/files-model.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
@@ -40,6 +40,9 @@ import { ListComponent } from './crw/team/project/project-list/list/list.compone
 import { UserMonitorComponent } from './dashboard/user-monitor/user-monitor.component';
 import { ProMonitorComponent } from './dashboard/pro-monitor/pro-monitor.component';
 import { FilesManagementComponent } from './dashboard/files-management/files-management.component';
+import { AddProjectModalComponent } from './crw/team/team-detail/add-project-modal/add-project-modal.component';
+import { TeamEditModalComponent } from './crw/team/project/project-list/team-edit-modal/team-edit-modal.component';
+import { SendMessagementComponent } from './team-management/team-list/send-messagement/send-messagement.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -58,8 +61,9 @@ const COMPONENTS_NOROUNT = [];
 
 @NgModule({
   imports: [SharedModule, RouteRoutingModule],
-  declarations: [...COMPONENTS,
-  ...COMPONENTS_NOROUNT,
+  declarations: [
+    ...COMPONENTS,
+    ...COMPONENTS_NOROUNT,
     TeamComponent,
     TeamDetailComponent,
     TeamManagementComponent,
@@ -85,7 +89,11 @@ const COMPONENTS_NOROUNT = [];
     ListComponent,
     UserMonitorComponent,
     ProMonitorComponent,
-    FilesManagementComponent],
+    FilesManagementComponent,
+    AddProjectModalComponent,
+    TeamEditModalComponent,
+    SendMessagementComponent,
+  ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule { }
+export class RoutesModule {}

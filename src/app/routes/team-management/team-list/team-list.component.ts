@@ -4,6 +4,9 @@ import { UserInfoService } from 'src/app/services/user-info/user-info.service';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService, NzModalService } from 'ng-zorro-antd';
 import { TeamService } from 'src/app/services/team/team.service';
+import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { SendMessagementComponent } from './send-messagement/send-messagement.component';
 
 @Component({
   selector: 'app-team-list',
@@ -18,37 +21,12 @@ export class TeamListComponent implements OnInit {
     status: null,
     statusList: [],
   };
+
+  @ViewChild('sendMessagementComponent', { static: true })
+  sendMessagementComponent: SendMessagementComponent;
+
   // user: any[] = [];
-  user: any[] = [
-    // {
-    //   userId: '1',
-    //   userName: 'crw',
-    //   gender: '男',
-    //   university: '广东金融学院',
-    //   college: '互联网学院',
-    //   profession: '计算机科学与技术',
-    //   grade: '16',
-    //   userClass: '1',
-    //   userNo: '161543108',
-    //   userTel: '18814231208',
-    //   email: '2388092655@qq.com',
-    //   ability: 'java,springboot',
-    // },
-    // {
-    //   userId: '2',
-    //   userName: 'crw',
-    //   gender: '男',
-    //   university: '广东金融学院',
-    //   college: '互联网学院',
-    //   profession: '计算机科学与技术',
-    //   grade: '16',
-    //   userClass: '1',
-    //   userNo: '161543108',
-    //   userTel: '18814231208',
-    //   email: '2388092655@qq.com',
-    //   ability: 'java,springboot',
-    // }
-  ];
+  teams: any[] = [];
   loading = false;
   status = [
     { index: 0, text: '关闭', value: false, type: 'default', checked: false },
@@ -68,26 +46,38 @@ export class TeamListComponent implements OnInit {
     { title: '', index: 'teamId', type: 'checkbox' },
     // { title: '用户ID', index: 'userId' },
     { title: '团队名称', index: 'teamName' },
-    { title: '队长', index: 'leaderId' },
-    { title: '团队描述', index: 'teamDescribe' },
+    { title: '队长', index: 'leaderName' },
+    // { title: '团队描述', index: 'teamDescribe' },
     { title: '团队类型', index: 'teamType' },
     { title: '团队人数', index: 'teamNumber' },
     { title: '团队创建日期', index: 'teamDate' },
     { title: '团队状态', index: 'status' },
-    { title: '人员类型', index: 'staff' },
+    // { title: '人员类型', index: 'staff' },
     { title: '性质', index: 'teamNature' },
-    { title: '团队标签', index: 'teamLabel' },
-    { title: '查看人数', index: 'seeNum' },
+    // { title: '团队标签', index: 'teamLabel' },
+    // { title: '查看人数', index: 'seeNum' },
     {
       title: '操作',
       buttons: [
+        // {
+        //   text: '修改',
+        //   click: (item: any) => this.msg.success(`配置${item.no}`),
+        // },
         {
-          text: '修改',
-          click: (item: any) => this.msg.success(`配置${item.no}`),
+          text: '发送通知',
+          type: 'link',
+          click: (item: any) => {
+            this.sendMessagementComponent.team = item;
+            this.sendMessagementComponent.isVisible = true;
+          },
         },
         {
           text: '删除',
-          click: (item: any) => this.msg.success(`订阅警报${item.no}`),
+          type: 'link',
+          click: (item: any) => {
+            this.teamService.delete(item.teamId).subscribe();
+            this.teams = this.teams.filter(team => team.teamId !== item.teamId);
+          },
         },
       ],
     },
@@ -103,13 +93,18 @@ export class TeamListComponent implements OnInit {
     public msg: NzMessageService,
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
+    private cache: CacheService,
   ) {}
 
   ngOnInit() {
-    this.getData();
-    this.teamService.getTeamAll().subscribe(datas => {
-      this.user = datas.data;
+    this.cache.get<UserInfoDto>('userInfo').subscribe(userInfo => {
+      this.teamService.getTeamByAdmin(userInfo.userId).subscribe(res => {
+        this.teams = res.data;
+        this.teams = this.teams.filter(team => team.status !== '0');
+        this.teams = this.teams.filter(team => team.status !== '-1');
+      });
     });
+    this.getData();
   }
 
   getData() {

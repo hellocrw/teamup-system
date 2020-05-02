@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { Result } from 'src/app/dto/Result';
+import { UserTeamDto } from 'src/app/dto/UserTeamDto';
 
 @Injectable({
   providedIn: 'root',
@@ -13,5 +14,19 @@ export class UserTeamService {
 
   getUserByTeamId(teamId: string): Observable<Result> {
     return this.http.get<Result>(`${UserTeamService.API}/getUserByTeamId/${teamId}`);
+  }
+
+  /**
+   * 保存关联表信息
+   */
+  save(userTeamDto: UserTeamDto): Observable<Result> {
+    return this.http.post<Result>(`${UserTeamService.API}/save`, userTeamDto);
+  }
+
+  /**
+   * 踢出成员
+   */
+  deleteByUtId(utId: string): Observable<Result> {
+    return this.http.delete<Result>(`${UserTeamService.API}/${utId}`);
   }
 }

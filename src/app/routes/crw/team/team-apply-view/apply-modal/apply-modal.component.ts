@@ -6,6 +6,7 @@ import { TeamDto } from 'src/app/dto/TeamDto';
 import { CacheService } from '@delon/cache';
 import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-apply-modal',
@@ -17,7 +18,7 @@ export class ApplyModalComponent implements OnInit {
 
   applyInfo: ApplyDto = null;
 
-  userInfo: any;
+  userInfo: UserInfoDto;
 
   @Input() teamInfo: TeamDto;
 
@@ -33,7 +34,7 @@ export class ApplyModalComponent implements OnInit {
   ngOnInit() {
     console.log('modal的初始化');
     this.applyInfo = this.initFormDatas();
-    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
     this.teamService.getTeamProByTeamId(this.userInfo.userId).subscribe(res => {
       this.teamInfo = res.data;
       console.log('team:', this.teamInfo);

@@ -12,6 +12,8 @@ import { DictionaryService } from 'src/app/services/dictionary/dictionary.servic
 import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
 import { MessageService } from 'src/app/services/message/message.service';
 import { TeamDto } from 'src/app/dto/TeamDto';
+import { CacheService } from '@delon/cache';
+import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
 
 @Component({
   selector: 'app-team',
@@ -83,6 +85,7 @@ export class TeamComponent implements OnInit {
     private dictionaryService: DictionaryService,
     private testService: TestService,
     private messageService: MessageService,
+    private cache: CacheService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {}
   q: any = {
@@ -129,9 +132,10 @@ export class TeamComponent implements OnInit {
   getDatas(): void {
     // 获取用户基本信息
     this.user = this.tokenService.get(JWTTokenModel).userInfo;
-    // 获取团队类型teamType
+    // 获取团队类型teamType,将项目类型保存在缓存中
     this.dictionaryService.getTeamType().subscribe(datas => {
       this.teamType = datas.data;
+      this.cache.set<TeamTypeDto[]>('teamType', datas.data);
     });
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
@@ -175,9 +179,9 @@ export class TeamComponent implements OnInit {
   search(item?: any): Observable<Result> {
     // this.msg.success('查找');
     this.msg.success(item);
-    // console.log('1:', item);
+    console.log('1:', item);
     this.teamService.getTeamByTeamType(item).subscribe(res => (this.teams = res.data));
-    // console.log('temp:', this.messageService.data);
+    console.log('temp:', this.messageService.data);
     return null;
   }
 }

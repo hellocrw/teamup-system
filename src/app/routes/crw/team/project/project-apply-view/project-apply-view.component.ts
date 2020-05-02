@@ -34,7 +34,6 @@ export class ProjectApplyViewComponent implements OnInit {
       proType: item ? item.proType : null,
       proCurrentNum: item ? item.proCurrentNum : null,
       proLimiedNum: item ? item.proLimiedNum : null,
-      number: item ? item.number : null,
       seeNum: item ? item.seeNum : null,
       staff: item ? item.staff : null,
       staffList: item ? item.staffList : null,

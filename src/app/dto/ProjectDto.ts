@@ -7,13 +7,12 @@ export interface ProjectDto {
   proDescribe?: string;
   proDate?: string;
   proStartTime?: string;
-  proEndTime?: number;
+  proEndTime?: string;
   proStatus?: string;
   teamId?: string;
   proType?: string;
   proCurrentNum?: string;
   proLimiedNum?: string;
-  number?: string;
   seeNum?: string;
   staff?: string;
   staffList?: string;

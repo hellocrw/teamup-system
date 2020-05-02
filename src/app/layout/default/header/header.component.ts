@@ -6,6 +6,7 @@ import { NewTeamModalComponent } from './components/new-team-modal.component';
 import { NewProjectModalComponent } from './components/new-project-modal.component';
 import { MessageService } from 'src/app/services/message/message.service';
 import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'layout-header',
@@ -16,7 +17,7 @@ import { CacheService } from '@delon/cache';
 export class HeaderComponent {
   searchToggleStatus: boolean;
 
-  userInfo: any;
+  userInfo: UserInfoDto;
 
   @ViewChild('newTeamModalComponent', { static: true })
   newTeamModalComponent: NewTeamModalComponent;
@@ -30,7 +31,7 @@ export class HeaderComponent {
     private messageService: MessageService,
     private cache: CacheService,
   ) {
-    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
   }
 
   search($event): void {

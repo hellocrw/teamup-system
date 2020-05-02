@@ -1,0 +1,45 @@
+<nz-modal [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="填写项目信息"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(projectInfo.value)" [nzBodyStyle]="{
+        'max-height': '455px',
+        'min-height': '300px',
+        'overflow-y': 'auto',
+        'overflow-x': 'hidden',
+        padding: '24px 24px 0 24px'
+      }">
+  <form #projectInfo="ngForm" nz-form>
+    <nz-form-item nzGutter="24">
+      <!-- <nz-form-label [nzSpan]="4" nzFor="teamId" nzRequired>所属团队</nz-form-label>
+      <nz-form-control [nzSpan]="7">
+        <nz-select #teamId="ngModel" [(ngModel)]="item.teamId" name="teamId" nzPlaceHolder=""
+          (nzOnSearch)="selectTeam(item.teamId)" nzAllowClear required>
+          <nz-option *ngFor="let team of myTeams" [nzLabel]="team.teamName" [nzValue]="team.teamId"> </nz-option>
+        </nz-select>
+      </nz-form-control> -->
+      <nz-form-label [nzSpan]="4" nzFor="proName" nzRequired>项目名称</nz-form-label>
+      <nz-form-control [nzSpan]="7">
+        <input nz-input name="proName" #proName="ngModel" [(ngModel)]="item.proName" nzValue="item.proName" required />
+      </nz-form-control>
+      <!-- <nz-form-label [nzSpan]="4" nzFor="number" nzRequired>项目人数</nz-form-label>
+          <nz-form-control [nzSpan]="7">
+            <input nz-input name="number" #number="ngModel" [(ngModel)]="item.number" type="number" required />
+          </nz-form-control> -->
+    </nz-form-item>
+    <nz-form-item nzGutter="24">
+      <nz-form-label [nzSpan]="4" nzRequired>时间范围</nz-form-label>
+      <nz-form-control [nzSpan]="7">
+        <!-- TODO -->
+        <nz-range-picker name="operationTime" [(ngModel)]="operationTime"></nz-range-picker>
+      </nz-form-control>
+      <nz-form-label [nzSpan]="4" nzRequired>项目类型</nz-form-label>
+      <nz-form-control [nzSpan]="7">
+        <input nz-input name="proType" #proType="ngModel" [(ngModel)]="item.proType" required />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>项目描述</nz-form-label>
+      <nz-form-control [nzSm]="18" [nzXs]="24">
+        <textarea name="proDescribe" #proDescribe="ngModel" [(ngModel)]="item.proDescribe" rows="4" nz-input></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</nz-modal>

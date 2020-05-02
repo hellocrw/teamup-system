@@ -28,10 +28,10 @@ export class ProAccountSettingsComponent implements AfterViewInit, OnDestroy {
       key: 'base',
       title: '基本设置',
     },
-    // {
-    //   key: 'security',
-    //   title: '安全设置',
-    // },
+    {
+      key: 'security',
+      title: '安全设置',
+    },
     // {
     //   key: 'binding',
     //   title: '账号绑定',

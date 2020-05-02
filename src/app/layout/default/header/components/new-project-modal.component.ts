@@ -7,6 +7,7 @@ import { Result } from 'src/app/dto/Result';
 import { TeamService } from 'src/app/services/team/team.service';
 import { CacheService } from '@delon/cache';
 import { TeamDto } from 'src/app/dto/TeamDto';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-new-project-modal',
@@ -41,10 +42,10 @@ import { TeamDto } from 'src/app/dto/TeamDto';
           <nz-form-control [nzSpan]="7">
             <input nz-input name="proName" #proName="ngModel" [(ngModel)]="item.proName" required />
           </nz-form-control>
-          <nz-form-label [nzSpan]="4" nzFor="number" nzRequired>项目人数</nz-form-label>
+          <!-- <nz-form-label [nzSpan]="4" nzFor="number" nzRequired>项目人数</nz-form-label>
           <nz-form-control [nzSpan]="7">
             <input nz-input name="number" #number="ngModel" [(ngModel)]="item.number" type="number" required />
-          </nz-form-control>
+          </nz-form-control> -->
         </nz-form-item>
         <nz-form-item nzGutter="24">
           <nz-form-label [nzSpan]="4" nzFor="fileName" nzRequired>时间范围</nz-form-label>
@@ -76,7 +77,7 @@ import { TeamDto } from 'src/app/dto/TeamDto';
 export class NewProjectModalComponent implements OnInit {
   isVisible = false;
 
-  userId: any;
+  userId: string;
 
   myTeams: TeamDto[];
 
@@ -93,7 +94,7 @@ export class NewProjectModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cache.get('userId').subscribe(f => (this.userId = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userId = f.userId));
     this.item = this.initFormData();
     this.getDatas();
   }
@@ -122,7 +123,6 @@ export class NewProjectModalComponent implements OnInit {
       proType: item ? item.proType : null,
       proCurrentNum: item ? item.proCurrentNum : null,
       proLimiedNum: item ? item.proLimiedNum : null,
-      number: item ? item.number : null,
       seeNum: item ? item.seeNum : null,
       staff: item ? item.staff : null,
       staffList: item ? item.staffList : null,

@@ -37,7 +37,7 @@ export class DashboardV1Component implements OnInit {
   @ViewChild('st', { static: true })
   st: STComponent;
   columns: STColumn[] = [
-    { title: '', index: 'userId', type: 'checkbox' },
+    // { title: '', index: 'userId', type: 'checkbox' },
     // { title: '用户ID', index: 'userId' },
     { title: '用户名称', index: 'userName' },
     { title: '性别', index: 'gender' },
@@ -55,19 +55,19 @@ export class DashboardV1Component implements OnInit {
     { title: '联系方式', index: 'userTel' },
     { title: '邮箱', index: 'email' },
     { title: '掌握技能', index: 'ability' },
-    {
-      title: '操作',
-      buttons: [
-        {
-          text: '修改',
-          click: (item: any) => this.msg.success(`配置${item.no}`),
-        },
-        {
-          text: '删除',
-          click: (item: any) => this.msg.success(`订阅警报${item.no}`),
-        },
-      ],
-    },
+    // {
+    //   title: '操作',
+    //   buttons: [
+    //     {
+    //       text: '修改',
+    //       click: (item: any) => this.msg.success(`配置${item.no}`),
+    //     },
+    //     {
+    //       text: '删除',
+    //       click: (item: any) => this.msg.success(`订阅警报${item.no}`),
+    //     },
+    //   ],
+    // },
   ];
   selectedRows: STData[] = [];
   description = '';

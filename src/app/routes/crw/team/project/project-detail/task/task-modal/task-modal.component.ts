@@ -1,10 +1,11 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { SFArrayWidgetSchema, SFSchema, SFDateWidgetSchema, SFTextareaWidgetSchema } from '@delon/form';
 import { NzMessageService } from 'ng-zorro-antd';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { TaskService } from 'src/app/services/task/task.service';
 import { DatePipe } from '@angular/common';
 import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-task-modal',
@@ -16,9 +17,11 @@ export class TaskModalComponent implements OnInit {
   // 是否显示对话框
   isVisible = false;
 
+  @Input() proId: string;
+
   @Output() element = new EventEmitter<TaskDto>();
 
-  userId: any;
+  userId: string;
 
   task: TaskDto = null;
 
@@ -38,12 +41,14 @@ export class TaskModalComponent implements OnInit {
         type: 'string',
         // tslint:disable-next-line: no-object-literal-type-assertion
         ui: { widget: 'date', end: 'taskEndTime' } as SFDateWidgetSchema,
-        default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+        // default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
         title: '任务时间',
       },
       taskEndTime: {
         type: 'string',
-        default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
+        // tslint:disable-next-line: no-object-literal-type-assertion
+        ui: { widget: 'date' } as SFDateWidgetSchema,
+        // default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
       },
       // TODO
       subTaskDtos: {
@@ -70,7 +75,7 @@ export class TaskModalComponent implements OnInit {
             //   default: this.datePipe.transform(new Date(), 'yyyy-MM-dd'),
             // },
           },
-          required: ['subTaskName', 'taskName', 'taskDescribe', 'content', 'date'],
+          required: ['subTaskName', 'taskName', 'taskStartTime', 'taskDescribe', 'content', 'date'],
         },
         // tslint:disable-next-line: no-object-literal-type-assertion
         ui: { grid: { arraySpan: 12 } } as SFArrayWidgetSchema,
@@ -86,7 +91,7 @@ export class TaskModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cache.get('userId').subscribe(f => (this.userId = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userId = f.userId));
     this.task = this.initFormData();
   }
 
@@ -113,15 +118,20 @@ export class TaskModalComponent implements OnInit {
    */
   submit(value: TaskDto) {
     this.msg.success(JSON.stringify(value));
-    value.proId = '1';
+    value.proId = this.proId;
     // value.userId = '1';
     value.taskStatus = '1';
     value.userId = this.userId;
+    value.taskStartTime = this.datePipe.transform(value.taskStartTime, 'yyyy-MM-dd');
+    value.taskEndTime = this.datePipe.transform(value.taskEndTime, 'yyyy-MM-dd');
     value.taskCreateTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-    this.taskService.saveTask(value).subscribe(datas => console.log(datas));
+    console.log('value:', value);
+    this.taskService.saveTask(value).subscribe(datas => {
+      console.log(datas);
+      // 将子组件添加的任务发送给父组件
+      this.element.emit(datas.data);
+    });
     this.isVisible = false;
-    // 将子组件添加的任务发送给父组件
-    this.element.emit(value);
   }
 
   /**

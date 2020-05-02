@@ -106,5 +106,5 @@
 <ng-template #extraTemplate>
   <a (click)="create()">新增任务</a>
 </ng-template>
-<app-task-modal #taskModalComponent (element)="getChildData($event)"></app-task-modal>
+<app-task-modal #taskModalComponent (element)="getChildData($event)" [proId]="proId"></app-task-modal>
 <app-task-detail #taskDetailComponent></app-task-detail>

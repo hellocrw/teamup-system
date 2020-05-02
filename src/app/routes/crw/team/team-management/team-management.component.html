@@ -29,11 +29,12 @@
         <p>{{projects.length}}</p>
       </div>
       <div>
-        <p>未完成任务数</p>
-        <p>
+        <p>任务数</p>
+        <p>{{myTask.length}}</p>
+        <!-- <p>
           8
           <span> / 24</span>
-        </p>
+        </p> -->
       </div>
     </div>
   </ng-template>
@@ -49,15 +50,16 @@
         <div nz-row [nzGutter]="48">
           <div nz-col [nzSpan]="12" *ngFor="let i of team">
             <a (click)="toTeamDetail(i.teamId)">
-              <nz-avatar [nzSrc]="i.logo" [nzSize]="'small'"></nz-avatar>
+              <nz-avatar [nzSrc]="" [nzSize]="'small'"></nz-avatar>
               <span class="member">{{ i.teamName }}</span>
             </a>
           </div>
         </div>
       </div>
     </nz-card>
+    <!-- 正在进行的项目卡片 -->
     <nz-card nzTitle="进行中的项目" [nzExtra]="allProject" [nzBordered]="false" [nzLoading]="loading"
-      class="ant-card__body-nopadding mb-lg project-list">
+      style="min-height: 200px;" class="ant-card__body-nopadding mb-lg project-list">
       <ng-template #allProject>
         <!-- <a [routerLink]="['/team/project/project-list']" routerLinkActive="router-link-active">全部项目</a> -->
       </ng-template>
@@ -66,13 +68,13 @@
           <nz-card-meta [nzTitle]="noticeTitle" [nzDescription]="item.proDescribe">
             <ng-template #noticeTitle>
               <div class="card-title">
-                <nz-avatar [nzSrc]="item.logo" [nzSize]="'small'"></nz-avatar>
+                <nz-avatar [nzSrc]="" [nzSize]="'small'"></nz-avatar>
                 <a (click)="toProjectDetail(item.proId)">{{ item.proName }}</a>
               </div>
             </ng-template>
           </nz-card-meta>
           <div class="project-item">
-            <a (click)="msg.info('show user: ' + item.member)">{{ item.proStartTime }}</a>
+            <a (click)="msg.info('show user: ' + item.proStartTime)">{{ item.proStartTime }}</a>
             <span *ngIf="item.proStartTime" class="datetime" title="{{ item.proStartTime }}">
               {{ item.proStartTime | _date: 'fn' }}
             </span>
@@ -80,6 +82,51 @@
         </nz-card>
       </div>
     </nz-card>
+
+    <!-- 入队审批卡片 -->
+    <nz-card nzTitle="入队审批" [nzBordered]="false" [nzLoading]="loading" style="min-height: 200px;"
+      class="ant-card__body-nopadding mb-lg project-list">
+      <nz-list [nzDataSource]="enqueueInfo" [nzLoading]="loading" [nzRenderItem]="item" [nzPagination]="pagination">
+        <ng-template #item let-item>
+          <nz-list-item [nzContent]="nzContent" [nzActions]="[edit, op]">
+            <ng-template #edit>
+              <a nz-popconfirm nzPopconfirmTitle="确定同意组队?" nzPopconfirmPlacement="bottom" (click)="agree(item)">同意</a>
+            </ng-template>
+            <ng-template #op>
+              <a nz-popconfirm nzPopconfirmTitle="确定拒绝组队?" nzPopconfirmPlacement="bottom" (click)="disagree(item)">
+                拒绝
+              </a>
+            </ng-template>
+            <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.decribe" [nzAvatar]="nzAvatar">
+              <ng-template #nzTitle>
+                <a>{{ item.userName }} </a>
+                申请加入
+                <a>{{item.teamName}}</a>
+              </ng-template>
+              <ng-template #nzAvatar>
+                <!-- <nz-avatar [nzSrc]="item.logo" nzSize="large" [nzShape]="'square'"></nz-avatar> -->
+              </ng-template>
+            </nz-list-item-meta>
+            <ng-template #nzContent>
+              <div class="width-md">
+                <div class="d-flex text-grey-dark">
+                  <div class="text-right">
+                    申请时间
+                    <p>{{ item.applyDate }}</p>
+                  </div>
+                </div>
+                <!-- <nz-progress [nzPercent]="item.percent" [nzStatus]="item.status" [nzStrokeWidth]="6"></nz-progress> -->
+              </div>
+            </ng-template>
+          </nz-list-item>
+        </ng-template>
+        <ng-template #pagination>
+          <!-- 分页 -->
+          <!-- <nz-pagination [nzTotal]="50" [nzPageSize]="5" (nzPageIndexChange)="getData()"></nz-pagination> -->
+        </ng-template>
+      </nz-list>
+    </nz-card>
+
   </div>
   <div nz-col nzXs="24" nzSm="24" nzMd="12">
     <nz-card nzTitle="需要完成的任务" [nzBordered]="false" class="ant-card__body-nopadding mb-lg">
@@ -131,7 +178,6 @@
       </nz-list>
     </nz-card> -->
 </div>
-
 <!-- TODO -->
 <!-- <div>
   <nz-card [nzLoading]="loading" [nzBordered]="false" [nzBodyStyle]="{ padding: '0 0 32px' }"

@@ -6,6 +6,7 @@ import { ApplyService } from 'src/app/services/apply/apply.service';
 import { ApplyDto } from 'src/app/dto/ApplyDto';
 import { NoticeService } from 'src/app/services/notice/notice.service';
 import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 /**
  * 菜单通知
@@ -38,20 +39,26 @@ export class HeaderNotifyComponent implements OnInit {
 
   // notice: NoticeIconList = null;
 
-  userId: any;
+  userId: string;
 
   data: NoticeItem[] = [
+    {
+      title: '公告通知',
+      list: [],
+      emptyText: '您已读完所有消息',
+      clearText: '刷新',
+    },
     {
       title: '入队审批',
       list: [],
       emptyText: '你已查看所有通知',
-      clearText: '清空通知',
+      clearText: '刷新',
     },
     {
       title: '我的申请',
       list: [],
       emptyText: '您已读完所有消息',
-      clearText: '清空消息',
+      clearText: '刷新',
     },
   ];
   count = 5;
@@ -69,7 +76,7 @@ export class HeaderNotifyComponent implements OnInit {
    * 生命钩子，初始化
    */
   ngOnInit(): void {
-    this.cache.get('userId').subscribe(f => (this.userId = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userId = f.userId));
     this.getDatas();
     // console.log('count:', this.count);
   }
@@ -80,7 +87,7 @@ export class HeaderNotifyComponent implements OnInit {
      */
     this.applyService.getEnqueueApply(this.userId).subscribe(res => {
       this.enqueueInfo = res.data;
-      // console.log('enqueueInfo:', this.enqueueInfo);
+      console.log('enqueueInfo:', this.enqueueInfo);
       this.toNoticeIconList(this.enqueueInfo);
     });
     /**
@@ -100,11 +107,14 @@ export class HeaderNotifyComponent implements OnInit {
     });
   }
 
+  /**
+   * 我的申请
+   */
   addApply(f: ApplyDto): NoticeIconList {
     let applyList: NoticeIconList = null;
     applyList = this.initDatas();
     applyList.read = false;
-    applyList.title = '申请加入' + f.teamName;
+    applyList.title = '我申请加入' + f.teamName;
     applyList.datetime = f.applyDate;
     applyList.type = '我的申请';
     return applyList;
@@ -118,6 +128,10 @@ export class HeaderNotifyComponent implements OnInit {
       this.noticeList.push(this.addItem(f));
     });
   }
+
+  /**
+   * 入队审批
+   */
   addItem(f: ApplyDto): NoticeIconList {
     let noticeList: NoticeIconList = null;
     noticeList = this.initDatas();
@@ -125,6 +139,7 @@ export class HeaderNotifyComponent implements OnInit {
     noticeList.title = f.userName + '申请加入' + f.teamName;
     noticeList.datetime = f.applyDate;
     noticeList.type = '入队审批';
+    console.log(noticeList);
     return noticeList;
   }
 

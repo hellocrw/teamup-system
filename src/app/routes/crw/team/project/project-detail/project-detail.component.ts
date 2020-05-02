@@ -13,9 +13,9 @@ import { UserInfoDto } from 'src/app/dto/UserInfoDto';
   styleUrls: ['./project-detail.component.less'],
 })
 export class ProjectDetailComponent implements OnInit, OnDestroy {
-  userInfo: any;
+  userInfo: UserInfoDto;
 
-  userId: any;
+  userId: string;
 
   proId: string;
 
@@ -47,8 +47,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.cache.get('userInfo').subscribe(userInfo => (this.userInfo = userInfo));
-    this.cache.get('userId').subscribe(f => (this.userId = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(userInfo => {
+      this.userInfo = userInfo;
+      this.userId = userInfo.userId;
+    });
     this.project = this.initFormData();
     this.proId = this.route.snapshot.paramMap.get('proId');
     // this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/task`);
@@ -98,7 +100,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       proType: item ? item.proType : null,
       proCurrentNum: item ? item.proCurrentNum : null,
       proLimiedNum: item ? item.proLimiedNum : null,
-      number: item ? item.number : null,
       seeNum: item ? item.seeNum : null,
       staff: item ? item.staff : null,
       staffList: item ? item.staffList : null,

@@ -3,6 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { zip } from 'rxjs';
 import { NzMessageService } from 'ng-zorro-antd';
 import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-account-settings-base',
@@ -20,7 +21,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   avatar = '';
   userLoading = true;
   user: any;
-  userInfo: any;
+  userInfo: UserInfoDto;
 
   // #region geo
 
@@ -28,7 +29,7 @@ export class ProAccountSettingsBaseComponent implements OnInit {
   cities: any[] = [];
 
   ngOnInit(): void {
-    this.cache.get('userInfo').subscribe(f => (this.userInfo = f));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
     zip(this.http.get('/user/current'), this.http.get('/geo/province')).subscribe(([user, province]: any) => {
       this.userLoading = false;
       this.user = user;

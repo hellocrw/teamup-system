@@ -38,6 +38,10 @@ export class NotificeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.proId = this.messageService.data;
+    // this.noticeInfo = this.initDatas();
+    console.log('notice:', this.messageService.data);
+    this.getDatas();
     zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
       ([chart, notice, activities]: [any, any, any]) => {
         this.radarData = chart.radarData;
@@ -53,10 +57,6 @@ export class NotificeComponent implements OnInit {
         this.cdr.detectChanges();
       },
     );
-    this.proId = this.messageService.data;
-    // this.noticeInfo = this.initDatas();
-    console.log('notice:', this.messageService.data);
-    this.getDatas();
   }
 
   getDatas(): void {
@@ -81,6 +81,7 @@ export class NotificeComponent implements OnInit {
 
   create() {
     // this.msg.success('新增公告');
+    // this.notificeModelComponent.proId = this.proId;
     this.notificeModelComponent.isVisible = true;
   }
 

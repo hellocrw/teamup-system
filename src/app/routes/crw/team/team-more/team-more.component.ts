@@ -21,7 +21,7 @@ export class TeamMoreComponent implements OnInit {
   /**
    * 每页数量
    */
-  pageSize = '3';
+  pageSize = '2';
 
   pageRequest: PageRequest;
 
@@ -51,6 +51,7 @@ export class TeamMoreComponent implements OnInit {
   }
 
   getDatas(): void {
+    // 获取团队数据
     this.teamService.getTeams().subscribe(res => {
       this.teams = res.data;
       console.log('teams:', this.teams);
@@ -59,6 +60,7 @@ export class TeamMoreComponent implements OnInit {
     console.log(this.pageNum);
     this.pageRequest.pageSize = this.pageSize;
     console.log(this.pageSize);
+    // 分页查询团队数据
     this.teamService.getTeamByPage(this.pageRequest).subscribe(res => {
       this.pageTeams = res.data;
       console.log('pageTeams', this.pageTeams);

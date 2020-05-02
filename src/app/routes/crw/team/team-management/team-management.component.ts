@@ -14,13 +14,17 @@ import { STColumn, STChange, STColumnTag } from '@delon/abc';
 import { I18NService } from '@core';
 import { TeamTypeService } from 'src/app/services/team-type/team-type.service';
 import { element } from 'protractor';
+import { ApplyDto } from 'src/app/dto/ApplyDto';
+import { ApplyService } from 'src/app/services/apply/apply.service';
+import { ProjectDto } from 'src/app/dto/projectDto';
+import { TeamDto } from 'src/app/dto/TeamDto';
 
 const taskStatus: STColumnTag = {
-  1: { text: '成功', color: 'green' },
-  2: { text: '错误', color: 'red' },
+  1: { text: '待认领', color: 'green' },
+  2: { text: '待工作', color: 'red' },
   3: { text: '待完成', color: 'blue' },
-  4: { text: '工作中', color: '' },
-  5: { text: '已完成', color: 'orange' },
+  4: { text: '已完成', color: '' },
+  // 5: { text: '已完成', color: 'orange' },
 };
 @Component({
   selector: 'app-team-management',
@@ -29,44 +33,53 @@ const taskStatus: STColumnTag = {
 })
 export class TeamManagementComponent implements OnInit {
   notice: any[] = [];
+
   activities: any[] = [];
+
   radarData: any[];
+
   loading = true;
+
   data: any = {};
+
   offlineIdx = 0;
 
   userInfo: UserInfoDto = null;
 
   myTask: TaskDto[] = [];
 
-  userId: any;
+  userId: string;
+
+  // 获取入队审批信息
+  enqueueInfo: ApplyDto[] = [];
 
   /**
    * 所有团队信息（我的团队和我参加的团队）
    */
-  team: any[] = [];
+  team: TeamDto[] = [];
 
   /**
    * 未完成的项目
    */
-  undoneProject: any[] = [];
+  undoneProject: ProjectDto[] = [];
 
   /**
    * 所有项目
    */
-  projects: any[] = [];
+  projects: ProjectDto[] = [];
 
   /**
    * 我的团队
    */
-  myTeam: any[] = [];
+  myTeam: TeamDto[] = [];
 
   /**
    * 我参加的团队
    */
-  joinTeam: any[] = [];
+  joinTeam: TeamDto[] = [];
 
   params = { a: 1, b: 2 };
+
   columns: STColumn[] = [
     // { title: '编号', index: 'taskId' },
     { title: '任务', index: 'taskContent' },
@@ -152,6 +165,7 @@ export class TeamManagementComponent implements OnInit {
     private cache: CacheService,
     private i18n: I18NService,
     private teamTypeSerice: TeamTypeService,
+    private applyService: ApplyService,
   ) {}
 
   // format(val: number) {
@@ -186,44 +200,55 @@ export class TeamManagementComponent implements OnInit {
   }
 
   getDatas(): void {
-    this.cache.get('userId').subscribe(f => {
-      this.userId = f;
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      this.userId = f.userId;
       this.taskService.getTaskByUserId(this.userId).subscribe((res: { data: TaskDto[] }) => {
-        this.myTask = res.data.filter(h => h.taskStatus === '3' || h.taskStatus === '4');
+        console.log('myTask:', res.data);
+        this.myTask = res.data;
+        // this.myTask = res.data.filter(h => h.taskStatus === '3' || h.taskStatus === '4');
       });
     });
-    const userId: string = this.route.snapshot.paramMap.get('userId');
-    // 获取未完成的项目信息
-    this.teamService.getTeamProByUserId(userId).subscribe(datas => {
-      this.team = datas.data;
-      this.team.forEach(e => {
-        e.projects.forEach(project => {
-          this.projects.push(project);
-          if (project.proStatus === '未完成') {
-            this.undoneProject.push(project);
-          }
+    this.cache.get<UserInfoDto>('userInfo').subscribe(userInfo => {
+      // 获取我的团队信息
+      this.teamService.getTeamProByUserId(userInfo.userId).subscribe(datas => {
+        this.myTeam = datas.data;
+        this.myTeam.forEach(team => {
+          this.team.push(team);
         });
+        this.team = [...this.team];
+        this.team.forEach(team => {
+          team.projects.forEach(project => {
+            this.projects.push(project);
+            if(project.proStatus === '0'){
+              this.undoneProject.push(project);
+            }
+          })
+        })
+        console.log('myTeam:', this.myTeam);
       });
-      // console.log('projects:', this.projects);
-      // console.log('team:', this.team);
-    });
-    // 获取我的团队信息
-    this.teamService.getMyTeamProByUserId(userId).subscribe(datas => {
-      this.myTeam = datas.data;
-      // console.log('myTeam:', this.myTeam);
-    });
 
-    // 获取我参与的团队信息
-    this.teamService.getJoinTeamProByUserId(userId).subscribe(datas => {
-      this.joinTeam = datas.data;
-      // console.log('joinTeam:', this.joinTeam);
-    });
+      // // 获取我参与的团队信息
+      // this.teamService.getJoinTeamProByUserId(userInfo.userId).subscribe(datas => {
+      //   this.joinTeam = datas.data;
+      //   this.joinTeam.forEach(team => {
+      //     this.team.push(team);
+      //   });
+      //   this.team = [...this.team];
+      //   // console.log('joinTeam:', this.joinTeam);
+      // });
 
-    // 获取团队类型数量
-    this.teamTypeSerice.getTeamTypeNumber(userId).subscribe(res => {
-      this.salesPieData = res.data;
-      this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+      // 获取团队类型数量
+      this.teamTypeSerice.getTeamTypeNumber(userInfo.userId).subscribe(res => {
+        this.salesPieData = res.data;
+        this.total = `${this.salesPieData.reduce((pre, now) => now.y + pre, 0)}`;
+      });
+      // 获取入队审批信息
+      this.applyService.getEnqueueApply(userInfo.userId).subscribe(res => {
+        this.enqueueInfo = res.data;
+        console.log('res.data:', res.data);
+      });
     });
+    // 获取未完成的项目信息
   }
 
   /**
@@ -289,5 +314,21 @@ export class TeamManagementComponent implements OnInit {
    */
   toTeamDetail(teamId: string): void {
     this.router.navigateByUrl(`team/team-detail/${teamId}`);
+  }
+
+  /**
+   * 同意入队
+   */
+  agree(item: ApplyDto): void {
+    this.applyService.agreeApply(item.applyId).subscribe();
+    this.enqueueInfo = this.enqueueInfo.filter(apply => apply !== item);
+  }
+
+  /**
+   * 拒绝入队
+   */
+  disagree(item: ApplyDto): void {
+    this.applyService.disagreeApply(item.applyId).subscribe();
+    this.enqueueInfo = this.enqueueInfo.filter(apply => apply !== item);
   }
 }

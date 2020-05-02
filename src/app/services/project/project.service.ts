@@ -37,4 +37,15 @@ export class ProjectService {
   saveProject(projectDto: ProjectDto): Observable<Result> {
     return this.http.post<Result>(`${ProjectService.API}`, projectDto);
   }
+
+  /**
+   * 删除项目
+   */
+  delete(proId: string): Observable<Result> {
+    return this.http.delete<Result>(`${ProjectService.API}/${proId}`);
+  }
+
+  update(proId: string, project: ProjectDto): Observable<Result> {
+    return this.http.put(`${ProjectService.API}/${proId}`, project);
+  }
 }

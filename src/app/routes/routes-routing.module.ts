@@ -29,7 +29,7 @@ import { NotificeComponent } from './crw/team/project/project-detail/notifice/no
 import { TeamApplyViewComponent } from './crw/team/team-apply-view/team-apply-view.component';
 import { ProjectApplyViewComponent } from './crw/team/project/project-apply-view/project-apply-view.component';
 import { TeamListComponent } from './team-management/team-list/team-list.component';
-import { ProListComponent } from './project-management/project-list/project-list.component';
+import { ProListComponent } from './project-management/pro-list/pro-list.component';
 import { TeamMoreComponent } from './crw/team/team-more/team-more.component';
 import { ListComponent } from './crw/team/project/project-list/list/list.component';
 import { Path } from '@delon/theme';

@@ -56,7 +56,9 @@ export class TeamApplyViewComponent implements OnInit {
     return {
       teamId: item ? item.teamId : null,
       teamName: item ? item.teamName : null,
+      adminId: item ? item.adminId : null,
       leaderId: item ? item.leaderId : null,
+      leaderName: item ? item.leaderName : null,
       teamDescribe: item ? item.teamDescribe : null,
       teamType: item ? item.teamType : null,
       teamScope: item ? item.teamScope : null,
@@ -88,6 +90,9 @@ export class TeamApplyViewComponent implements OnInit {
     };
   }
 
+  /**
+   * 申请入队
+   */
   apply(event: any) {
     console.log('申请入队');
     this.applyModalComponent.isVisible = true;

@@ -19,28 +19,6 @@
       "hideInBreadcrumb": true,
       "children": [
         {
-          "text": "用户管理",
-          "i18n": "menu.user",
-          "icon": "anticon-user",
-          "children": [
-            {
-              "text": "普通用户",
-              "link": "/dashboard/v1",
-              "i18n": "menu.dashboard.v1"
-            },
-            {
-              "text": "管理员",
-              "link": "/dashboard/analysis",
-              "i18n": "menu.dashboard.admin"
-            },
-            {
-              "text": "监控页",
-              "link": "/dashboard/user-monitor",
-              "i18n": "menu.dashboard.monitor"
-            }
-          ]
-        },
-        {
           "text": "团队管理",
           "i18n": "menu.team",
           "icon": "anticon-team",
@@ -51,32 +29,14 @@
               "i18n": "menu.team.list"
             },
             {
-              "text": "监控页",
+              "text": "分析页",
               "link": "/dashboard/monitor",
               "i18n": "menu.dashboard.monitor"
             }
           ]
         },
         {
-          "text": "项目管理",
-          "i18n": "menu.project",
-          "icon": "anticon-user",
-          "children": [
-            {
-              "text": "项目列表",
-              "link": "/project-management/pro-list",
-              "i18n": "menu.project.list"
-            },
-            {
-              "text": "监控页",
-              "link": "/dashboard/pro-monitor",
-              "i18n": "menu.dashboard.monitor"
-            }
-
-          ]
-        },
-        {
-          "text": "文件管理",
+          "text": "团队审批",
           "link": "/dashboard/files-management",
           "i18n": "menu.shortcut",
           "icon": "anticon-rocket",

@@ -32,10 +32,11 @@
     <div class="page-extra">
       <div>
         <p>项目状态</p>
-        <p>{{project.proStatus}}</p>
+        <p *ngIf="project.proStatus === '0'">未完成</p>
+        <p *ngIf="project.proStatus === '1'">已完成</p>
       </div>
       <div>
-        <p>项目人数</p>
+        <p>总任务数</p>
         <p>{{project.proCurrentNum}}</p>
       </div>
       <div>
@@ -45,10 +46,10 @@
           <span> / 22</span>
         </p>
       </div>
-      <div>
+      <!-- <div>
         <p>项目访问</p>
         <p>{{project.seeNum}}</p>
-      </div>
+      </div> -->
     </div>
   </ng-template>
   <ng-template #tab>

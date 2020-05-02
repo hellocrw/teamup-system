@@ -44,24 +44,29 @@
   <nz-list [nzDataSource]="teams" [nzLoading]="loading" [nzRenderItem]="item" [nzPagination]="pagination">
     <ng-template #item let-item>
       <nz-list-item [nzContent]="nzContent" [nzActions]="[edit, op]">
+
         <ng-template #edit>
-          <a *ngIf="item.status === '0'" (nzOnConfirm)="finish(item)" nz-popconfirm nzPopconfirmTitle="确定完成组队?"
-            nzPopconfirmPlacement="bottom" (nzOnCancel)="cancel()">完成组队</a>
-          <a *ngIf="item.status === '1'" (nzOnConfirm)="continue(item)" nz-popconfirm nzPopconfirmTitle="确定继续组队?"
-            nzPopconfirmPlacement="bottom" (nzOnCancel)="cancel()">继续组队</a>
+          <div *ngIf="item.leaderId === userId">
+            <a *ngIf="item.status === '0' " (nzOnConfirm)="finish(item)" nz-popconfirm nzPopconfirmTitle="确定完成组队?"
+              nzPopconfirmPlacement="bottom" (nzOnCancel)="cancel()">完成组队</a>
+            <a *ngIf="item.status === '1' " (nzOnConfirm)="continue(item)" nz-popconfirm nzPopconfirmTitle="确定继续组队?"
+              nzPopconfirmPlacement="bottom" (nzOnCancel)="cancel()">继续组队</a>
+          </div>
         </ng-template>
+
         <ng-template #op>
-          <a class="ant-dropdown-link" nz-dropdown [nzDropdownMenu]="opMenu">
+          <a class="ant-dropdown-link" nz-dropdown [nzDropdownMenu]="opMenu" *ngIf="item.leaderId === userId">
             更多
             <i nz-icon nzType="down"></i>
           </a>
           <nz-dropdown-menu #opMenu="nzDropdownMenu">
             <ul nz-menu>
               <li nz-menu-item (click)="openEdit(item)">编辑</li>
-              <li nz-menu-item (click)="msg.success('删除：' + item.title)">删除</li>
+              <li nz-menu-item (click)="delectTeam(item)">删除</li>
             </ul>
           </nz-dropdown-menu>
         </ng-template>
+
         <nz-list-item-meta [nzTitle]="nzTitle" [nzDescription]="item.teamDescribe" [nzAvatar]="nzAvatar">
           <ng-template #nzTitle>
             <a (click)="toProList(item)">{{ item.teamName }}</a>
@@ -93,6 +98,8 @@
     </ng-template>
   </nz-list>
 </nz-card>
+<app-team-edit-modal #teamEditModalComponent></app-team-edit-modal>
+
 
 
 <!-- <nz-layout>

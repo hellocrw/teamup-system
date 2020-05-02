@@ -11,6 +11,7 @@ import { TokenService } from 'src/app/services/token/token.service';
 import { CacheService } from '@delon/cache';
 import { userInfo } from 'os';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'passport-login',
@@ -19,7 +20,7 @@ import { UserInfoDto } from 'src/app/dto/UserInfoDto';
   providers: [SocialService],
 })
 export class UserLoginComponent implements OnDestroy {
-  userInfo: UserInfoDto = null;
+  userInfo: Observable<UserInfoDto>;
 
   constructor(
     fb: FormBuilder,
@@ -136,8 +137,9 @@ export class UserLoginComponent implements OnDestroy {
       // 设置用户Token信息
       this.tokenService.set(res.data);
       this.userInfo = res.data.userInfo;
-      this.cacheService.set('userInfo', this.userInfo);
-      this.cacheService.set('userId', this.userInfo.userId);
+      // 将数据加入缓存中
+      this.cacheService.set<UserInfoDto>('userInfo', this.userInfo);
+      // this.cacheService.set<string>('userId', this.userInfo.userId);
       this.cacheService.set('auth', res.data.auth);
 
       if (res.data.auth === 'ADMIN') {
