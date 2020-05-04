@@ -19,11 +19,11 @@
         <div class="desc-title">{{project.proName}}</div>
         <sv-container size="small" col="2">
           <sv label="创建人">{{project.leaderName}}</sv>
-          <sv label="项目详情：">{{project.proDescribe}}</sv>
           <sv label="创建时间">{{project.proDate}}</sv>
           <sv label="项目类型">{{project.proType}}</sv>
           <sv label="生效日期">{{project.proStartTime}} ~ {{project.proEndTime}}</sv>
-          <sv label="备注">请于两个工作日内确认</sv>
+          <sv label="项目详情" col="1">{{project.proDescribe}}</sv>
+          <!-- <sv label="备注">请于两个工作日内确认</sv> -->
         </sv-container>
       </div>
     </div>
@@ -37,14 +37,11 @@
       </div>
       <div>
         <p>总任务数</p>
-        <p>{{project.proCurrentNum}}</p>
+        <p>{{task.length}}</p>
       </div>
       <div>
         <p>未完成任务数</p>
-        <p>
-          8
-          <span> / 22</span>
-        </p>
+        <p>{{unFinishTask.length}}</p>
       </div>
       <!-- <div>
         <p>项目访问</p>

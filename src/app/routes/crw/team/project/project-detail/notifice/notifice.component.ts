@@ -7,6 +7,9 @@ import { _HttpClient } from '@delon/theme';
 import { zip } from 'rxjs';
 import { NoticeIconComponent } from '@delon/abc';
 import { NotificeModalComponent } from './notifice-modal/notifice-modal.component';
+import { ProjectService } from 'src/app/services/project/project.service';
+import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-notifice',
@@ -24,6 +27,8 @@ export class NotificeComponent implements OnInit {
 
   loading = true;
 
+  isLeader: boolean;
+
   noticeInfo: NoticeDto[] = null;
 
   @ViewChild('notificeModelComponent', { static: true })
@@ -35,6 +40,8 @@ export class NotificeComponent implements OnInit {
     private noticeService: NoticeService,
     private messageService: MessageService,
     private http: _HttpClient,
+    private projectService: ProjectService,
+    private cache: CacheService,
   ) {}
 
   ngOnInit() {
@@ -64,6 +71,8 @@ export class NotificeComponent implements OnInit {
       this.noticeInfo = res.data;
       console.log('notice:', this.noticeInfo);
     });
+
+    this.isLeader = this.messageService.isLeader;
   }
 
   initDatas(item?: NoticeDto): NoticeDto {

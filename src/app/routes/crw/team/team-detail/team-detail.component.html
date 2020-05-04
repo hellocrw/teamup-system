@@ -5,7 +5,7 @@
         <a [routerLink]="['/']">首页</a>
       </nz-breadcrumb-item>
       <nz-breadcrumb-item>
-        <a [routerLink]="['/team/project/project-list']">团队管理</a>
+        <a [routerLink]="['/team/team-management', 1]">后台管理</a>
       </nz-breadcrumb-item>
       <nz-breadcrumb-item>{{team.teamName}}</nz-breadcrumb-item>
     </nz-breadcrumb>
@@ -18,12 +18,12 @@
       <div class="desc">
         <div class="desc-title">{{team.teamName}}</div>
         <sv-container size="small" col="2">
-          <sv label="创建人">{{team.leaderId}}</sv>
-          <sv label="团队详情">{{team.teamDescribe}}</sv>
+          <sv label="创建人">{{team.leaderName}}</sv>
           <sv label="创建时间">{{team.teamDate}}</sv>
           <sv label="团队类型">{{team.teamType}}</sv>
+          <sv label="团队范围">{{team.teamScope}}</sv>
           <!-- <sv label="生效日期">{{project.proStartTime}} ~ {{project.proEndTime}}</sv> -->
-          <sv label="备注">请于两个工作日内确认</sv>
+          <sv label="团队详情" col="1">{{team.teamDescribe}}</sv>
         </sv-container>
       </div>
     </div>
@@ -75,7 +75,8 @@
             </ng-template>
 
             <ng-template #op>
-              <a (click)="deleteProject(item)">删除</a>
+              <a nz-popconfirm nzPopconfirmTitle="你确定要删除改项目吗?" nzPopconfirmPlacement="bottom"
+                (nzOnConfirm)="deleteProject(item)" (nzOnCancel)="cancel()">删除</a>
             </ng-template>
 
             <ng-template #nzExtra>

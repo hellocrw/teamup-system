@@ -85,7 +85,6 @@ export class TeamService {
    * 通过团队范围获取团队信息
    */
   getTeamByteamScope(teamScope: string): Observable<Result> {
-    console.log('item', teamScope);
     return this.http.get<Result>(`${TeamService.API}/getTeamByteamScope/${teamScope}`);
   }
 

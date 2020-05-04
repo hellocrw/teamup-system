@@ -13,6 +13,9 @@ import { MessageService } from 'src/app/services/message/message.service';
 import { AddProjectModalComponent } from './add-project-modal/add-project-modal.component';
 import { UserInfoService } from 'src/app/services/user-info/user-info.service';
 import { NzMessageService } from 'ng-zorro-antd';
+import { TeamTypeService } from 'src/app/services/team-type/team-type.service';
+import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
+import { CacheService } from '@delon/cache';
 
 const isLeader: STColumnTag = {
   0: { text: '队员', color: 'green' },
@@ -52,10 +55,18 @@ export class TeamDetailComponent implements OnInit {
     { title: '角色', index: 'isLeader', type: 'tag', tag: isLeader },
     {
       title: '操作',
+      ui: {
+        acl: 'isLeader',
+      },
       buttons: [
         {
           text: '踢出',
+          acl: 'isLeader',
+          iif: () => true,
           type: 'link',
+          pop: {
+            title: '确定踢出吗',
+          },
           click: (e: any) => {
             console.log('btn click', e);
             this.userTeamService.deleteByUtId(e.utId).subscribe();
@@ -81,6 +92,7 @@ export class TeamDetailComponent implements OnInit {
     private userInfoService: UserInfoService,
     private projectService: ProjectService,
     private msg: NzMessageService,
+    private cache: CacheService,
   ) {}
 
   ngOnInit() {
@@ -103,6 +115,7 @@ export class TeamDetailComponent implements OnInit {
       teamType: item ? item.teamType : null,
       teamScope: item ? item.teamScope : null,
       teamNumber: item ? item.teamNumber : null,
+      sumNumber: item ? item.sumNumber : null,
       teamDate: item ? item.teamDate : null,
       status: item ? item.status : null,
       staff: item ? item.staff : null,
@@ -186,6 +199,7 @@ export class TeamDetailComponent implements OnInit {
     this.projects = this.projects.filter(project => project.proId !== item.proId);
     this.msg.success('删除成功');
   }
+  cancel(): void {}
 
   /**
    * 修改项目

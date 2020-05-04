@@ -9,6 +9,8 @@ import { TaskDto } from 'src/app/dto/TaskDto';
 import { NzMessageService } from 'ng-zorro-antd';
 import { MessageService } from 'src/app/services/message/message.service';
 import { Subscription } from 'rxjs';
+import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 @Component({
   selector: 'app-task',
@@ -25,7 +27,11 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   index = 0;
 
+  isLeader: boolean;
+
   proId: string;
+
+  userId: string;
 
   // project: any;
 
@@ -69,6 +75,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     private msg: NzMessageService,
     private messageService: MessageService,
     private router: Router,
+    private cache: CacheService,
   ) {}
 
   ngOnInit() {
@@ -81,8 +88,12 @@ export class TaskComponent implements OnInit, OnDestroy {
     // );
     // 订阅
     // this.messageService.message$.subscribe(data => (this.proId = data));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      this.userId = f.userId;
+    });
     console.log('proId:', this.messageService.data);
     this.proId = this.messageService.data;
+    this.isLeader = this.messageService.isLeader;
     this.getData();
     if (this.proId === null) {
       this.router.navigateByUrl('/team');
@@ -141,6 +152,7 @@ export class TaskComponent implements OnInit, OnDestroy {
    */
   toTaskDetail(task: TaskDto) {
     this.taskDetailComponent.task = task;
+    this.taskDetailComponent.userId = this.userId;
     // console.log(this.taskDetailComponent.task);
     this.taskDetailComponent.isVisible = true;
   }

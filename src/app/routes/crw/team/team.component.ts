@@ -139,7 +139,8 @@ export class TeamComponent implements OnInit {
     });
     // 获取所有团队信息
     this.teamService.getTeams().subscribe(datas => {
-      this.teams = datas.data.slice(0, 8);
+      this.teams = datas.data.slice(0, 12);
+      console.log('all teams: ', this.teams);
     });
   }
 
@@ -176,11 +177,14 @@ export class TeamComponent implements OnInit {
     this.router.navigateByUrl('/team/team-more');
   }
 
+  /**
+   * 类型搜索
+   */
   search(item?: any): Observable<Result> {
     // this.msg.success('查找');
     this.msg.success(item);
     console.log('1:', item);
-    this.teamService.getTeamByTeamType(item).subscribe(res => (this.teams = res.data));
+    this.teamService.getTeamByTeamType(item).subscribe(res => (this.teams = res.data.slice(0, 12)));
     console.log('temp:', this.messageService.data);
     return null;
   }

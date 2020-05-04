@@ -1,12 +1,28 @@
-<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="新增"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzBodyStyle]="{
+<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="新增任务"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk(data.value)" [nzBodyStyle]="{
     'max-height': '455px',
     'min-height': '300px',
     'overflow-y': 'auto',
     'overflow-x': 'hidden',
     padding: '24px 24px 0 24px'
   }">
-  <p>Content one</p>
-  <p>Content two</p>
-  <p>Content three</p>
+  <form #data="ngForm" nz-form>
+    <nz-form-item nzFlex>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>选择项目</nz-form-label>
+      <nz-form-control [nzSm]="7" [nzXs]="24">
+        <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedValue" name="selectedValue">
+          <nz-option *ngFor="let item of team.projects; let idx = index" [nzLabel]="item.proName"
+            [nzValue]="item.proId">
+          </nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired nzFor="noticeContent">通知内容</nz-form-label>
+      <nz-form-control [nzSm]="18" [nzXs]="24">
+        <textarea rows="4" nz-input name="noticeContent" #noticeContent="ngModel"
+          [(ngModel)]="notice.noticeContent"></textarea>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
 </nz-modal>

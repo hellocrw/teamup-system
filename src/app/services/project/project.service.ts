@@ -48,4 +48,8 @@ export class ProjectService {
   update(proId: string, project: ProjectDto): Observable<Result> {
     return this.http.put(`${ProjectService.API}/${proId}`, project);
   }
+
+  getLeaderIdByProId(proId: string, userId: string): Observable<Result> {
+    return this.http.get<Result>(`${ProjectService.API}/getLeaderIdByProId/${proId}/${userId}`);
+  }
 }

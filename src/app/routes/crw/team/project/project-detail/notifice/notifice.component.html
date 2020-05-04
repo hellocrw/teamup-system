@@ -16,6 +16,6 @@
   </nz-list>
 </nz-card>
 <ng-template #extraTemplate>
-  <a (click)="create()">发布公告</a>
+  <a (click)="create()" *ngIf="isLeader">发布公告</a>
 </ng-template>
 <app-notifice-modal #notificeModelComponent (element)="getChildData($event)" [proId]="proId"></app-notifice-modal>

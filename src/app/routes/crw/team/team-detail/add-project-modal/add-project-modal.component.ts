@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 import { TeamService } from 'src/app/services/team/team.service';
 import { CacheService } from '@delon/cache';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
 
 @Component({
   selector: 'app-add-project-modal',
@@ -33,6 +34,8 @@ export class AddProjectModalComponent implements OnInit {
   res: Result;
 
   operationTime: Array<Date> = [];
+
+  teamType: TeamTypeDto[] = [];
 
   @Output()
   protected event: EventEmitter<ProjectDto> = new EventEmitter();
@@ -60,6 +63,8 @@ export class AddProjectModalComponent implements OnInit {
       this.myTeams = res.data;
       console.log('myteam', this.myTeams);
     });
+    // 获取团队类型
+    this.cache.get<TeamTypeDto[]>('teamType').subscribe(f => (this.teamType = f));
   }
 
   /**
@@ -103,7 +108,7 @@ export class AddProjectModalComponent implements OnInit {
       this.item.seeNum = '0';
       // // 通过选择的团队 --> 查询团队信息
       // const team: TeamDto = null;
-      this.item.leaderName = this.item.proDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+      this.item.proDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
       this.item.proStartTime = this.datePipe.transform(this.operationTime[0], 'yyyy-MM-dd');
       this.item.proEndTime = this.datePipe.transform(this.operationTime[1], 'yyyy-MM-dd');
       console.log('value:', value);

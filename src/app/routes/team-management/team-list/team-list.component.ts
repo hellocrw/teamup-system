@@ -66,8 +66,9 @@ export class TeamListComponent implements OnInit {
         {
           text: '发送通知',
           type: 'link',
-          click: (item: any) => {
-            this.sendMessagementComponent.team = item;
+          click: (team: any) => {
+            console.log('发送：', team);
+            this.sendMessagementComponent.team = team;
             this.sendMessagementComponent.isVisible = true;
           },
         },

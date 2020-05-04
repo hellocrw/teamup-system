@@ -9,7 +9,8 @@ export interface TeamDto {
   teamDescribe?: string;
   teamType?: string;
   teamScope?: string;
-  teamNumber?: number;
+  teamNumber?: string;
+  sumNumber?: string;
   teamDate?: string;
   status?: string;
   staff?: string;

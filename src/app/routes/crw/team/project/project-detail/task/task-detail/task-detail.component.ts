@@ -14,6 +14,8 @@ export class TaskDetailComponent implements OnInit {
   // 是否显示对话框
   isVisible = false;
 
+  userId: string;
+
   task: TaskDto;
 
   constructor(private messageService: MessageService) {}
@@ -44,14 +46,15 @@ export class TaskDetailComponent implements OnInit {
   }
 
   /**
-   * 确定
+   * 取消
    */
   handleCancel() {
+    // console.log('task测试', this.task);
     this.isVisible = false;
   }
 
   /**
-   * 取消
+   * 确定
    */
   handleOk() {
     this.isVisible = false;

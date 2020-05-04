@@ -2,10 +2,7 @@
   <st [data]="files" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
 </nz-card>
 <ng-template #extraTemplate>
-  <nz-upload nzAction="" [nzShowUploadList]="false">
-    <button nz-button class="button_view">
-      <i nz-icon nzType="upload"></i>
-      <span>上传文件</span>
-    </button>
+  <nz-upload nzAction="http://localhost:4200/api/files/uploadFiles" (nzChange)="handleChange($event)">
+    <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
   </nz-upload>
 </ng-template>

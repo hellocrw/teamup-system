@@ -7,12 +7,13 @@ import { NewProjectModalComponent } from './components/new-project-modal.compone
 import { MessageService } from 'src/app/services/message/message.service';
 import { CacheService } from '@delon/cache';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { TeamService } from 'src/app/services/team/team.service';
 
 @Component({
   selector: 'layout-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   searchToggleStatus: boolean;
@@ -30,13 +31,14 @@ export class HeaderComponent {
     private router: Router,
     private messageService: MessageService,
     private cache: CacheService,
+    private teamService: TeamService,
   ) {
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
   }
 
   search($event): void {
     this.router.navigateByUrl('/team');
-    console.log('temp:', $event);
+    // console.log('temp:', $event);
     if ($event.target.innerText === '校外') {
       // this.messageService.data = $event.target.innerText;
       this.messageService.sendUniversityScope($event.target.innerText);

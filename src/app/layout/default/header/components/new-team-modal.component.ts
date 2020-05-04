@@ -36,7 +36,7 @@ import { UserTeamService } from 'src/app/services/user-team/user-team.service';
           <nz-form-control [nzSpan]="18">
             <input
               nz-input
-              placeholder="填3则无需管理员，直接组队成功"
+              placeholder="填0则无需管理员，直接组队成功（默认是系统管理员）"
               name="adminId"
               [(ngModel)]="item.adminId"
               #adminId="ngModel"
@@ -50,23 +50,21 @@ import { UserTeamService } from 'src/app/services/user-team/user-team.service';
           <nz-form-control [nzSpan]="7">
             <input nz-input name="teamName" [(ngModel)]="item.teamName" #teamName="ngModel" required />
           </nz-form-control>
-          <nz-form-label [nzSpan]="4" nzFor="teamNumber" nzRequired>团队人数</nz-form-label>
+          <nz-form-label [nzSpan]="4" nzFor="sumNumber" nzRequired>团队人数</nz-form-label>
           <nz-form-control [nzSpan]="7">
-            <input nz-input name="teamNumber" [(ngModel)]="item.teamNumber" type="number" required />
+            <input nz-input name="sumNumber" [(ngModel)]="item.sumNumber" type="number" required />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item nzGutter="24">
           <nz-form-label [nzSpan]="4" nzFor="teamType" nzRequired>团队类型</nz-form-label>
           <nz-form-control [nzSpan]="7">
-            <nz-select
-              name="teamType"
-              [(ngModel)]="item.teamType"
-              name="teamType"
-              nzPlaceHolder=""
-              nzAllowClear
-              required
-            >
-              <nz-option *ngFor="let item of teamType; let idx = index" #value [nzLabel]="item.value" [nzValue]="idx">
+            <nz-select name="teamType" [(ngModel)]="item.teamType" nzPlaceHolder="" nzAllowClear required>
+              <nz-option
+                *ngFor="let item of teamType; let idx = index"
+                #value
+                [nzLabel]="item.value"
+                [nzValue]="item.value"
+              >
               </nz-option>
             </nz-select>
           </nz-form-control>
@@ -88,11 +86,31 @@ import { UserTeamService } from 'src/app/services/user-team/user-team.service';
         <nz-form-item nzGutter="24">
           <nz-form-label [nzSpan]="4" nzFor="teamNature" nzRequired>团队性质</nz-form-label>
           <nz-form-control [nzSpan]="7">
-            <input nz-input name="teamNature" [(ngModel)]="item.teamNature" #teamNature="ngModel" required />
+            <!-- <input nz-input name="teamNature" [(ngModel)]="item.teamNature" #teamNature="ngModel" required /> -->
+            <nz-select
+              #teamNature="ngModel"
+              [(ngModel)]="item.teamNature"
+              name="teamNature"
+              nzPlaceHolder=""
+              nzAllowClear
+              required
+            >
+              <nz-option nzLabel="个人团队" nzValue="个人团队"> </nz-option>
+              <nz-option nzLabel="班级团队" nzValue="班级团队"> </nz-option>
+              <nz-option nzLabel="企业团队" nzValue="企业团队"> </nz-option>
+              <nz-option nzLabel="其他" nzValue="其他"> </nz-option>
+            </nz-select>
           </nz-form-control>
           <nz-form-label [nzSpan]="4" nzFor="teamLabel" nzRequired>团队标签</nz-form-label>
           <nz-form-control [nzSpan]="7">
-            <input nz-input #teamLabel="ngModel" [(ngModel)]="item.teamLabel" name="teamLabel" required />
+            <input
+              nz-input
+              #teamLabel="ngModel"
+              [(ngModel)]="item.teamLabel"
+              name="teamLabel"
+              placeholder="如Java、angular"
+              required
+            />
           </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -182,6 +200,7 @@ export class NewTeamModalComponent implements OnInit {
     }
     this.item.status = '0';
     this.item.seeNum = '0';
+    this.item.teamNumber = '1';
     this.item.leaderId = this.userInfo.userId;
     this.item.leaderName = this.userInfo.userName;
     this.item.teamDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -205,6 +224,7 @@ export class NewTeamModalComponent implements OnInit {
       teamType: item ? item.teamType : null,
       teamScope: item ? item.teamScope : null,
       teamNumber: item ? item.teamNumber : null,
+      sumNumber: item ? item.sumNumber : null,
       teamDate: item ? item.teamDate : null,
       status: item ? item.status : null,
       staff: item ? item.staff : null,

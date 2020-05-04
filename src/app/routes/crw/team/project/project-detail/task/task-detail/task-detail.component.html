@@ -9,20 +9,24 @@
 
   <sv-container size="large" col="1">
     <sv label="任务">
-      <p nz-paragraph nzEditable [(nzContent)]="task.taskContent"></p>
+      <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.taskContent"></p>
+      <p *ngIf="task.userId !== userId">{{task.taskContent}}</p>
     </sv>
     <sv label="创建者">
       {{task.userId}}
     </sv>
     <sv label="创建时间">{{task.taskCreateTime}}</sv>
     <sv label="生效日期">
-      <p nz-paragraph nzEditable [(nzContent)]="task.taskStartTime"></p>
+      <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.taskEndTime"></p>
+      <p *ngIf="task.userId !== userId">{{task.taskStartTime}} </p>
     </sv>
     <sv label="备注">
-      <p nz-paragraph nzEditable [(nzContent)]="task.taskMark"></p>
+      <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.taskMark"></p>
+      <p *ngIf="task.userId !== userId">{{task.taskMark}}</p>
     </sv>
     <sv label="子任务列表">
-      <p nz-paragraph nzEditable [(nzContent)]="task.subTaskDtos"></p>
+      <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.subTaskDtos"></p>
+      <p *ngIf="task.userId !== userId">{{task.subTaskDtos}}</p>
     </sv>
   </sv-container>
 </nz-modal>

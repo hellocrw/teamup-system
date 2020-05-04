@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 export class MessageService {
   public data: string = null;
 
+  public isLeader: boolean;
+
   /**
    * 输入关键字，发布
    */

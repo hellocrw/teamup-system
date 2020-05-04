@@ -35,8 +35,7 @@
   </form>
 </nz-card>
 <div>
-  <nz-list class="content_center" [nzRenderItem]="item" [nzDataSource]="teams"
-    [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
+  <nz-list [nzRenderItem]="item" [nzDataSource]="teams" [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
     <ng-template #item let-item>
       <nz-list-item>
         <nz-card nzHoverable>
@@ -47,9 +46,8 @@
                 [{{item.teamDate}}发布]
               </small>
               <small class="text-grey" style="float: right;">
-                {{item.teamScope}}
+                {{item.university}}
               </small>
-
               <br>
               <small class="text-grey">
                 {{item.teamType}}
@@ -78,7 +76,7 @@
           <!-- ----------------------------------------------------- -->
           <div class="card-item-content">
             <span>{{item.teamLabel}}</span>
-            <span style="float: right;"><i nz-icon nzType="star" nzTheme="outline"></i>{{item.seeNum}}</span>
+            <span style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>{{item.sumNumber}}</span>
           </div>
         </nz-card>
       </nz-list-item>

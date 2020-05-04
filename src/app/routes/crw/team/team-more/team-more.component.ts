@@ -21,7 +21,7 @@ export class TeamMoreComponent implements OnInit {
   /**
    * 每页数量
    */
-  pageSize = '2';
+  pageSize = '3';
 
   pageRequest: PageRequest;
 

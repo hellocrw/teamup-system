@@ -102,6 +102,7 @@ export class TeamEditModalComponent implements OnInit {
       teamType: item ? item.teamType : null,
       teamScope: item ? item.teamScope : null,
       teamNumber: item ? item.teamNumber : null,
+      sumNumber: item ? item.sumNumber : null,
       teamDate: item ? item.teamDate : null,
       status: item ? item.status : null,
       staff: item ? item.staff : null,

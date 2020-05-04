@@ -32,7 +32,11 @@
       </nz-form-control>
       <nz-form-label [nzSpan]="4" nzRequired>项目类型</nz-form-label>
       <nz-form-control [nzSpan]="7">
-        <input nz-input name="proType" #proType="ngModel" [(ngModel)]="item.proType" required />
+        <nz-select name="proType" [(ngModel)]="item.proType" nzPlaceHolder="" nzAllowClear required>
+          <nz-option *ngFor="let item of teamType; let idx = index" #value [nzLabel]="item.value"
+            [nzValue]="item.value">
+          </nz-option>
+        </nz-select>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

@@ -140,10 +140,9 @@ export class UserLoginComponent implements OnDestroy {
       // 将数据加入缓存中
       this.cacheService.set<UserInfoDto>('userInfo', this.userInfo);
       // this.cacheService.set<string>('userId', this.userInfo.userId);
-      this.cacheService.set('auth', res.data.auth);
-
-      if (res.data.auth === 'ADMIN') {
-        this.router.navigateByUrl(`/dashboard/v1`);
+      this.cacheService.set('auth', res.data.auth[0].authority);
+      if (res.data.auth[0].authority === 'ADMIN') {
+        this.router.navigateByUrl(`/team-management/team-list`);
       } else {
         this.router.navigateByUrl(`/`);
       }
