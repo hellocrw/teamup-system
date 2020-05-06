@@ -219,11 +219,11 @@ export class TeamManagementComponent implements OnInit {
         this.team.forEach(team => {
           team.projects.forEach(project => {
             this.projects.push(project);
-            if(project.proStatus === '0'){
+            if (project.proStatus === '0') {
               this.undoneProject.push(project);
             }
-          })
-        })
+          });
+        });
         console.log('myTeam:', this.myTeam);
       });
 
@@ -313,6 +313,13 @@ export class TeamManagementComponent implements OnInit {
    * 跳转到团队详情页面
    */
   toTeamDetail(teamId: string): void {
+    // 判断是不是队长
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      this.userId = f.userId;
+      this.teamService.isLeader(teamId, this.userId).subscribe(res => {
+        this.cache.set<boolean>('isLeader', res.data);
+      });
+    });
     this.router.navigateByUrl(`team/team-detail/${teamId}`);
   }
 

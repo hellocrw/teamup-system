@@ -34,9 +34,8 @@
           <sv-container col="1">
             <!-- <sv label="执行者" type="primary">曹荣武</sv> -->
             <sv label="任务时间" type="success">{{ item.taskEndTime }} - {{ item.taskStartTime }}</sv>
-            <button *ngIf="userId === item.userId" nz-button nz-popconfirm style="display:block;margin:0 auto"
-              nzPopconfirmTitle="确定领取任务?" (nzOnConfirm)="confirm(item)" (nzOnCancel)="cancel()"
-              nzPopconfirmPlacement="topLeft">
+            <button nz-button nz-popconfirm style="display:block;margin:0 auto" nzPopconfirmTitle="确定领取任务?"
+              (nzOnConfirm)="confirm(item)" (nzOnCancel)="cancel()" nzPopconfirmPlacement="topLeft">
               领取
             </button>
           </sv-container>

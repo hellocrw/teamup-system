@@ -13,7 +13,7 @@
         <nz-avatar nzSrc="https://gw.alipayobjects.com/zos/rmsportal/lctvVCLfRpYCkYxAsiVQ.png"></nz-avatar>
       </div>
       <div class="desc">
-        <div class="desc-title">所有团队管理</div>
+        <div class="desc-title">后台管理</div>
         <div>欢迎回到你的团队管理</div>
       </div>
     </div>
@@ -131,7 +131,7 @@
   <div nz-col nzXs="24" nzSm="24" nzMd="12">
     <nz-card nzTitle="需要完成的任务" [nzBordered]="false" class="ant-card__body-nopadding mb-lg">
       <div class="links">
-        <st [data]="myTask" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
+        <st [ps]='5' [data]="myTask" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
         <!-- <a *ngFor="let item of myTask" (click)="msg.success(item.taskContent)">{{ item.taskContent }}</a> -->
         <!-- <button nz-button (click)="links.push({ title: 'new titel', href: 'href' })" [nzType]="'dashed'"
           [nzSize]="'small'">

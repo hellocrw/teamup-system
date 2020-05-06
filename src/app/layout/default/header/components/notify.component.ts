@@ -61,7 +61,7 @@ export class HeaderNotifyComponent implements OnInit {
       clearText: '刷新',
     },
   ];
-  count = 5;
+  count = 0;
   loading = false;
 
   constructor(
@@ -89,6 +89,7 @@ export class HeaderNotifyComponent implements OnInit {
       this.enqueueInfo = res.data;
       console.log('enqueueInfo:', this.enqueueInfo);
       this.toNoticeIconList(this.enqueueInfo);
+      this.count = this.count + this.enqueueInfo.length;
     });
     /**
      * 我的申请信息
@@ -98,6 +99,7 @@ export class HeaderNotifyComponent implements OnInit {
       // console.log('myApplyInfo:', this.myApplyInfo);
       // this.toNoticeIconList(this.myApplyInfo);
       this.toApplyList(this.myApplyInfo);
+      this.count = this.count + this.myApplyInfo.length;
     });
   }
 

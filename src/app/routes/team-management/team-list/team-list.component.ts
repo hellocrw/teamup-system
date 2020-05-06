@@ -7,6 +7,7 @@ import { TeamService } from 'src/app/services/team/team.service';
 import { CacheService } from '@delon/cache';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { SendMessagementComponent } from './send-messagement/send-messagement.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-team-list',
@@ -95,6 +96,7 @@ export class TeamListComponent implements OnInit {
     private modalSrv: NzModalService,
     private cdr: ChangeDetectorRef,
     private cache: CacheService,
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -133,16 +135,8 @@ export class TeamListComponent implements OnInit {
   }
 
   stChange(e: STChange) {
-    switch (e.type) {
-      case 'checkbox':
-        this.selectedRows = e.checkbox!;
-        this.totalCallNo = this.selectedRows.reduce((total, cv) => total + cv.callNo, 0);
-        this.cdr.detectChanges();
-        break;
-      case 'filter':
-        this.getData();
-        break;
-    }
+    console.log('e', e);
+    // this.router.navigateByUrl('/team/team-detail', e.click.item.teamId);
   }
 
   remove() {
@@ -170,5 +164,9 @@ export class TeamListComponent implements OnInit {
   reset() {
     // wait form reset updated finished
     setTimeout(() => this.getData());
+  }
+
+  toTeamDetail(e): void {
+    console.log('eee', e);
   }
 }

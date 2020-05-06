@@ -16,6 +16,7 @@ import { NzMessageService } from 'ng-zorro-antd';
 import { TeamTypeService } from 'src/app/services/team-type/team-type.service';
 import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
 import { CacheService } from '@delon/cache';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 
 const isLeader: STColumnTag = {
   0: { text: '队员', color: 'green' },
@@ -29,6 +30,10 @@ const isLeader: STColumnTag = {
 export class TeamDetailComponent implements OnInit {
   team: TeamDto;
 
+  isLeader = true;
+
+  userId: string;
+
   projects: ProjectDto[] = [];
 
   teamId: string;
@@ -36,6 +41,7 @@ export class TeamDetailComponent implements OnInit {
   userTeam: UserTeamDto[] = [];
 
   list: any[] = [];
+
   loading = false;
 
   @ViewChild('addProjectModalComponent', { static: true })
@@ -55,14 +61,11 @@ export class TeamDetailComponent implements OnInit {
     { title: '角色', index: 'isLeader', type: 'tag', tag: isLeader },
     {
       title: '操作',
-      ui: {
-        acl: 'isLeader',
-      },
+      iif: () => this.isLeader,
       buttons: [
         {
           text: '踢出',
           acl: 'isLeader',
-          iif: () => true,
           type: 'link',
           pop: {
             title: '确定踢出吗',
@@ -96,11 +99,15 @@ export class TeamDetailComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.teamId = this.route.snapshot.paramMap.get('teamId');
+    // this.cache.get<boolean>('isLeader').subscribe(f => (this.isLeader = f));
+    console.log(this.isLeader);
+    this.isLeader = this.messageService.isLeader;
     this.team = this.initDatas();
     this.projects.forEach(project => {
       this.initProjectData(project);
     });
-    this.teamId = this.route.snapshot.paramMap.get('teamId');
+
     this.getDatas();
   }
 

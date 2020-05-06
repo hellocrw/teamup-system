@@ -1,8 +1,32 @@
 <nz-card [nzBordered]="false" nzTitle="文件管理" [nzExtra]="extraTemplate">
-  <st [data]="files" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
+  <!-- <st [data]="files" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st> -->
+  <nz-table #basicTable [nzData]="listOfData">
+    <thead>
+      <tr>
+        <th>文件名</th>
+        <th>上传者</th>
+        <th>上传时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of files">
+        <td>{{ item.fileName }}</td>
+        <td>{{ item.userName }}</td>
+        <td>{{ item.uploadTime }}</td>
+        <td>
+          <a>删除</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a class="mr-sm" down-file http-url="http://localhost:4200/api/files/uploadFiles">下载
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </nz-card>
 <ng-template #extraTemplate>
-  <nz-upload nzAction="http://localhost:4200/api/files/uploadFiles" (nzChange)="handleChange($event)">
-    <button nz-button><i nz-icon nzType="upload"></i>Upload</button>
+  <nz-upload nzAction="http://localhost:4200/api/files/uploadFiles" [nzShowUploadList]="false"
+    (nzChange)="handleChange($event)">
+    <button nz-button><i nz-icon nzType="upload"></i>上传</button>
   </nz-upload>
 </ng-template>

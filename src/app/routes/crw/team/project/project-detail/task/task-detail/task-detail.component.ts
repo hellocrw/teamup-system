@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { TaskComponent } from '../task.component';
 import { TaskDto } from 'src/app/dto/TaskDto';
 import { MessageService } from 'src/app/services/message/message.service';
+import { TaskService } from 'src/app/services/task/task.service';
+import { NzMessageService } from 'ng-zorro-antd';
 
 @Component({
   selector: 'app-task-detail',
@@ -18,7 +20,11 @@ export class TaskDetailComponent implements OnInit {
 
   task: TaskDto;
 
-  constructor(private messageService: MessageService) {}
+  constructor(
+    private messageService: MessageService,
+    private taskService: TaskService,
+    private msg: NzMessageService,
+  ) {}
 
   ngOnInit() {
     // console.log('task onInit');
@@ -39,6 +45,7 @@ export class TaskDetailComponent implements OnInit {
       taskEndTime: item ? item.taskEndTime : null,
       taskContent: item ? item.taskContent : null,
       userId: item ? item.userId : null,
+      userName: item ? item.userName : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
       subTaskDtos: item ? item.subTaskDtos : null,
@@ -57,6 +64,10 @@ export class TaskDetailComponent implements OnInit {
    * 确定
    */
   handleOk() {
+    console.log('task测试', this.task);
+    // 更新任务
+    this.taskService.update(this.task.taskId, this.task).subscribe();
+    this.msg.success('更新成功');
     this.isVisible = false;
   }
 }

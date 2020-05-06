@@ -136,4 +136,8 @@ export class TeamService {
   getTeamByAdmin(adminId: string): Observable<Result> {
     return this.http.get<Result>(`${TeamService.API}/getTeamByAdmin/${adminId}`);
   }
+
+  isLeader(teamId: string, userId: string): Observable<Result> {
+    return this.http.get<Result>(`${TeamService.API}/isLeader/${teamId}/${userId}`);
+  }
 }

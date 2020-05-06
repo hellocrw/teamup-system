@@ -163,6 +163,8 @@ export class TaskComponent implements OnInit, OnDestroy {
   confirm(item: TaskDto): void {
     console.log('2:', item);
     this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    item.userId = this.userId;
+    this.taskService.update(item.taskId, item).subscribe();
     this.taskPool = this.taskPool.filter(f => f !== item);
     this.taskTodo.push(item);
     this.msg.success(item.taskContent + '任务已领取');

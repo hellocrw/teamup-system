@@ -28,6 +28,27 @@ export class FilesComponent implements OnInit {
 
   files: FilesDto[] = [];
 
+  listOfData = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+    },
+  ];
+
   // mock
   columns: STColumn[] = [
     // { title: '编号', index: 'fileId' },
@@ -45,7 +66,13 @@ export class FilesComponent implements OnInit {
         {
           text: '删除',
           type: 'link',
-          click: (e: any) => console.log('下载文件', e),
+          pop: {
+            title: '确定删除吗',
+          },
+          click: (e: any) => {
+            this.filesService.deleteByFileId(e.fileId).subscribe();
+            this.files = this.files.filter(file => e.fileId !== file.fileId);
+          },
         },
       ],
     },

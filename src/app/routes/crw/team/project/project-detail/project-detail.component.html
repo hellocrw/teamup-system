@@ -55,4 +55,5 @@
     </nz-tabset>
   </ng-template>
 </page-header>
-<router-outlet #projectDetailComponent></router-outlet>
+<router-outlet (activate)='onActivate($event)' (deactivate)='onDeactivate($event)' #projectDetailComponent>
+</router-outlet>

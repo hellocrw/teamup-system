@@ -63,6 +63,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       });
     });
 
+    // 监听发布任务
+    this.messageService.task.subscribe(res => {
+      console.log('监听搜索功能taskId:', res);
+      // TODO
+      this.task.push(res);
+      this.unFinishTask.push(res);
+    });
+
     // this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/task`);
     this.getDatas();
   }
@@ -86,6 +94,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     this.messageService.data = this.proId;
 
     this.messageService.isLeader = this.isLeader;
+
     this.router.navigateByUrl(`/team/project/project-detail/${this.proId}/${key}`);
   }
 
@@ -99,6 +108,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.messageService.data = null;
+    // this.messageService.task.unsubscribe();
   }
 
   /**
@@ -113,6 +123,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       taskEndTime: item ? item.taskEndTime : null,
       taskContent: item ? item.taskContent : null,
       userId: item ? item.userId : null,
+      userName: item ? item.userName : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
       subTaskDtos: item ? item.subTaskDtos : null,

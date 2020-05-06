@@ -8,6 +8,7 @@ export interface TaskDto {
   taskEndTime?: string;
   taskContent?: number;
   userId?: string;
+  userName?: string;
   taskStatus?: string;
   taskMark?: string;
   subTaskDtos?: SubTaskDto[];

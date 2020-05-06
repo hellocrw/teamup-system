@@ -22,4 +22,12 @@ export class FilesService {
   saveFile(files: FilesDto): Observable<Result> {
     return this.http.post<Result>(`${FilesService.API}/saveFile`, files);
   }
+
+  deleteByFileId(fileId: string): Observable<Result> {
+    return this.http.delete<Result>(`${FilesService.API}/deleteByFileId/${fileId}`);
+  }
+
+  downfile(fileName: string) {
+    // return this.http.post
+  }
 }

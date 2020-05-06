@@ -113,7 +113,28 @@
 
   <div nz-col nzXs="24" nzSm="24" nzMd="24" nzLg="8">
     <nz-card [nzTitle]="'团队成员' | translate" [nzBordered]="false" class="mb-lg">
-      <st [data]="userTeam" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st>
+      <!-- <st [data]="userTeam" [req]="{params: params}" [columns]="columns" (change)="_click($event)"></st> -->
+      <nz-table #basicTable [nzShowPagination]="false" [nzData]="userTeam">
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>角色</th>
+            <th *ngIf="false">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of userTeam">
+            <td>{{ data.userName }}</td>
+            <td>
+              <p *ngIf="data.isLeader === '1'">队长</p>
+              <p *ngIf="data.isLeader === '0'">队员</p>
+            </td>
+            <td *ngIf="false">
+              <a>踢出</a>
+            </td>
+          </tr>
+        </tbody>
+      </nz-table>
     </nz-card>
   </div>
   <app-add-project-modal #addProjectModalComponent [team]="team" (event)="eventHandler($event)"></app-add-project-modal>

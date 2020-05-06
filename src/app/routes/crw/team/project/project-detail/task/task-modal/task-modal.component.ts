@@ -6,6 +6,7 @@ import { TaskService } from 'src/app/services/task/task.service';
 import { DatePipe } from '@angular/common';
 import { CacheService } from '@delon/cache';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'app-task-modal',
@@ -22,6 +23,8 @@ export class TaskModalComponent implements OnInit {
   @Output() element = new EventEmitter<TaskDto>();
 
   userId: string;
+
+  userInfo: UserInfoDto;
 
   task: TaskDto = null;
 
@@ -88,10 +91,14 @@ export class TaskModalComponent implements OnInit {
     private taskService: TaskService,
     private datePipe: DatePipe,
     private cache: CacheService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit() {
-    this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userId = f.userId));
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      this.userId = f.userId;
+      this.userInfo = f;
+    });
     this.task = this.initFormData();
   }
 
@@ -107,6 +114,7 @@ export class TaskModalComponent implements OnInit {
       taskEndTime: item ? item.taskEndTime : null,
       taskContent: item ? item.taskContent : null,
       userId: item ? item.userId : null,
+      userName: item ? item.userName : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
       subTaskDtos: item ? item.subTaskDtos : null,
@@ -122,6 +130,7 @@ export class TaskModalComponent implements OnInit {
     // value.userId = '1';
     value.taskStatus = '1';
     value.userId = this.userId;
+    value.userName = this.userInfo.userName;
     value.taskStartTime = this.datePipe.transform(value.taskStartTime, 'yyyy-MM-dd');
     value.taskEndTime = this.datePipe.transform(value.taskEndTime, 'yyyy-MM-dd');
     value.taskCreateTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -130,6 +139,7 @@ export class TaskModalComponent implements OnInit {
       console.log(datas);
       // 将子组件添加的任务发送给父组件
       this.element.emit(datas.data);
+      this.messageService.sendTask(datas.data);
     });
     this.isVisible = false;
   }
