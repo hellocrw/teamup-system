@@ -29,4 +29,11 @@ export class UserTeamService {
   deleteByUtId(utId: string): Observable<Result> {
     return this.http.delete<Result>(`${UserTeamService.API}/${utId}`);
   }
+
+  /**
+   * 判断团队是否存在该用户
+   */
+  existInTeam(userId: string, teamId: string): Observable<Result> {
+    return this.http.get<Result>(`${UserTeamService.API}/existInTeam/${userId}/${teamId}`);
+  }
 }

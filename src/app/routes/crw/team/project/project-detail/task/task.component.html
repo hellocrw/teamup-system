@@ -11,7 +11,7 @@
   <div *ngIf="index == 0">
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="4" *ngFor="let item of tasks">
-        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);min-height: 200px;" [nzBordered]="false"
           [nzExtra]="extraTemplate" [nzTitle]="item.taskContent">
           <sv-container col="1">
             <!-- <sv label="任务名称" type="primary">{{item.taskContent}}</sv> -->
@@ -29,7 +29,7 @@
   <div *ngIf="index == 1">
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="4" *ngFor="let item of taskPool">
-        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);min-height: 200px;" [nzBordered]="false"
           [nzExtra]="extraTemplate" [nzTitle]="item.taskContent">
           <sv-container col="1">
             <!-- <sv label="执行者" type="primary">曹荣武</sv> -->
@@ -49,7 +49,7 @@
   <div *ngIf="index == 2">
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="4" *ngFor="let item of taskTodo">
-        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);min-height: 200px;" [nzBordered]="false"
           [nzExtra]="extraTemplate" [nzTitle]="item.taskContent">
           <sv-container col="1">
             <sv label="执行者" type="primary">曹荣武</sv>
@@ -70,7 +70,7 @@
   <div *ngIf="index == 3">
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="4" *ngFor="let item of taskWork">
-        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);min-height: 200px;" [nzBordered]="false"
           [nzExtra]="extraTemplate" [nzTitle]="item.taskContent">
           <sv-container col="1">
             <sv label="执行者" type="primary">曹荣武</sv>
@@ -91,7 +91,7 @@
   <div *ngIf="index == 4">
     <div nz-row nzGutter="24">
       <div nz-col nzSpan="4" *ngFor="let item of taskFinish">
-        <nz-card style="width:200px; background-color: rgb(196, 195, 193);" [nzBordered]="false"
+        <nz-card style="width:200px; background-color: rgb(196, 195, 193);min-height: 200px;" [nzBordered]="false"
           [nzExtra]="extraTemplate" [nzTitle]="item.taskContent">
           <sv-container col="1">
             <sv label="执行者" type="primary">曹荣武</sv>

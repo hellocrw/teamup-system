@@ -56,7 +56,7 @@ export class HeaderComponent {
   }
 
   toTeamManagement(userId: string): void {
-    this.router.navigate(['/team/team-management', userId]);
+    this.router.navigate(['/team/team-management']);
   }
 
   createTeam(userId: string): void {

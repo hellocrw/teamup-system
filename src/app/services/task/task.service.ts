@@ -44,8 +44,8 @@ export class TaskService {
   /**
    * 更新任务状态
    */
-  updateTaskByTaskId(taskId: string): Observable<Result> {
-    return this.http.get<Result>(`${TaskService.API}/updateTaskByTaskId/${taskId}`);
+  updateTaskByTaskId(taskId: string, userId: string, userName: string): Observable<Result> {
+    return this.http.get<Result>(`${TaskService.API}/updateTaskByTaskId/${taskId}/${userId}/${userName}`);
   }
 
   update(taskId: string, task: TaskDto): Observable<Result> {

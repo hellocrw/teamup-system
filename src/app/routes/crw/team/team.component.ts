@@ -121,7 +121,7 @@ export class TeamComponent implements OnInit {
         switchMap((item: string) => this.teamService.getTeamByteamScope(item)),
       )
       .subscribe(res => {
-        this.teams = res.data;
+        this.teams = res.data.slice(0, 12);
         console.log('监听搜索功能', this.teams);
       });
   }

@@ -100,6 +100,16 @@ export class TeamDetailComponent implements OnInit {
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('teamId');
+    this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      // 判断该用户是否存在于该团队中
+      this.userTeamService.existInTeam(f.userId, this.teamId).subscribe(res => {
+        if (res.data <= 0) {
+          // 跳转到无法访问页面
+          this.router.navigateByUrl('/exception/403');
+        }
+      });
+    });
+
     // this.cache.get<boolean>('isLeader').subscribe(f => (this.isLeader = f));
     console.log(this.isLeader);
     this.isLeader = this.messageService.isLeader;

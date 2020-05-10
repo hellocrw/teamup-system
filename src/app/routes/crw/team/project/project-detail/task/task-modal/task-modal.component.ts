@@ -129,8 +129,9 @@ export class TaskModalComponent implements OnInit {
     value.proId = this.proId;
     // value.userId = '1';
     value.taskStatus = '1';
-    value.userId = this.userId;
-    value.userName = this.userInfo.userName;
+    value.userId = '0';
+    // value.userName = this.userInfo.userName;
+    value.userName = '无';
     value.taskStartTime = this.datePipe.transform(value.taskStartTime, 'yyyy-MM-dd');
     value.taskEndTime = this.datePipe.transform(value.taskEndTime, 'yyyy-MM-dd');
     value.taskCreateTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd');

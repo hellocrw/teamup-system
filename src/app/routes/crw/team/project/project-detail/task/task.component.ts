@@ -31,6 +31,8 @@ export class TaskComponent implements OnInit, OnDestroy {
 
   proId: string;
 
+  userInfo: UserInfoDto;
+
   userId: string;
 
   // project: any;
@@ -89,6 +91,7 @@ export class TaskComponent implements OnInit, OnDestroy {
     // 订阅
     // this.messageService.message$.subscribe(data => (this.proId = data));
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+      this.userInfo = f;
       this.userId = f.userId;
     });
     console.log('proId:', this.messageService.data);
@@ -161,11 +164,15 @@ export class TaskComponent implements OnInit, OnDestroy {
    * 领取任务
    */
   confirm(item: TaskDto): void {
-    console.log('2:', item);
-    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
-    item.userId = this.userId;
-    this.taskService.update(item.taskId, item).subscribe();
+    console.log('2:', this.userId);
+    this.taskService
+      .updateTaskByTaskId(item.taskId, this.userId, this.userInfo.userName)
+      .subscribe(f => console.log(f));
+    // item.userId = this.userId;
+    // this.taskService.update(item.taskId, item).subscribe();
     this.taskPool = this.taskPool.filter(f => f !== item);
+    item.userId = this.userId;
+    item.userName = this.userInfo.userName;
     this.taskTodo.push(item);
     this.msg.success(item.taskContent + '任务已领取');
   }
@@ -174,7 +181,9 @@ export class TaskComponent implements OnInit, OnDestroy {
    * 开始工作
    */
   startWork(item: TaskDto): void {
-    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    this.taskService
+      .updateTaskByTaskId(item.taskId, this.userId, this.userInfo.userName)
+      .subscribe(f => console.log(f));
     this.taskTodo = this.taskTodo.filter(f => f !== item);
     this.taskWork.push(item);
     this.msg.success(item.taskContent + '开始工作');
@@ -184,7 +193,9 @@ export class TaskComponent implements OnInit, OnDestroy {
    * 完成任务
    */
   finish(item: TaskDto): void {
-    this.taskService.updateTaskByTaskId(item.taskId).subscribe(f => console.log(f));
+    this.taskService
+      .updateTaskByTaskId(item.taskId, this.userId, this.userInfo.userName)
+      .subscribe(f => console.log(f));
     this.taskWork = this.taskWork.filter(f => f !== item);
     this.taskFinish.push(item);
     this.msg.success(item.taskContent + '已完成');

@@ -54,7 +54,7 @@ const routes: Routes = [
       { path: 'team/team-detail/:teamId', component: TeamDetailComponent },
       { path: 'team/team-apply-view/:teamId', component: TeamApplyViewComponent },
       { path: 'project/project-apply-view/:proId', component: ProjectApplyViewComponent },
-      { path: 'team/team-management/:userId', component: TeamManagementComponent },
+      { path: 'team/team-management', component: TeamManagementComponent },
       {
         path: 'team/project/project-detail/:proId',
         component: ProjectDetailComponent,

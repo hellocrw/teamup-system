@@ -180,7 +180,10 @@ export class TeamManagementComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userId = this.route.snapshot.paramMap.get('userId');
+    // this.userId = this.route.snapshot.paramMap.get('userId');
+    // this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
+    //   this.userId = f.userId;
+    // });
     zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
       ([chart, notice, activities]: [any, any, any]) => {
         this.radarData = chart.radarData;
@@ -210,13 +213,33 @@ export class TeamManagementComponent implements OnInit {
     });
     this.cache.get<UserInfoDto>('userInfo').subscribe(userInfo => {
       // 获取我的团队信息
-      this.teamService.getTeamProByUserId(userInfo.userId).subscribe(datas => {
+      this.teamService.getMyTeamProByUserId(userInfo.userId).subscribe(datas => {
         this.myTeam = datas.data;
         this.myTeam.forEach(team => {
           this.team.push(team);
         });
         this.team = [...this.team];
-        this.team.forEach(team => {
+        this.myTeam.forEach(team => {
+          team.projects.forEach(project => {
+            this.projects.push(project);
+            if (project.proStatus === '0') {
+              this.undoneProject.push(project);
+              console.log('undoneProject', this.undoneProject);
+            }
+          });
+        });
+        console.log('myTeam:', this.myTeam);
+      });
+
+      // 获取我参与的团队信息
+      this.teamService.getJoinTeamProByUserId(userInfo.userId).subscribe(datas => {
+        this.joinTeam = datas.data;
+        this.joinTeam.forEach(team => {
+          this.team.push(team);
+        });
+        this.team = [...this.team];
+        // 获取未完成的项目信息
+        this.joinTeam.forEach(team => {
           team.projects.forEach(project => {
             this.projects.push(project);
             if (project.proStatus === '0') {
@@ -224,19 +247,9 @@ export class TeamManagementComponent implements OnInit {
             }
           });
         });
-        console.log('myTeam:', this.myTeam);
+        console.log('joinTeam:', this.joinTeam);
+        console.log('undoneProject', this.undoneProject);
       });
-
-      // // 获取我参与的团队信息
-      // this.teamService.getJoinTeamProByUserId(userInfo.userId).subscribe(datas => {
-      //   this.joinTeam = datas.data;
-      //   this.joinTeam.forEach(team => {
-      //     this.team.push(team);
-      //   });
-      //   this.team = [...this.team];
-      //   // console.log('joinTeam:', this.joinTeam);
-      // });
-
       // 获取团队类型数量
       this.teamTypeSerice.getTeamTypeNumber(userInfo.userId).subscribe(res => {
         this.salesPieData = res.data;
@@ -248,7 +261,6 @@ export class TeamManagementComponent implements OnInit {
         console.log('res.data:', res.data);
       });
     });
-    // 获取未完成的项目信息
   }
 
   /**

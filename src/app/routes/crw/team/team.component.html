@@ -22,7 +22,8 @@
           <nz-form-control>
             <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
               style="width: 200px;">
-              <nz-option *ngFor="let i of teamType let idx = index" #searchValue [nzLabel]="i.value" [nzValue]="idx">
+              <nz-option *ngFor="let i of teamType let idx = index" #searchValue [nzLabel]="i.value"
+                [nzValue]="i.value">
               </nz-option>
             </nz-select>
           </nz-form-control>
