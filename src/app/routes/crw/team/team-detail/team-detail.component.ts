@@ -164,12 +164,12 @@ export class TeamDetailComponent implements OnInit {
   }
 
   getDatas(more = false): void {
-    this.loading = true;
-    this.http.get('/api/list', { count: this.q.ps }).subscribe((res: any) => {
-      this.list = more ? this.list.concat(res) : res;
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    this.loading = false;
+    // this.http.get('/api/list', { count: this.q.ps }).subscribe((res: any) => {
+    //   this.list = more ? this.list.concat(res) : res;
+    //   this.loading = false;
+    //   this.cdr.detectChanges();
+    // });
     // 获取对应的团队信息以及项目信息
     this.teamService.getTeamProByTeamId(this.teamId).subscribe(datas => {
       this.team = datas.data;

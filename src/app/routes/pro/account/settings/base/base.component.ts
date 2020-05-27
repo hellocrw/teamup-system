@@ -30,21 +30,22 @@ export class ProAccountSettingsBaseComponent implements OnInit {
 
   ngOnInit(): void {
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
-    zip(this.http.get('/user/current'), this.http.get('/geo/province')).subscribe(([user, province]: any) => {
-      this.userLoading = false;
-      this.user = user;
-      this.provinces = province;
-      this.choProvince(user.geographic.province.key, false);
-      this.cdr.detectChanges();
-    });
+    this.userLoading = false;
+    // zip(this.http.get('/user/current'), this.http.get('/geo/province')).subscribe(([user, province]: any) => {
+    //   this.userLoading = false;
+    //   this.user = user;
+    //   this.provinces = province;
+    //   this.choProvince(user.geographic.province.key, false);
+    //   this.cdr.detectChanges();
+    // });
   }
 
   choProvince(pid: string, cleanCity = true) {
-    this.http.get(`/geo/${pid}`).subscribe((res: any) => {
-      this.cities = res;
-      if (cleanCity) this.user.geographic.city.key = '';
-      this.cdr.detectChanges();
-    });
+    // this.http.get(`/geo/${pid}`).subscribe((res: any) => {
+    //   this.cities = res;
+    //   if (cleanCity) this.user.geographic.city.key = '';
+    //   this.cdr.detectChanges();
+    // });
   }
 
   // #endregion

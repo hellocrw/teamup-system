@@ -74,11 +74,11 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
       this.userInfo = data;
       console.log(this.userInfo);
     });
-    zip(this.http.get('/user/current'), this.http.get('/api/notice')).subscribe(([user, notice]) => {
-      this.user = user;
-      this.notice = notice;
-      this.cdr.detectChanges();
-    });
+    // zip(this.http.get('/user/current'), this.http.get('/api/notice')).subscribe(([user, notice]) => {
+    //   this.user = user;
+    //   this.notice = notice;
+    //   this.cdr.detectChanges();
+    // });
     this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
     this.setActive();
     this.getDatas();

@@ -55,15 +55,15 @@ export class HeaderComponent {
     this.searchToggleStatus = !this.searchToggleStatus;
   }
 
-  toTeamManagement(userId: string): void {
-    this.router.navigate(['/team/team-management']);
+  toTeamManagement(): void {
+    this.router.navigateByUrl(`team/team-management`);
   }
 
-  createTeam(userId: string): void {
+  createTeam(): void {
     this.newTeamModalComponent.isVisible = true;
   }
 
-  createProject(userId: string): void {
+  createProject(): void {
     this.newProjectModalComponent.isVisible = true;
   }
 

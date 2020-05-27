@@ -159,7 +159,6 @@ export class TeamManagementComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private teamService: TeamService,
     private taskService: TaskService,
-    private route: ActivatedRoute,
     private router: Router,
     private messageService: MessageService,
     private cache: CacheService,
@@ -180,25 +179,26 @@ export class TeamManagementComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loading = false;
     // this.userId = this.route.snapshot.paramMap.get('userId');
     // this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
     //   this.userId = f.userId;
     // });
-    zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
-      ([chart, notice, activities]: [any, any, any]) => {
-        this.radarData = chart.radarData;
-        this.notice = notice;
-        this.activities = activities.map((item: any) => {
-          item.template = item.template.split(/@\{([^{}]*)\}/gi).map((key: string) => {
-            if (item[key]) return `<a>${item[key].name}</a>`;
-            return key;
-          });
-          return item;
-        });
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-    );
+    // zip(this.http.get('/chart'), this.http.get('/api/notice'), this.http.get('/api/activities')).subscribe(
+    //   ([chart, notice, activities]: [any, any, any]) => {
+    //     this.radarData = chart.radarData;
+    //     this.notice = notice;
+    //     this.activities = activities.map((item: any) => {
+    //       item.template = item.template.split(/@\{([^{}]*)\}/gi).map((key: string) => {
+    //         if (item[key]) return `<a>${item[key].name}</a>`;
+    //         return key;
+    //       });
+    //       return item;
+    //     });
+    //     this.loading = false;
+    //     this.cdr.detectChanges();
+    //   },
+    // );
     this.getDatas();
   }
 

@@ -53,11 +53,11 @@ export class ProListProjectsComponent implements OnInit {
   }
 
   getData() {
-    this.loading = true;
-    this.http.get('/api/list', { count: this.q.ps }).subscribe((res: any) => {
-      this.list = this.list.concat(res);
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    this.loading = false;
+    // this.http.get('/api/list', { count: this.q.ps }).subscribe((res: any) => {
+    //   this.list = this.list.concat(res);
+    //   this.loading = false;
+    //   this.cdr.detectChanges();
+    // });
   }
 }

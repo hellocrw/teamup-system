@@ -23,11 +23,11 @@ export class ProCardListComponent implements OnInit {
   constructor(private http: _HttpClient, public msg: NzMessageService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.loading = true;
-    this.http.get('/api/list', { count: 8 }).subscribe((res: any) => {
-      this.list = this.list.concat(res);
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    this.loading = false;
+    // this.http.get('/api/list', { count: 8 }).subscribe((res: any) => {
+    //   this.list = this.list.concat(res);
+    //   this.loading = false;
+    //   this.cdr.detectChanges();
+    // });
   }
 }

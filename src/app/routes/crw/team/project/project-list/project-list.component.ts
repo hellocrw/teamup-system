@@ -77,12 +77,12 @@ export class ProjectListComponent implements OnInit {
     });
 
     console.log('this.tewam:', this.teams);
-    this.loading = true;
-    this.http.get('/api/list', { count: 5 }).subscribe((res: any) => {
-      this.data = res;
-      this.loading = false;
-      this.cdr.detectChanges();
-    });
+    this.loading = false;
+    // this.http.get('/api/list', { count: 5 }).subscribe((res: any) => {
+    //   this.data = res;
+    //   this.loading = false;
+    //   this.cdr.detectChanges();
+    // });
   }
 
   /**
@@ -102,7 +102,7 @@ export class ProjectListComponent implements OnInit {
   /**
    * 获取正在组队
    */
-  getTeaming(event): void {
+  getTeaming(): void {
     this.teamService.getTeamProByUserId(this.userId).subscribe(res => {
       this.teams = res.data;
       this.teams = this.teams.filter(f => f.status === '1');
