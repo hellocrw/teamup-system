@@ -24,6 +24,9 @@
       <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.taskMark"></p>
       <p *ngIf="task.userId !== userId">{{task.taskMark}}</p>
     </sv>
+    <sv label="链接">
+      <a href={{task.taskLink}} target="_Blank">{{task.taskLink}}</a>
+    </sv>
     <sv label="子任务列表">
       <p *ngIf="task.userId === userId" nz-typography nzEditable [(nzContent)]="task.subTaskDtos"></p>
       <p *ngIf="task.userId !== userId">{{task.subTaskDtos}}</p>

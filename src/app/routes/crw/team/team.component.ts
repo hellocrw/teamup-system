@@ -14,6 +14,10 @@ import { MessageService } from 'src/app/services/message/message.service';
 import { TeamDto } from 'src/app/dto/TeamDto';
 import { CacheService } from '@delon/cache';
 import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
+import { StudyPlanDto } from 'src/app/dto/StudyPlanDto';
+import { StudyPlanService } from 'src/app/services/study-plan/study-plan.service';
+import { UserInfoDto } from 'src/app/dto/UserInfoDto';
+import { StudyPlanModalComponent } from './study-plan/study-plan-modal/study-plan-modal.component';
 
 @Component({
   selector: 'app-team',
@@ -23,6 +27,11 @@ import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
 })
 export class TeamComponent implements OnInit {
   dateFormat = 'yyyy-MM-dd';
+
+  studyPlans: StudyPlanDto[] = null;
+
+  @ViewChild('studyPlanModalCompoment', { static: true })
+  studyPlanModalCompoment: StudyPlanModalComponent;
 
   private router$: Subscription;
   tabs: any[] = [
@@ -86,6 +95,7 @@ export class TeamComponent implements OnInit {
     private testService: TestService,
     private messageService: MessageService,
     private cache: CacheService,
+    private studyPlan: StudyPlanService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {}
   q: any = {
@@ -132,6 +142,13 @@ export class TeamComponent implements OnInit {
   getDatas(): void {
     // 获取用户基本信息
     this.user = this.tokenService.get(JWTTokenModel).userInfo;
+    // 获取缓存中得用户基本信息
+    this.cache.get<UserInfoDto>('userInfo').subscribe(res => {
+      this.studyPlan.getStudyPlans(res.userId).subscribe(f => {
+        this.studyPlans = f.data;
+        console.log('studyPlans:', this.studyPlans);
+      });
+    });
     // 获取团队类型teamType,将项目类型保存在缓存中
     this.dictionaryService.getTeamType().subscribe(datas => {
       this.teamType = datas.data;
@@ -187,5 +204,17 @@ export class TeamComponent implements OnInit {
     this.teamService.getTeamByTeamType(item).subscribe(res => (this.teams = res.data.slice(0, 12)));
     console.log('temp:', this.messageService.data);
     return null;
+  }
+
+  addStudyPlan($event): void {
+    console.log($event);
+    this.studyPlanModalCompoment.isVisible = true;
+  }
+
+  getChildData(data) {
+    console.log('childData传进来了', data);
+    this.studyPlans.push(data);
+    this.studyPlans.sort();
+    console.log('studyPlans--->', this.studyPlans);
   }
 }

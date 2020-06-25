@@ -43,6 +43,7 @@ import { FilesManagementComponent } from './dashboard/files-management/files-man
 import { AddProjectModalComponent } from './crw/team/team-detail/add-project-modal/add-project-modal.component';
 import { TeamEditModalComponent } from './crw/team/project/project-list/team-edit-modal/team-edit-modal.component';
 import { SendMessagementComponent } from './team-management/team-list/send-messagement/send-messagement.component';
+import { StudyPlanModalComponent } from './crw/team/study-plan/study-plan-modal/study-plan-modal.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -93,6 +94,7 @@ const COMPONENTS_NOROUNT = [];
     AddProjectModalComponent,
     TeamEditModalComponent,
     SendMessagementComponent,
+    StudyPlanModalComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

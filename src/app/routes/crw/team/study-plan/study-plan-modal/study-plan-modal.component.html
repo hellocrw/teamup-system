@@ -1,0 +1,14 @@
+<nz-modal [nzFooter]="" [nzMaskClosable]="false" [nzWidth]="800" [(nzVisible)]="isVisible" nzTitle="新增任务"
+  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()" [nzBodyStyle]="{
+    'max-height': '455px',
+    'min-height': '300px',
+    'overflow-y': 'auto',
+    'overflow-x': 'hidden',
+    padding: '24px 24px 0 24px'
+  }">
+  <sf [schema]="schema" (formSubmit)="submit($event)"></sf>
+  <div style="text-align: center;" *nzModalFooter>
+    <!-- <button nz-button nzType="default" (click)="handleCancel()">提交</button>
+    <button nz-button nzType="primary" (click)="handleOk()">重置</button> -->
+  </div>
+</nz-modal>

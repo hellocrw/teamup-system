@@ -117,6 +117,7 @@ export class TaskModalComponent implements OnInit {
       userName: item ? item.userName : null,
       taskStatus: item ? item.taskStatus : null,
       taskMark: item ? item.taskMark : null,
+      taskLink: item ? item.taskLink : null,
       subTaskDtos: item ? item.subTaskDtos : null,
     };
   }

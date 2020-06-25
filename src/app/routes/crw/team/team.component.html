@@ -22,7 +22,7 @@
           <nz-form-control>
             <nz-select [(ngModel)]="q.rate" name="rate" [nzPlaceHolder]="'不限'" [nzShowSearch]="true"
               style="width: 200px;">
-              <nz-option *ngFor="let i of teamType let idx = index" #searchValue [nzLabel]="i.value"
+              <nz-option *ngFor="let i of teamType; let idx = index" #searchValue [nzLabel]="i.value"
                 [nzValue]="i.value">
               </nz-option>
             </nz-select>
@@ -31,10 +31,35 @@
         <nz-form-item>
           <button nz-button (click)="search(q.rate)" nzType="primary">查找</button>
         </nz-form-item>
+        <nz-form-item style="float: right;">
+          <button nz-button nzType="primary" (click)="addStudyPlan($event)">添加任务</button>
+        </nz-form-item>
       </div>
     </se>
   </form>
 </nz-card>
+
+<!-- 学习计划 -->
+<nz-card [nzBordered]="false" style=" height: 500px; overflow-y: auto;background-color: blanchedalmond;">
+  <div>
+    <nz-timeline *ngFor="let item of studyPlans" style="text-align: left;">
+      <nz-timeline-item nzColor="red">{{ item.spTime }}</nz-timeline-item>
+      <nz-timeline-item nzColor="red">{{ item.spTitle }}</nz-timeline-item>
+      <nz-timeline-item nzColor="blue"><a href={{item.spLink}} target="_Blank">{{item.spLink}}</a></nz-timeline-item>
+      <!-- <nz-timeline-item nzColor="green">AQS原理 2015-09-01</nz-timeline-item>
+      <nz-timeline-item [nzDot]="dotTemplate">完成作业</nz-timeline-item>
+      <nz-timeline-item nzColor="red">项目改进 2015-09-01</nz-timeline-item>
+      <nz-timeline-item>项目内容 2015-09-01</nz-timeline-item> -->
+      <!-- <nz-timeline-item [nzDot]="dotTemplate">找团队系统优化 2015-09-01</nz-timeline-item> -->
+    </nz-timeline>
+    <!-- <ng-template #dotTemplate>
+      <i nz-icon nzType="clock-circle-o" style="font-size: 16px;"></i>
+    </ng-template> -->
+  </div>
+</nz-card>
+<app-study-plan-modal #studyPlanModalCompoment (element)="getChildData($event)"></app-study-plan-modal>
+
+<!-- 组队信息 -->
 <div>
   <nz-list [nzRenderItem]="item" [nzDataSource]="teams" [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
     <ng-template #item let-item>
@@ -43,19 +68,17 @@
           <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
             <ng-template #nzTitle>
               <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
-              <small class="text-grey" style="text-align: center;">
-                [{{item.teamDate}}发布]
-              </small>
+              <small class="text-grey" style="text-align: center;"> [{{ item.teamDate }}发布] </small>
               <small class="text-grey" style="float: right;">
-                {{item.university}}
+                {{ item.university }}
               </small>
-              <br>
+              <br />
               <small class="text-grey">
-                {{item.teamType}}
+                {{ item.teamType }}
                 <nz-divider nzType="vertical"></nz-divider>
-                {{item.teamNumber}}人
+                {{ item.teamNumber }}人
                 <nz-divider nzType="vertical"></nz-divider>
-                {{item.teamNature}}
+                {{ item.teamNature }}
               </small>
             </ng-template>
           </nz-card-meta>
@@ -63,10 +86,10 @@
             <div>
               <!-- <span class="text-grey">团队描述：{{ item.teamDescribe }}</span> -->
               <span class="text-grey">项目:</span>
-              <span class="text-grey" *ngFor="let project of item.projects; let i=index;">
-                <span *ngIf="i<3">
-                  <nz-divider nzType="vertical" *ngIf=" i !== 0"></nz-divider>
-                  <a [routerLink]="['/project/project-apply-view', project.proId]">{{project.proName}}</a>
+              <span class="text-grey" *ngFor="let project of item.projects; let i = index">
+                <span *ngIf="i < 3">
+                  <nz-divider nzType="vertical" *ngIf="i !== 0"></nz-divider>
+                  <a [routerLink]="['/project/project-apply-view', project.proId]">{{ project.proName }}</a>
                 </span>
               </span>
             </div>
@@ -76,8 +99,8 @@
           <nz-divider nzDashed></nz-divider>
           <!-- ----------------------------------------------------- -->
           <div class="card-item-content">
-            <span>{{item.teamLabel}}</span>
-            <span style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>{{item.sumNumber}}</span>
+            <span>{{ item.teamLabel }}</span>
+            <span style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>{{ item.sumNumber }}</span>
           </div>
         </nz-card>
       </nz-list-item>
