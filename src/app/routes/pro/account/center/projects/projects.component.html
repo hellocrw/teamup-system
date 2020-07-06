@@ -1,9 +1,5 @@
-<nz-list
-  [nzLoading]="listLoading"
-  [nzRenderItem]="item"
-  [nzDataSource]="list"
-  [nzGrid]="{ gutter: 24, xxl: 8, xl: 12, lg: 12, md: 12, sm: 12, xs: 24 }"
->
+<nz-list [nzLoading]="listLoading" [nzRenderItem]="item" [nzDataSource]="list"
+  [nzGrid]="{ gutter: 24, xxl: 8, xl: 12, lg: 12, md: 12, sm: 12, xs: 24 }">
   <ng-template #item let-item>
     <nz-list-item>
       <nz-card nzHoverable [nzCover]="cover">
@@ -12,7 +8,7 @@
         </ng-template>
         <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
           <ng-template #nzTitle>
-            <a (click)="msg.success('标题：' + item.id)">{{ item.title }}</a>
+            <a>{{ item.title }}</a>
           </ng-template>
         </nz-card-meta>
         <div class="card-item-content">

@@ -24,6 +24,7 @@ import { ProAccountSettingsBaseComponent } from './account/settings/base/base.co
 import { ProAccountSettingsSecurityComponent } from './account/settings/security/security.component';
 import { ProAccountSettingsBindingComponent } from './account/settings/binding/binding.component';
 import { ProAccountSettingsNotificationComponent } from './account/settings/notification/notification.component';
+import { ResumeComponent } from './account/resume/resume.component';
 
 const routes: Routes = [
   {
@@ -86,6 +87,11 @@ const routes: Routes = [
           {
             path: 'applications',
             component: ProAccountCenterApplicationsComponent,
+            data: { titleI18n: 'pro-account-center' },
+          },
+          {
+            path: 'resume',
+            component: ResumeComponent,
             data: { titleI18n: 'pro-account-center' },
           },
         ],

@@ -37,6 +37,7 @@ import { UserMonitorComponent } from './dashboard/user-monitor/user-monitor.comp
 import { ProMonitorComponent } from './dashboard/pro-monitor/pro-monitor.component';
 import { FilesManagementComponent } from './dashboard/files-management/files-management.component';
 import { ACLGuard } from '@delon/acl';
+import { ChatComponent } from './crw/team/project/project-detail/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -62,6 +63,7 @@ const routes: Routes = [
           { path: 'task', component: TaskComponent },
           { path: 'files', component: FilesComponent },
           { path: 'notifice', component: NotificeComponent },
+          { path: 'chat', component: ChatComponent },
         ],
       },
       { path: 'dashboard/v1', component: DashboardV1Component, canActivate: [ACLGuard], data: { guard: 'admin' } },

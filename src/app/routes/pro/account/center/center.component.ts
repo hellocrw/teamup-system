@@ -20,7 +20,6 @@ import { TeamDto } from 'src/app/dto/TeamDto';
   selector: 'app-account-center',
   templateUrl: './center.component.html',
   styleUrls: ['./center.component.less'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProAccountCenterComponent implements OnInit, OnDestroy {
   constructor(
@@ -41,6 +40,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
   user: any;
 
   notice: any;
+
   tabs: any[] = [
     {
       key: 'articles',
@@ -58,7 +58,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
 
   pos = 0;
 
-  taging = false;
+  taging = true;
   tagValue = '';
   @ViewChild('tagInput', { static: false })
   private tagInput: ElementRef;
@@ -79,7 +79,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
     //   this.notice = notice;
     //   this.cdr.detectChanges();
     // });
-    this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
+    // this.router$ = this.router.events.pipe(filter(e => e instanceof ActivationEnd)).subscribe(() => this.setActive());
     this.setActive();
     this.getDatas();
   }
@@ -88,6 +88,7 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
     // 获取我创建的团队
     this.teamService.getMyTeamProByUserId(this.userInfo.userId).subscribe(res => {
       this.myTeams = res.data;
+      console.log(' myteams', this.myTeams);
       // console.log('teams111:', this.myTeams);
     });
     // 获取我参与的团队
@@ -99,28 +100,33 @@ export class ProAccountCenterComponent implements OnInit, OnDestroy {
   to(item: any) {
     this.router.navigateByUrl(`/pro/account/center/${item.key}`);
   }
-  tagShowIpt() {
-    this.taging = true;
-    this.cdr.detectChanges();
-    (this.tagInput.nativeElement as HTMLInputElement).focus();
-  }
+  // tagShowIpt() {
+  //   this.taging = true;
+  //   this.cdr.detectChanges();
+  //   (this.tagInput.nativeElement as HTMLInputElement).focus();
+  // }
 
-  tagBlur() {
-    const { user, cdr, tagValue } = this;
-    if (tagValue && user.tags.filter(tag => tag.label === tagValue).length === 0) {
-      user.tags.push({ label: tagValue });
-    }
-    this.tagValue = '';
-    this.taging = false;
-    cdr.detectChanges();
-  }
+  // tagBlur() {
+  //   const { user, cdr, tagValue } = this;
+  //   if (tagValue && user.tags.filter(tag => tag.label === tagValue).length === 0) {
+  //     user.tags.push({ label: tagValue });
+  //   }
+  //   this.tagValue = '';
+  //   this.taging = true;
+  //   cdr.detectChanges();
+  // }
 
-  tagEnter(e: KeyboardEvent) {
-    // tslint:disable-next-line: deprecation
-    if (e.keyCode === 13) this.tagBlur();
-  }
+  // tagEnter(e: KeyboardEvent) {
+  //   // tslint:disable-next-line: deprecation
+  //   if (e.keyCode === 13) this.tagBlur();
+  // }
 
   ngOnDestroy() {
     this.router$.unsubscribe();
+  }
+
+  toResume(): void {
+    console.log('jianli');
+    this.router.navigateByUrl(`/pro/account/center/resume`);
   }
 }

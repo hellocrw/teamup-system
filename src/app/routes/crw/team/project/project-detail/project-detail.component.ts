@@ -41,6 +41,10 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       key: 'notifice',
       tab: '公告',
     },
+    {
+      key: 'chat',
+      tab: '聊天',
+    },
   ];
 
   constructor(

@@ -4,27 +4,19 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="mailErrorTip">
       <nz-input-group nzSize="large" nzAddonBeforeIcon="user">
-        <input nz-input formControlName="mail" placeholder="Email" />
+        <input nz-input formControlName="username" placeholder="username" />
       </nz-input-group>
       <ng-template #mailErrorTip let-i>
-        <ng-container *ngIf="i.errors?.required">{{ 'validation.email.required' | translate }}</ng-container>
-        <ng-container *ngIf="i.errors?.email">{{ 'validation.email.wrong-format' | translate }}</ng-container>
+        <ng-container *ngIf="i.errors?.required">{{ 'validation.username.required' | translate }}</ng-container>
+        <ng-container *ngIf="i.errors?.email">{{ 'validation.username.wrong-format' | translate }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control [nzErrorTip]="'validation.password.required' | translate">
-      <nz-input-group
-        nzSize="large"
-        nzAddonBeforeIcon="lock"
-        nz-popover
-        nzPopoverPlacement="right"
-        nzPopoverTrigger="focus"
-        [(nzVisible)]="visible"
-        nzOverlayClassName="register-password-cdk"
-        [nzOverlayStyle]="{ 'width.px': 240 }"
-        [nzPopoverContent]="pwdCdkTpl"
-      >
+      <nz-input-group nzSize="large" nzAddonBeforeIcon="lock" nz-popover nzPopoverPlacement="right"
+        nzPopoverTrigger="focus" [(nzVisible)]="visible" nzOverlayClassName="register-password-cdk"
+        [nzOverlayStyle]="{ 'width.px': 240 }" [nzPopoverContent]="pwdCdkTpl">
         <input nz-input type="password" formControlName="password" placeholder="Password" />
       </nz-input-group>
       <ng-template #pwdCdkTpl>
@@ -35,12 +27,8 @@
             <div *ngSwitchDefault class="error">{{ 'validation.password.strength.short' | translate }}</div>
           </ng-container>
           <div class="progress-{{ status }}">
-            <nz-progress
-              [nzPercent]="progress"
-              [nzStatus]="passwordProgressMap[status]"
-              [nzStrokeWidth]="6"
-              [nzShowInfo]="false"
-            ></nz-progress>
+            <nz-progress [nzPercent]="progress" [nzStatus]="passwordProgressMap[status]" [nzStrokeWidth]="6"
+              [nzShowInfo]="false"></nz-progress>
           </div>
           <p class="mt-sm">{{ 'validation.password.strength.msg' | translate }}</p>
         </div>
@@ -58,7 +46,20 @@
       </ng-template>
     </nz-form-control>
   </nz-form-item>
-  <nz-form-item>
+  <!-- 性别 -->
+  <!-- <nz-form-item>
+    <nz-form-control [nzErrorTip]="genderErrorTip">
+      <nz-input-group nzSize="large" nzAddonBeforeIcon="lock">
+        <input nz-input type="gender" formControlName="gender" placeholder="gender" />
+      </nz-input-group>
+      <ng-template #genderErrorTip let-i>
+        <ng-container *ngIf="i.errors?.required">{{ '性别不能为空' | translate }}</ng-container>
+        <ng-container *ngIf="i.errors?.equar">{{ 'validation.password.twice' | translate }}</ng-container>
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item> -->
+
+  <!-- <nz-form-item>
     <nz-form-control [nzErrorTip]="mobileErrorTip">
       <nz-input-group nzSize="large" [nzAddOnBefore]="addOnBeforeTemplate">
         <ng-template #addOnBeforeTemplate>
@@ -84,21 +85,14 @@
           </nz-input-group>
         </nz-col>
         <nz-col [nzSpan]="8">
-          <button
-            type="button"
-            nz-button
-            nzSize="large"
-            (click)="getCaptcha()"
-            [disabled]="count"
-            nzBlock
-            [nzLoading]="http.loading"
-          >
+          <button type="button" nz-button nzSize="large" (click)="getCaptcha()" [disabled]="count" nzBlock
+            [nzLoading]="http.loading">
             {{ count ? count + 's' : ('app.register.get-verification-code' | translate) }}
           </button>
         </nz-col>
       </nz-row>
     </nz-form-control>
-  </nz-form-item>
+  </nz-form-item> -->
   <nz-form-item>
     <button nz-button nzType="primary" nzSize="large" type="submit" [nzLoading]="http.loading" class="submit">
       {{ 'app.register.register' | translate }}

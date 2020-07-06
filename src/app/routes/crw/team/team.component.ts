@@ -18,6 +18,7 @@ import { StudyPlanDto } from 'src/app/dto/StudyPlanDto';
 import { StudyPlanService } from 'src/app/services/study-plan/study-plan.service';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { StudyPlanModalComponent } from './study-plan/study-plan-modal/study-plan-modal.component';
+import { getLocaleNumberFormat, NumberFormatStyle } from '@angular/common';
 
 @Component({
   selector: 'app-team',
@@ -211,10 +212,8 @@ export class TeamComponent implements OnInit {
     this.studyPlanModalCompoment.isVisible = true;
   }
 
-  getChildData(data) {
-    console.log('childData传进来了', data);
+  getChildData(data: StudyPlanDto) {
     this.studyPlans.push(data);
-    this.studyPlans.sort();
-    console.log('studyPlans--->', this.studyPlans);
+    this.studyPlans.sort((a, b) => Number(new Date(b.spTime)) - Number(new Date(a.spTime)));
   }
 }

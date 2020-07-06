@@ -1,7 +1,7 @@
 <div nz-row nzGutter="24" class="py-lg">
   <div nz-col nzMd="24" nzLg="7" nzOffset="8">
-    <nz-card [nzBordered]="false" class="mb-lg" [nzLoading]="!user">
-      <ng-container *ngIf="user">
+    <nz-card [nzBordered]="false" class="mb-lg">
+      <ng-container *ngIf="userInfo">
         <div class="avatarHolder">
           <img src="{{ userInfo.userAvatar }}" />
           <div class="name">{{ userInfo.userName }}</div>
@@ -16,34 +16,34 @@
             {{ userInfo.university }}
             <!-- {{ user.geographic.city.label }} -->
           </p>
+          <button nz-button nzType="primary" style="margin-bottom: 12px;" routerLink="/pro/accout/center/resume"
+            nzBlock>我的简历</button>
         </div>
         <nz-divider nzDashed></nz-divider>
         <div class="team">
           <div class="tagsTitle">我创建的团队</div>
-          <nz-spin [nzSpinning]="!notice">
-            <div nz-row nzGutter="36">
-              <div nz-col *ngFor="let item of myTeams" nzLg="24" nzXl="12">
-                <a href="#" class="text-truncate">
-                  <!-- <nz-avatar [nzSrc]="t.logo" nzSize="small"></nz-avatar> -->
-                  {{ item.teamName }}
-                </a>
-              </div>
+
+          <div nz-row nzGutter="36">
+            <div nz-col *ngFor="let item of myTeams" nzLg="24" nzXl="12">
+              <a href="#" class="text-truncate">
+                <!-- <nz-avatar [nzSrc]="t.logo" nzSize="small"></nz-avatar> -->
+                {{ item.teamName }}
+              </a>
             </div>
-          </nz-spin>
+          </div>
         </div>
+
         <nz-divider nzDashed></nz-divider>
         <div class="team">
           <div class="teamTitle">我参加的团队</div>
-          <nz-spin [nzSpinning]="!notice">
-            <div nz-row nzGutter="36">
-              <div nz-col *ngFor="let item of joinTeams" nzLg="24" nzXl="12">
-                <a href="#" class="text-truncate">
-                  <!-- <nz-avatar [nzSrc]="t.logo" nzSize="small"></nz-avatar> -->
-                  {{ item.teamName }}
-                </a>
-              </div>
+          <div nz-row nzGutter="36">
+            <div nz-col *ngFor="let item of joinTeams" nzLg="24" nzXl="12">
+              <a href="#" class="text-truncate">
+                <!-- <nz-avatar [nzSrc]="t.logo" nzSize="small"></nz-avatar> -->
+                {{ item.teamName }}
+              </a>
             </div>
-          </nz-spin>
+          </div>
         </div>
       </ng-container>
     </nz-card>

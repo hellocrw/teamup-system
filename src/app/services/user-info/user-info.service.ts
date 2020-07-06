@@ -3,6 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { Result } from 'src/app/dto/Result';
+import { UserRoleDto } from 'src/app/dto/UserRoleDto';
 
 @Injectable({
   providedIn: 'root',
@@ -48,5 +49,12 @@ export class UserInfoService {
    */
   getLeaderByTeamId(teamId: string): Observable<Result> {
     return this.http.get<Result>(`${UserInfoService.API}/getLeaderByTeamId/${teamId}`);
+  }
+
+  /**
+   * 用户注册
+   */
+  register(userRole: UserRoleDto): Observable<Result> {
+    return this.http.post<Result>(`${UserInfoService.API}/register?_allow_anonymous=true`, userRole);
   }
 }

@@ -44,6 +44,7 @@ import { AddProjectModalComponent } from './crw/team/team-detail/add-project-mod
 import { TeamEditModalComponent } from './crw/team/project/project-list/team-edit-modal/team-edit-modal.component';
 import { SendMessagementComponent } from './team-management/team-list/send-messagement/send-messagement.component';
 import { StudyPlanModalComponent } from './crw/team/study-plan/study-plan-modal/study-plan-modal.component';
+import { ChatComponent } from './crw/team/project/project-detail/chat/chat.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -95,6 +96,7 @@ const COMPONENTS_NOROUNT = [];
     TeamEditModalComponent,
     SendMessagementComponent,
     StudyPlanModalComponent,
+    ChatComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })

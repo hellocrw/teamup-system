@@ -39,7 +39,7 @@ export class UserLoginComponent implements OnDestroy {
     public cacheService: CacheService,
   ) {
     this.form = fb.group({
-      username: [null, [Validators.required, Validators.minLength(3)]],
+      username: [null, [Validators.required, Validators.minLength(1)]],
       password: [null, Validators.required],
       mobile: [null, [Validators.required, Validators.pattern(/^1\d{10}$/)]],
       captcha: [null, [Validators.required]],

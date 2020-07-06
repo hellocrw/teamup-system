@@ -30,6 +30,7 @@ import { ProAccountSettingsSecurityComponent } from './account/settings/security
 import { ProAccountSettingsBindingComponent } from './account/settings/binding/binding.component';
 import { ProAccountSettingsNotificationComponent } from './account/settings/notification/notification.component';
 import { ProBasicListEditComponent } from './list/basic-list/edit/edit.component';
+import { ResumeComponent } from './account/resume/resume.component';
 
 const COMPONENTS = [
   BasicFormComponent,
@@ -61,7 +62,7 @@ const COMPONENTS_NOROUNT = [Step1Component, Step2Component, Step3Component, ProB
 
 @NgModule({
   imports: [SharedModule, ProRoutingModule],
-  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT, ResumeComponent],
   entryComponents: COMPONENTS_NOROUNT,
 })
 export class ProModule {}
