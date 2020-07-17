@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { CacheService } from '@delon/cache';
+import { MessageService } from 'src/app/services/message/message.service';
 
 @Component({
   selector: 'app-chat',
@@ -10,17 +11,21 @@ import { CacheService } from '@delon/cache';
 export class ChatComponent implements OnInit, OnDestroy {
   message?: string;
 
+  proId = null;
+
   messages: Array<string> = [];
 
   userInfo: UserInfoDto = null;
 
   webSocket: WebSocket = null;
 
-  constructor(private cache: CacheService) {}
+  constructor(private cache: CacheService, private messageService: MessageService) {}
 
   ngOnInit() {
     // 获取用户基本信息
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
+    // 获取项目ID号
+    this.proId = this.messageService.data;
     // 连接WebSocket
     this.conectWebSocket();
   }
