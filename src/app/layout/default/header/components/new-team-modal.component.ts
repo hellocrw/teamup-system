@@ -10,6 +10,7 @@ import { TeamTypeDto } from 'src/app/dto/TeamTypeDto';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { UserTeamDto } from 'src/app/dto/UserTeamDto';
 import { UserTeamService } from 'src/app/services/user-team/user-team.service';
+import { DictionaryService } from 'src/app/services/dictionary/dictionary.service';
 
 @Component({
   selector: 'app-new-team-modal',
@@ -155,17 +156,19 @@ export class NewTeamModalComponent implements OnInit {
     private datePipe: DatePipe,
     private route: Router,
     private userTeamService: UserTeamService,
-  ) {}
+    private dictionaryService: DictionaryService,
+  ) { }
 
   ngOnInit() {
     this.item = this.initFormData();
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => (this.userInfo = f));
-    // 获取缓存中的团队类型
-    this.cache.get<TeamTypeDto[]>('teamType').subscribe(f => (this.teamType = f));
+    // 获取缓存中的团队类型 --> 报错：缓存还没加载teamType
+    // this.cache.get<TeamTypeDto[]>('teamType').subscribe(f => (this.teamType = f));
+    // 从后端获取团队类型
+    this.dictionaryService.getTeamType().subscribe(f => this.teamType = f.data);
   }
 
   addTeam(value: TeamDto): void {
-    console.log('xxxx');
     console.log(value);
   }
 

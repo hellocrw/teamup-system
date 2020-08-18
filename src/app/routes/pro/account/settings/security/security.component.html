@@ -1,13 +1,44 @@
 <nz-list nzItemLayout="horizontal">
   <nz-list-item [nzActions]="[passwordOp]">
     <ng-template #passwordOp>
-      <a (click)="msg.success('Edit')">修改</a>
+      <a (click)="toModal()">修改</a>
     </ng-template>
     <nz-list-item-meta nzTitle="账户密码" [nzDescription]="passwordDesc">
       <ng-template #passwordDesc> 当前密码强度：<span class="text-green">强</span> </ng-template>
     </nz-list-item-meta>
   </nz-list-item>
-  <!-- <nz-list-item [nzActions]="[phoneOp]">
+  <nz-list-item>
+    <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" )>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="password" nzRequired>原密码</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <input nz-input formControlName="password" id="password" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="newPassword" nzRequired>新密码</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <input nz-input formControlName="newPassword" id="newPassword" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="checkPassword" nzRequired>确认密码</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+          <input nz-input formControlName="checkPassword" id="checkPassword" />
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item nzFor="confirm">
+        <nz-form-control nzOffset="12">
+          <button nz-button nzType="primary">确认</button>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </nz-list-item>
+</nz-list>
+
+
+
+<!-- <nz-list-item [nzActions]="[phoneOp]">
     <ng-template #phoneOp>
       <a (click)="msg.success('Edit')">修改</a>
     </ng-template>
@@ -17,7 +48,7 @@
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item> -->
-  <!-- <nz-list-item [nzActions]="[questionOp]">
+<!-- <nz-list-item [nzActions]="[questionOp]">
     <ng-template #questionOp>
       <a (click)="msg.success('Edit')">修改</a>
     </ng-template>
@@ -47,4 +78,3 @@
       </ng-template>
     </nz-list-item-meta>
   </nz-list-item> -->
-</nz-list>

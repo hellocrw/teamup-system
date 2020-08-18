@@ -35,7 +35,7 @@ export class TeamEditModalComponent implements OnInit {
     private datePipe: DatePipe,
     private route: Router,
     private userTeamService: UserTeamService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.item = this.initFormData();

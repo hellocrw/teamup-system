@@ -39,73 +39,117 @@
   </form>
 </nz-card>
 
-<!-- 学习计划 -->
-<nz-card [nzBordered]="false" style=" height: 500px; overflow-y: auto;background-color: blanchedalmond;">
-  <div>
-    <nz-timeline *ngFor="let item of studyPlans" style="text-align: left;">
-      <nz-timeline-item nzColor="red">{{ item.spTime }}</nz-timeline-item>
-      <nz-timeline-item nzColor="red">{{ item.spTitle }}</nz-timeline-item>
-      <nz-timeline-item nzColor="blue"><a href={{item.spLink}} target="_Blank">{{item.spLink}}</a></nz-timeline-item>
-      <!-- <nz-timeline-item nzColor="green">AQS原理 2015-09-01</nz-timeline-item>
-      <nz-timeline-item [nzDot]="dotTemplate">完成作业</nz-timeline-item>
-      <nz-timeline-item nzColor="red">项目改进 2015-09-01</nz-timeline-item>
-      <nz-timeline-item>项目内容 2015-09-01</nz-timeline-item> -->
-      <!-- <nz-timeline-item [nzDot]="dotTemplate">找团队系统优化 2015-09-01</nz-timeline-item> -->
-    </nz-timeline>
-    <!-- <ng-template #dotTemplate>
-      <i nz-icon nzType="clock-circle-o" style="font-size: 16px;"></i>
-    </ng-template> -->
+<div nz-row nzGutter="24">
+  <div nz-col nzSpan="4">
+    <!-- 学习计划 -->
+    <div>
+      测试
+    </div>
+    <nz-card [nzBordered]="false" style="height: 500px; overflow-y: auto;background-color: rgb(250, 249, 249);">
+      <div>
+        <nz-timeline *ngFor="let item of studyPlans" style="text-align: left;">
+          <nz-timeline-item nzColor="red">{{ item.spTime }}</nz-timeline-item>
+          <nz-timeline-item nzColor="red">{{ item.spTitle }}</nz-timeline-item>
+          <nz-timeline-item nzColor="blue"><a href={{item.spLink}} target="_Blank">{{item.spLink}}</a>
+          </nz-timeline-item>
+          <!-- <nz-timeline-item nzColor="green">AQS原理 2015-09-01</nz-timeline-item>
+            <nz-timeline-item [nzDot]="dotTemplate">完成作业</nz-timeline-item>
+            <nz-timeline-item nzColor="red">项目改进 2015-09-01</nz-timeline-item>
+            <nz-timeline-item>项目内容 2015-09-01</nz-timeline-item> -->
+          <!-- <nz-timeline-item [nzDot]="dotTemplate">找团队系统优化 2015-09-01</nz-timeline-item> -->
+        </nz-timeline>
+        <!-- <ng-template #dotTemplate>
+            <i nz-icon nzType="clock-circle-o" style="font-size: 16px;"></i>
+          </ng-template> -->
+      </div>
+    </nz-card>
+    <app-study-plan-modal #studyPlanModalCompoment (element)="getChildData($event)"></app-study-plan-modal>
   </div>
-</nz-card>
-<app-study-plan-modal #studyPlanModalCompoment (element)="getChildData($event)"></app-study-plan-modal>
+  <nz-col nzSpan="16">
+    <!-- 组队信息 -->
+    <div>
+      <nz-list [nzRenderItem]="item" [nzDataSource]="teams" [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
+        <ng-template #item let-item>
+          <nz-list-item>
+            <nz-card nzHoverable>
+              <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
+                <ng-template #nzTitle>
+                  <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
+                  <small class="text-grey" style="text-align: center;"> [{{ item.teamDate }}发布] </small>
+                  <small class="text-grey" style="float: right;">
+                    {{ item.university }}
+                  </small>
+                  <br />
+                  <small class="text-grey">
+                    {{ item.teamType }}
+                    <nz-divider nzType="vertical"></nz-divider>
+                    {{ item.teamNumber }}人
+                    <nz-divider nzType="vertical"></nz-divider>
+                    {{ item.teamNature }}
+                  </small>
+                </ng-template>
+              </nz-card-meta>
+              <div class="card-item-content">
+                <div>
+                  <!-- <span class="text-grey">团队描述：{{ item.teamDescribe }}</span> -->
+                  <span class="text-grey">项目:</span>
+                  <span class="text-grey" *ngFor="let project of item.projects; let i = index">
+                    <span *ngIf="i < 3">
+                      <nz-divider nzType="vertical" *ngIf="i !== 0"></nz-divider>
+                      <a [routerLink]="['/project/project-apply-view', project.proId]">{{ project.proName }}</a>
+                    </span>
+                  </span>
+                </div>
+              </div>
 
-<!-- 组队信息 -->
-<div>
-  <nz-list [nzRenderItem]="item" [nzDataSource]="teams" [nzGrid]="{ gutter: 24, lg: 6, md: 10, sm: 12, xs: 24 }">
-    <ng-template #item let-item>
-      <nz-list-item>
-        <nz-card nzHoverable>
-          <nz-card-meta [nzTitle]="nzTitle" [nzDescription]="item.subDescription">
-            <ng-template #nzTitle>
-              <a [routerLink]="['/team/team-apply-view', item.teamId]">{{ item.teamName }}</a>
-              <small class="text-grey" style="text-align: center;"> [{{ item.teamDate }}发布] </small>
-              <small class="text-grey" style="float: right;">
-                {{ item.university }}
-              </small>
-              <br />
-              <small class="text-grey">
-                {{ item.teamType }}
-                <nz-divider nzType="vertical"></nz-divider>
-                {{ item.teamNumber }}人
-                <nz-divider nzType="vertical"></nz-divider>
-                {{ item.teamNature }}
-              </small>
-            </ng-template>
-          </nz-card-meta>
-          <div class="card-item-content">
-            <div>
-              <!-- <span class="text-grey">团队描述：{{ item.teamDescribe }}</span> -->
-              <span class="text-grey">项目:</span>
-              <span class="text-grey" *ngFor="let project of item.projects; let i = index">
-                <span *ngIf="i < 3">
-                  <nz-divider nzType="vertical" *ngIf="i !== 0"></nz-divider>
-                  <a [routerLink]="['/project/project-apply-view', project.proId]">{{ project.proName }}</a>
-                </span>
-              </span>
-            </div>
-          </div>
+              <!-- ----------------------------------------------------- -->
+              <nz-divider nzDashed></nz-divider>
+              <!-- ----------------------------------------------------- -->
+              <div class="card-item-content">
+                <span>{{ item.teamLabel }}</span>
+                <span style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>{{ item.sumNumber }}</span>
+              </div>
+            </nz-card>
+          </nz-list-item>
+        </ng-template>
+      </nz-list>
+    </div>
+  </nz-col>
+  <nz-col nzSpan="4">
+    <nz-card style="height: 500px;">
+      <button nz-button nzType="primary" (click)="openDrawer()">今日任务</button>
+      <!-- 今日任务抽屉 -->
+      <nz-drawer [nzClosable]="false" [nzWidth]="640" [nzVisible]="today_task_visible" nzPlacement="right"
+        nzTitle="今日任务" (nzOnClose)="closeDrawer()">
+        <nz-list [nzSplit]="true" [nzBordered]="true">
+          <nz-list-item *ngFor=" let item of everydayTasks">
+            <h3>{{item.content}}</h3>
+            <button nz-button nzType="primary" style="float: right; margin-left: 50px;"
+              (click)="clock(item)">完成</button>
+          </nz-list-item>
+        </nz-list>
+      </nz-drawer>
 
-          <!-- ----------------------------------------------------- -->
-          <nz-divider nzDashed></nz-divider>
-          <!-- ----------------------------------------------------- -->
-          <div class="card-item-content">
-            <span>{{ item.teamLabel }}</span>
-            <span style="float: right;"><i nz-icon nzType="user" nzTheme="outline"></i>{{ item.sumNumber }}</span>
-          </div>
-        </nz-card>
-      </nz-list-item>
-    </ng-template>
-  </nz-list>
+      <br />
+      <br />
+      <button nz-button nzType="primary" (click)="openAddTaskDrawer()">添加每天任务</button>
+
+      <!-- 添加每天任务的抽屉 -->
+      <nz-drawer nzTitle="添加每天任务" [nzWidth]="640" (nzOnClose)="closeDrawer()" [nzClosable]="false"
+        [nzVisible]="add_everyday_task_visible" nzPlacement="right">
+        <form nz-form (ngSubmit)="commitEverydayTask()">
+          <nz-form-item>
+            <nz-form-label nzRequired nzFor="任务内容">任务内容</nz-form-label>
+            <nz-form-control nzErrorTip="input everyday task">
+              <input nz-input name="content" #content="ngModel" [(ngModel)]="everydayTask.content" />
+            </nz-form-control>
+          </nz-form-item>
+          <button nz-button nzType="primary">添加</button>
+        </form>
+      </nz-drawer>
+      <button nz-button nzType="primary">未完成的任务</button>
+    </nz-card>
+  </nz-col>
 </div>
 <div class="text-center mt-md">
   <button nz-button (click)="getMoreData()" [nzType]="'dashed'" style="min-width:200px;">

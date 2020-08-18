@@ -19,4 +19,8 @@ export class TokenService {
     Object.assign(params, password ? { password } : {});
     return this.http.post(`${TokenService.API}/getToken?_allow_anonymous=true'`, params);
   }
+
+  alterPwd(password: string, newPassword: string): Observable<Result> {
+    return this.http.post<Result>(`${TokenService.API}/alter-password`, password, newPassword);
+  }
 }

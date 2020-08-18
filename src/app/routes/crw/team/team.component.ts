@@ -18,7 +18,8 @@ import { StudyPlanDto } from 'src/app/dto/StudyPlanDto';
 import { StudyPlanService } from 'src/app/services/study-plan/study-plan.service';
 import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { StudyPlanModalComponent } from './study-plan/study-plan-modal/study-plan-modal.component';
-import { getLocaleNumberFormat, NumberFormatStyle } from '@angular/common';
+import { EverydayTaskService } from 'src/app/services/everyday-task/everyday-task.service';
+import { EverydayTaskDto } from 'src/app/dto/EverydayTaskDto';
 
 @Component({
   selector: 'app-team',
@@ -27,6 +28,17 @@ import { getLocaleNumberFormat, NumberFormatStyle } from '@angular/common';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamComponent implements OnInit {
+  // 今日任务抽屉状态
+  today_task_visible = false;
+
+  // 添加每天任务抽屉状态
+  add_everyday_task_visible = false;
+
+  // 每天任务信息
+  everydayTasks: EverydayTaskDto[] = null;
+
+  everydayTask: EverydayTaskDto = {};
+
   dateFormat = 'yyyy-MM-dd';
 
   studyPlans: StudyPlanDto[] = null;
@@ -97,8 +109,9 @@ export class TeamComponent implements OnInit {
     private messageService: MessageService,
     private cache: CacheService,
     private studyPlan: StudyPlanService,
+    private everydayTaskService: EverydayTaskService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) { }
   q: any = {
     ps: 8,
     categories: [],
@@ -189,7 +202,7 @@ export class TeamComponent implements OnInit {
     this.router$.unsubscribe();
   }
 
-  toTeamDetail() {}
+  toTeamDetail() { }
 
   getMoreData() {
     this.router.navigateByUrl('/team/team-more');
@@ -215,5 +228,84 @@ export class TeamComponent implements OnInit {
   getChildData(data: StudyPlanDto) {
     this.studyPlans.push(data);
     this.studyPlans.sort((a, b) => Number(new Date(b.spTime)) - Number(new Date(a.spTime)));
+  }
+
+  /**
+   * 打开抽屉
+   */
+  openDrawer(): void {
+    this.today_task_visible = true;
+    // 获取每天任务信息
+    this.everydayTaskService.queryEverydayTask(this.user.userId).subscribe(res => {
+      this.everydayTasks = res.data;
+      console.log('everyTasks=====', this.everydayTasks);
+    });
+  }
+
+  // 添加每天任务抽屉
+  openAddTaskDrawer() {
+    this.add_everyday_task_visible = true;
+  }
+  /**
+   * 关闭抽屉
+   */
+  closeDrawer(): void {
+    this.today_task_visible = false;
+    this.add_everyday_task_visible = false;
+  }
+
+  /**
+   * 任务完成
+   */
+  finishDayTask(event): void {
+    console.log('event=====', event);
+  }
+
+  /**
+   * 添加每天任务信息
+   */
+  commitEverydayTask(): void {
+    console.log('测试', this.everydayTask);
+    this.everydayTask.finish = '0';
+    this.everydayTask.userId = this.user.userId;
+    console.log('value', this.everydayTask);
+    this.everydayTaskService.createEverydayTask(this.everydayTask).subscribe(res => {
+      console.log('commitEverydayTask', res.data);
+    });
+    this.everydayTask = {};
+    this.add_everyday_task_visible = false;
+  }
+
+  /**
+   * 打卡
+   */
+  clock(item: EverydayTaskDto): void {
+    console.log('clock', item);
+    this.everydayTaskService.clock(this.user.userId, item.everydayTaskId).subscribe(res => {
+      if (res.status === 200) {
+        this.everydayTasks = this.everydayTasks.filter(element => element.everydayTaskId !== item.everydayTaskId);
+        console.log('打卡成功');
+        const studyPlan: StudyPlanDto = this.initStudyPlanDatas();
+        studyPlan.spTitle = item.content;
+        studyPlan.spTime = JSON.stringify(new Date());
+        studyPlan.spContext = '每天任务';
+        studyPlan.spLink = 'http://localhost:4200/#/team';
+        console.log('=======', studyPlan);
+        this.studyPlans.push(studyPlan);
+        // TODO 排序不生效bug
+        this.studyPlans = this.studyPlans.sort((a, b) => Number(new Date(b.spTime)) - Number(new Date(a.spTime)));
+      }
+    });
+  }
+
+  initStudyPlanDatas(item?: StudyPlanDto): StudyPlanDto {
+    return {
+      spId: item ? item.spId : null,
+      userId: item ? item.userId : null,
+      spTitle: item ? item.spTitle : null,
+      spContext: item ? item.spContext : null,
+      spTime: item ? item.spTime : null,
+      spLink: item ? item.spLink : null,
+    };
   }
 }

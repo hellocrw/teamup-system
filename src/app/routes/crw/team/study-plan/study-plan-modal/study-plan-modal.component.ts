@@ -34,6 +34,7 @@ export class StudyPlanModalComponent implements OnInit {
       spLink: {
         type: 'string',
         title: '链接',
+        default: 'http://www.baidu.com',
       },
       // TODO
     },

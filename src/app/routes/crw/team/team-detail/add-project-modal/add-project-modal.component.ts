@@ -46,7 +46,7 @@ export class AddProjectModalComponent implements OnInit {
     private datePipe: DatePipe,
     private teamService: TeamService,
     private cache: CacheService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.cache.get<UserInfoDto>('userInfo').subscribe(f => {
