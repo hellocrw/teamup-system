@@ -10,7 +10,7 @@ import { EverydayTaskDto } from 'src/app/dto/EverydayTaskDto';
 export class EverydayTaskService {
   private static API = 'api/everyday-task';
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient) { }
 
   // 查看每天任务信息
   queryEverydayTask(userId: string): Observable<Result> {
@@ -27,5 +27,10 @@ export class EverydayTaskService {
    */
   clock(userId: string, everydayTaskId: string): Observable<Result> {
     return this.http.get<Result>(`${EverydayTaskService.API}/clock/${userId}/${everydayTaskId}`);
+  }
+
+  // 删除
+  delete(everydayTaskId): Observable<Result> {
+    return this.http.delete<Result>(`${EverydayTaskService.API}/delete/${everydayTaskId}`);
   }
 }

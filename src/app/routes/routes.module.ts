@@ -45,6 +45,7 @@ import { TeamEditModalComponent } from './crw/team/project/project-list/team-edi
 import { SendMessagementComponent } from './team-management/team-list/send-messagement/send-messagement.component';
 import { StudyPlanModalComponent } from './crw/team/study-plan/study-plan-modal/study-plan-modal.component';
 import { ChatComponent } from './crw/team/project/project-detail/chat/chat.component';
+import { SummaryComponent } from './crw/everyday/summary/summary.component';
 
 const COMPONENTS = [
   DashboardV1Component,
@@ -97,7 +98,8 @@ const COMPONENTS_NOROUNT = [];
     SendMessagementComponent,
     StudyPlanModalComponent,
     ChatComponent,
+    SummaryComponent,
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule {}
+export class RoutesModule { }

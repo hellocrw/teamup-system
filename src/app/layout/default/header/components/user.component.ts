@@ -51,7 +51,7 @@ export class HeaderUserComponent implements OnInit {
     private cacheService: CacheService,
     private router: Router,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
-  ) {}
+  ) { }
 
   logout() {
     this.tokenService.clear();

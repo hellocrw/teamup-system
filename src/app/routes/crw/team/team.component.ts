@@ -20,11 +20,13 @@ import { UserInfoDto } from 'src/app/dto/UserInfoDto';
 import { StudyPlanModalComponent } from './study-plan/study-plan-modal/study-plan-modal.component';
 import { EverydayTaskService } from 'src/app/services/everyday-task/everyday-task.service';
 import { EverydayTaskDto } from 'src/app/dto/EverydayTaskDto';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-team',
   templateUrl: './team.component.html',
   styleUrls: ['./team.component.less'],
+  providers: [DatePipe],
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamComponent implements OnInit {
@@ -110,6 +112,7 @@ export class TeamComponent implements OnInit {
     private cache: CacheService,
     private studyPlan: StudyPlanService,
     private everydayTaskService: EverydayTaskService,
+    private datePipe: DatePipe,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) { }
   q: any = {
@@ -287,13 +290,13 @@ export class TeamComponent implements OnInit {
         console.log('打卡成功');
         const studyPlan: StudyPlanDto = this.initStudyPlanDatas();
         studyPlan.spTitle = item.content;
-        studyPlan.spTime = JSON.stringify(new Date());
+        studyPlan.spTime = this.datePipe.transform(new Date(), 'yyyy-MM-dd hh:mm:ss');
         studyPlan.spContext = '每天任务';
         studyPlan.spLink = 'http://localhost:4200/#/team';
         console.log('=======', studyPlan);
-        this.studyPlans.push(studyPlan);
+        this.studyPlans.unshift(studyPlan);
         // TODO 排序不生效bug
-        this.studyPlans = this.studyPlans.sort((a, b) => Number(new Date(b.spTime)) - Number(new Date(a.spTime)));
+        // this.studyPlans = this.studyPlans.sort((a, b) => Number(new Date(b.spTime)) - Number(new Date(a.spTime)));
       }
     });
   }
@@ -307,5 +310,16 @@ export class TeamComponent implements OnInit {
       spTime: item ? item.spTime : null,
       spLink: item ? item.spLink : null,
     };
+  }
+
+  // 删除每天任务
+  delete(item: EverydayTaskDto): void {
+    console.log(item);
+    this.everydayTaskService.delete(item.everydayTaskId).subscribe(res => {
+      if (res.status === 200) {
+        this.everydayTasks = this.everydayTasks.filter(everyTask => everyTask.everydayTaskId !== item.everydayTaskId);
+        this.msg.success("删除成功");
+      }
+    })
   }
 }
