@@ -102,4 +102,4 @@ const COMPONENTS_NOROUNT = [];
   ],
   entryComponents: COMPONENTS_NOROUNT,
 })
-export class RoutesModule { }
+export class RoutesModule {}
